@@ -10,12 +10,10 @@
 #include "ISubject.h"
 #include "IObserver.h"
 
-class Camera; //Camera declaration due to cross reference
 class Shader : public IObserver
 {
 public:
-	Shader(Camera *);
-	Shader();
+	Shader(const char*,const char*);
 	~Shader();
 
 	//observer method
@@ -31,11 +29,7 @@ public:
 	void bind();
 	void unbind();
 
-	void setCamera(Camera*&);
-	Camera *getCamera();
 
 private:
 	GLuint m_id;
-
-	Camera *m_camera;
 };

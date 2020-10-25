@@ -22,6 +22,12 @@
     <Filter Include="Source Files\Data">
       <UniqueIdentifier>{953169ee-2bd2-4672-bd1f-aa34cdd82a19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shader">
+      <UniqueIdentifier>{9f6f88a7-86cf-480b-8c7c-ba905f1fe849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Source">
+      <UniqueIdentifier>{69c377d4-a00d-4a71-a0eb-d0c9322dca77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -44,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,5 +89,16 @@
     <ClInclude Include="sphere.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Source Files\Shader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VertexShader.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShader.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
   </ItemGroup>
 </Project>

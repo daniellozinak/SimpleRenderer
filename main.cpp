@@ -201,12 +201,10 @@ int main(void)
 
 
 	//Camera mCam = new Camera();
-	Shader *mShader = new Shader();
+	Shader *mShader = new Shader("./VertexShader.glsl","./FragmentShader.glsl");
 	Camera *cam = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0), mShader);
-	mShader->setCamera(cam);
 	cam->attach(mShader);
 	cam->update();
-	mShader->linkProgram(vertex_shader, fragment_shader);
 	mShader->sendUniform("lightPosition", glm::vec3(10, 10, 10));
 
 
