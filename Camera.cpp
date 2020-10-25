@@ -4,28 +4,24 @@
 
 void Camera::moveDown(float d)
 {
-	std::cout << "DOWN\n";
 	this->m_verticalAngle -= m_speed * d;
 	this->update();
 }
 
 void Camera::moveUp(float d)
 {
-	std::cout << "UP\n";
 	this->m_verticalAngle += m_speed * d;
 	this->update();
 }
 
 void Camera::moveRight(float d)
 {
-	std::cout << "RIGHT\n";
 	this->m_horizontalAngle += m_speed * d;
 	this->update();
 }
 
 void Camera::moveLeft(float d)
 {
-	std::cout << "LEFT\n";
 	this->m_horizontalAngle -= m_speed * d;
 	this->update();
 }
@@ -47,11 +43,6 @@ Camera::~Camera()
 
 glm::mat4 Camera::getView() { return glm::lookAt(this->m_eye, (this->m_eye + this->m_center), this->m_up); }
 glm::mat4 Camera::getProjection() { return this->m_projection; }
-
-void Camera::changeTarget()
-{
-
-}
 
 void Camera::setShader(Shader* shader)
 {
@@ -85,6 +76,7 @@ void Camera::notify() {
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
 	{
+		(*it)->update("viewPosition", this->m_eye);
 		(*it)->update("viewMatrix", this->getView());
 		(*it)->update("projectionMatrix", this->getProjection());
 		++it;

@@ -3,27 +3,23 @@
 //init instance
 Application Application::instance;
 
-void Application::cursorPosCallback(GLFWwindow* win, double x, double y)
-{
-	glfwSetCursorPosCallback(win, [](GLFWwindow* win, double x, double y) {printf("cursor_pos_callback %d, %d;\n", (int)x, (int)y); });
-}
 
-void Application::init(GLFWwindow* &win, GLFWerrorfun fun) {
+void Application::init() {
 
-	glfwSetErrorCallback(fun);
+	glfwSetErrorCallback([](int err, const char * desc) {fputs(desc, stderr); });
 	if (!glfwInit()) {
 		fprintf(stderr, "ERROR: could not start GLFW3\n");
 		exit(EXIT_FAILURE);
 	}
 
 
-	win = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
-	if (!win)
+	m_window = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
+	if (!m_window)
 	{
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-	glfwMakeContextCurrent(win);
+	glfwMakeContextCurrent(m_window);
 	glfwSwapInterval(1);
 	// start GLEW extension handler
 	glewExperimental = GL_TRUE;
@@ -46,41 +42,54 @@ void Application::init(GLFWwindow* &win, GLFWerrorfun fun) {
 	glfwGetVersion(&major, &minor, &revision);
 	printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 	int width, height;
-	glfwGetFramebufferSize(win, &width, &height);
+	glfwGetFramebufferSize(m_window, &width, &height);
 	float ratio = width / (float)height;
 	glViewport(0, 0, width, height);
+
+	
 }
 
-void Application::run(GLFWwindow* win, ObjectManager& om, Camera *&c)
+void Application::run( ObjectManager& om, Camera *&c)
 {
 	double startTime = glfwGetTime();
 	double lastTime = startTime;
 
+	CallbackData *cb = new CallbackData();
+	cb->camera = c;
+	cb->delta = 0;
+
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
+		
+	
+	});
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	while (!glfwWindowShouldClose(win))
+	while (!glfwWindowShouldClose(m_window))
 	{
 		startTime = glfwGetTime();
 		om.draw();
 		// update other events like input handling
 		glfwPollEvents();
 		// put the stuff we’ve been drawing onto the display
-		glfwSwapBuffers(win);
+		glfwSwapBuffers(m_window);
 
-		if (glfwGetKey(win, GLFW_KEY_UP) == GLFW_PRESS) {
+		cb->delta = startTime - lastTime;
+
+		if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
 			c->moveUp(startTime - lastTime);
 		}
 
-		if (glfwGetKey(win, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			c->moveDown(startTime - lastTime);
 		}
 
-		if (glfwGetKey(win, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+		if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 			c->moveRight(startTime - lastTime);
 		}
 
-		if (glfwGetKey(win, GLFW_KEY_LEFT) == GLFW_PRESS) {
+		if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
 			c->moveLeft(startTime - lastTime);
 		}
 
@@ -88,7 +97,7 @@ void Application::run(GLFWwindow* win, ObjectManager& om, Camera *&c)
 
 	}
 
-	glfwDestroyWindow(win);
+	glfwDestroyWindow(m_window);
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

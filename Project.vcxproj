@@ -133,7 +133,6 @@
     <ClCompile Include="ObjectManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -145,11 +144,11 @@
     <ClInclude Include="ObjectManager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
-    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FragmentShaderStatic.glsl" />
     <None Include="FragmentShader.glsl" />
     <None Include="VertexShader.glsl" />
   </ItemGroup>

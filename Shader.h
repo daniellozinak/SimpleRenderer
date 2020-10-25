@@ -18,13 +18,12 @@ public:
 
 	//observer method
 	void update(const char*, glm::mat4) override;
+	void update(const char*, glm::vec3) override;
 
 	void sendUniform(const char*, glm::mat4);
 	void sendUniform(const char*, glm::vec4);
 	void sendUniform(const char*, glm::vec3);
 	void sendUniform(const char*, float);
-
-	void linkProgram(const char* vertex, const char*frag);
 
 	void bind();
 	void unbind();

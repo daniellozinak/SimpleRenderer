@@ -2,7 +2,7 @@
 #include "ShaderLoader.h"
 
 
-
+#include <glm/gtc/type_ptr.hpp>
 #include <stdexcept>
 
 
@@ -21,8 +21,8 @@ void Shader::sendUniform(const char* name, glm::mat4 data)
 
 	if (m_matID >= 0)
 	{
-		glUniformMatrix4fv(m_matID, 1, GL_FALSE, &data[0][0]);
-		//glProgramUniform4fv(this->m_id, m_matID, 1, GL_FALSE, &data[0][0]);
+		//glUniformMatrix4fv(m_matID, 1, GL_FALSE, &data[0][0]);
+		glProgramUniformMatrix4fv(this->m_id, m_matID, 1, GL_FALSE,glm::value_ptr(data));
 	}
 	else {
 		printf("Uniform name not found\n");
@@ -36,7 +36,8 @@ void Shader::sendUniform(const char*name, glm::vec4 data)
 
 	if (m_matID >= 0)
 	{
-		glUniform4f(m_matID, data.x, data.y, data.z, data.w);
+		//glUniform4f(m_matID, data.x, data.y, data.z, data.w);
+		glProgramUniform4f(this->m_id, m_matID, data.x, data.y, data.z, data.w);
 	}
 	else {
 		printf("Uniform name not found\n");
@@ -50,7 +51,8 @@ void Shader::sendUniform(const char*name, glm::vec3 data)
 
 	if (m_matID >= 0)
 	{
-		glUniform3f(m_matID, data.x, data.y, data.z);
+		//glUniform3f(m_matID, data.x, data.y, data.z);
+		glProgramUniform3f(this->m_id, m_matID, data.x, data.y, data.z);
 	}
 	else {
 		printf("Uniform name not found\n");
@@ -82,6 +84,11 @@ void Shader::unbind() {
 }
 
 void Shader::update(const char*uniformName, glm::mat4 data)
+{
+	this->sendUniform(uniformName, data);
+}
+
+void Shader::update(const char*uniformName, glm::vec3 data)
 {
 	this->sendUniform(uniformName, data);
 }

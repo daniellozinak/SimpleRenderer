@@ -27,7 +27,6 @@ public:
 	glm::mat4 getModelMatrix();
 
 	void rotate();
-	void rotateAroundAxis(float, float);
 
 	void draw();
 
@@ -45,7 +44,6 @@ private:
 	GLuint m_VBOPos;
 	GLuint m_VBOCol;
 	GLuint m_VAO;
-	static bool m_isVAOinit;
 
 	glm::mat4 m_modelMatrix;
 

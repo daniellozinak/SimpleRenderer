@@ -125,29 +125,6 @@ std::vector<util::Vertex> vertexToVertex()
 }
 
 
-const char* vertex_shader =
-"#version 330\n"
-"layout(location=0) in vec3 vp;"
-"layout(location=1) in vec3 vc;"
-"out vec3 fragmentColor;"
-"uniform mat4 modelMatrix;"
-"uniform mat4 viewMatrix;"
-"uniform mat4 projectionMatrix;"
-"uniform vec3 lightPosition;"
-"void main () {"
-"	  mat4 mvp =  projectionMatrix * viewMatrix * modelMatrix;"
-"     gl_Position = mvp * vec4(vp, 1.0);"
-"	  fragmentColor = vc ;"
-"}";
-
-const char* fragment_shader =
-"#version 330\n"
-"out vec4 frag_colour;"
-"in vec3 fragmentColor;"
-"void main () {"
-"     frag_colour = vec4 (fragmentColor, 1.0);"
-"}";
-
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
@@ -192,26 +169,21 @@ int main(void)
 	Application &app = Application::getInstance();
 	ObjectManager &om = ObjectManager::getInstance();
 
-	//init window
-	GLFWwindow* window;
+	app.init();
 
-	auto err_callback_lamda = [](int err, const char * desc) {fputs(desc, stderr); };
-
-	app.init(window, err_callback_lamda);
-
-
-	//Camera mCam = new Camera();
 	Shader *mShader = new Shader("./VertexShader.glsl","./FragmentShader.glsl");
+	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
 	Camera *cam = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0), mShader);
 	cam->attach(mShader);
+	cam->attach(mShaderStatic);
 	cam->update();
-	mShader->sendUniform("lightPosition", glm::vec3(10, 10, 10));
+	mShader->sendUniform("lightPosition", glm::vec3(0, 0, 0));
 
 
 
 	Object ball = Object(vert, vert.size());
 	ball.move(glm::vec3(10.0f, 1.0f, 0.0f));
-	ball.setShader(mShader);
+	ball.setShader(mShaderStatic);
 
 	Object ball1 = Object(vert, vert.size());
 	ball1.move(glm::vec3(8.0f, 1.0f, 4.0f));
@@ -220,11 +192,10 @@ int main(void)
 	om.addObject(ball);
 	om.addObject(ball1);
 
-	app.run(window, om, cam);
+	app.run(om, cam);
 
 	//OpenGL ma pravotocivy system
 
-	delete window;
 	delete mShader;
 	delete cam;
 

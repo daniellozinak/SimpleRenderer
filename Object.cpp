@@ -2,7 +2,6 @@
 
 
 //GLuint Object::m_VAO;
-bool Object::m_isVAOinit = false;
 
 Object::Object()
 {
@@ -57,21 +56,11 @@ void Object::rotate()
 	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, 0.01f, glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
-void Object::rotateAroundAxis(float a1, float a2) {
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, -a1, glm::vec3(1.0f, 0.0f, 0.0f));
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, -a2, glm::vec3(0.0f, 0.0f, 1.0f));
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, 0.02f, glm::vec3(0.0f, 1.0f, 0.0f));
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, a2, glm::vec3(0.0f, 0.0f, 1.0f));
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, a1, glm::vec3(1.0f, 0.0f, 0.0f));
-
-}
 
 void Object::m_init() {
 
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
-	Object::m_isVAOinit = true;
-
 
 	//VBO position
 	glGenBuffers(1, &this->m_VBOPos);
@@ -113,7 +102,6 @@ std::size_t Object::getCount() { return this->m_numberOfVert; }
 GLuint Object::getVAO() { return this->m_VAO; }
 
 glm::mat4 Object::getModelMatrix() { return this->m_modelMatrix; }
-
 
 
 Object::~Object()

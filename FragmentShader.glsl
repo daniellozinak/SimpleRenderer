@@ -1,6 +1,30 @@
 #version 330
+	
 out vec4 frag_colour;
-in vec3 fragmentColor;
+in vec4 ex_worldPosition;
+in vec3 ex_worldNormal;
+
+uniform vec3 lightPosition;
+uniform vec3 viewPosition;
+
+const float lightIntensity = 0.9;
+const float reflectConstant = 0.6;
+const float sharpness = 25;
+const vec3 color = vec3(0.1,0.2,0.7);
+const vec3 lightColor = vec3(0.4,0.4,0.4);
+
 void main () {
-	frag_colour = vec4(fragmentColor, 1.0);
-}
+	  vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
+	  vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lightPosition,ex_worldNormal));
+	  vec3 lightDirection = normalize(lightPosition - ex_worldPosition.xyz);
+
+	  float diffuseStrength = max(dot(ex_worldNormal,lightDirection),0.0);	
+
+	  vec3 diffuse = diffuseStrength * lightColor;
+	  vec3 ambient = lightIntensity * lightColor;
+
+	  float specular = pow(max(dot(reflectDirection,viewDirection),0.0),sharpness);
+	  vec3 specularVector = reflectConstant  * specular * lightColor;
+	  vec3 DAS = (diffuse + ambient + specularVector) * color;
+      frag_colour = vec4(DAS,1.0);
+};

@@ -16,11 +16,16 @@ public:
 	Application(const Application&) = delete;
 
 	static Application& getInstance();
-	void cursorPosCallback(GLFWwindow*, double, double);
-	void run(GLFWwindow*, ObjectManager&, Camera *&);
-	void init(GLFWwindow*&, GLFWerrorfun);
+	void run(ObjectManager&, Camera *&);
+	void init();
 
 private:
 	static Application instance;
 	Application();
+	GLFWwindow *m_window;
+
+	struct CallbackData {
+		Camera *camera;
+		float delta;
+	};
 };
