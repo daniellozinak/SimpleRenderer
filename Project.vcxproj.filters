@@ -51,6 +51,9 @@
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -86,12 +89,18 @@
     <ClInclude Include="ShaderLoader.h">
       <Filter>Source Files\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
-    <None Include="FragmentShader.glsl">
+    <None Include="FragmentShaderPhong.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderLambert.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="FragmentShaderStatic.glsl">

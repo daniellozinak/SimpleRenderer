@@ -18,7 +18,7 @@ class Shader; //Shader declaration due to cross reference
 class Camera : public ISubject
 {
 public:
-	Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up, Shader*);
+	Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up);
 	~Camera();
 
 	//ISubject method
@@ -28,17 +28,15 @@ public:
 
 	glm::mat4 getView();
 	glm::mat4 getProjection();
-	void changeTarget();
-	void setShader(Shader*);
 	void setEye(glm::vec3);
 	void setCenter(glm::vec3);
 	void setUp(glm::vec3);
 	void setProjection(glm::mat4);
 
-	void moveLeft(float);
-	void moveRight(float);
-	void moveUp(float);
-	void moveDown(float);
+	void lookAround(float delta,float xDiff, float yDiff);
+
+	void moveForward(float);
+	void moveBackward(float);
 
 
 	void update();
@@ -56,7 +54,6 @@ private:
 	float m_horizontalAngle = 0.0f;
 	float m_verticalAngle = 0.0f;
 
-	const int m_speed = 2;
-
-	Shader *m_shader;
+	const int m_speed = 10;
+	const int m_speedlooking = 1;
 };

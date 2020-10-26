@@ -131,6 +131,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ObjectManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
   </ItemGroup>
@@ -142,14 +143,16 @@
     <ClInclude Include="ISubject.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FragmentShaderLambert.glsl" />
+    <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderStatic.glsl" />
-    <None Include="FragmentShader.glsl" />
     <None Include="VertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,32 +2,33 @@
 #include "Shader.h"
 
 
-void Camera::moveDown(float d)
+void Camera::lookAround(float delta, float xDiff, float yDiff)
 {
-	this->m_verticalAngle -= m_speed * d;
+	m_horizontalAngle += m_speedlooking * delta * xDiff;
+	m_verticalAngle -= m_speedlooking * delta * yDiff;
+
+
+	this->m_center = glm::vec3(
+		cos(m_horizontalAngle) ,
+		sin(m_verticalAngle),
+		sin(m_horizontalAngle));
 	this->update();
 }
 
-void Camera::moveUp(float d)
+void Camera::moveForward(float delta)
 {
-	this->m_verticalAngle += m_speed * d;
+	this->m_eye += this->m_center * (m_speed * delta);
 	this->update();
 }
 
-void Camera::moveRight(float d)
+void Camera::moveBackward(float delta)
 {
-	this->m_horizontalAngle += m_speed * d;
-	this->update();
-}
-
-void Camera::moveLeft(float d)
-{
-	this->m_horizontalAngle -= m_speed * d;
+	this->m_eye -= this->m_center * (m_speed * delta);
 	this->update();
 }
 
 
-Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up, Shader * shader)
+Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
 {
 	this->m_center = center;
 	this->m_eye = eye;
@@ -44,10 +45,7 @@ Camera::~Camera()
 glm::mat4 Camera::getView() { return glm::lookAt(this->m_eye, (this->m_eye + this->m_center), this->m_up); }
 glm::mat4 Camera::getProjection() { return this->m_projection; }
 
-void Camera::setShader(Shader* shader)
-{
-	this->m_shader = shader;
-}
+
 
 void Camera::setEye(glm::vec3 eye) { this->m_eye = eye; }
 void Camera::setCenter(glm::vec3 center) { this->m_center = center; }

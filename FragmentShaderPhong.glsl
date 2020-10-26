@@ -15,7 +15,7 @@ const vec3 lightColor = vec3(0.4,0.4,0.4);
 
 void main () {
 	  vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
-	  vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lightPosition,ex_worldNormal));
+	  vec3 reflectDirection =  normalize((ex_worldPosition.xyz-lightPosition,ex_worldNormal));
 	  vec3 lightDirection = normalize(lightPosition - ex_worldPosition.xyz);
 
 	  float diffuseStrength = max(dot(ex_worldNormal,lightDirection),0.0);	

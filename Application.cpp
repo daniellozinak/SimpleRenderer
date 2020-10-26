@@ -1,7 +1,22 @@
 #include "Application.h"
+#include "data.h"
 
 //init instance
 Application Application::instance;
+
+std::vector<util::Vertex> vertexToVertex()
+{
+	std::vector<util::Vertex> toReturn;
+	for (int i = 0; i < pocetPrvku; i++)
+	{
+		VertexData vData = VERTICES[i];
+		glm::vec3 tempPos = { vData.Position[0],vData.Position[1],vData.Position[2] };
+		glm::vec3 tempNormal = { vData.Normal[0],vData.Normal[1],vData.Normal[2] };
+		util::Vertex tempVert = { tempPos,tempNormal };
+		toReturn.push_back(tempVert);
+	}
+	return toReturn;
+}
 
 
 void Application::init() {
@@ -13,7 +28,7 @@ void Application::init() {
 	}
 
 
-	m_window = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
+	m_window = glfwCreateWindow(WIDTH, HEIGHT, "SimpleRenderer", NULL, NULL);
 	if (!m_window)
 	{
 		glfwTerminate();
@@ -49,19 +64,15 @@ void Application::init() {
 	
 }
 
-void Application::run( ObjectManager& om, Camera *&c)
+void Application::run()
 {
 	double startTime = glfwGetTime();
 	double lastTime = startTime;
 
-	CallbackData *cb = new CallbackData();
-	cb->camera = c;
-	cb->delta = 0;
+	this->init();
+	this->initScene();
+	this->initCallbacks(m_camera);
 
-	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
-		
-	
-	});
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
@@ -69,31 +80,24 @@ void Application::run( ObjectManager& om, Camera *&c)
 	while (!glfwWindowShouldClose(m_window))
 	{
 		startTime = glfwGetTime();
-		om.draw();
+		m_objectManager.draw();
 		// update other events like input handling
 		glfwPollEvents();
 		// put the stuff we’ve been drawing onto the display
 		glfwSwapBuffers(m_window);
 
-		cb->delta = startTime - lastTime;
-
-		if (glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) {
-			c->moveUp(startTime - lastTime);
-		}
-
-		if (glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-			c->moveDown(startTime - lastTime);
-		}
-
-		if (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-			c->moveRight(startTime - lastTime);
-		}
-
-		if (glfwGetKey(m_window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-			c->moveLeft(startTime - lastTime);
-		}
+		this->m_callbackdata->delta = startTime - lastTime;
 
 		lastTime = startTime;
+
+		if (m_callbackdata->is_moving)
+		{
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			glfwSetCursorPos(m_window, WIDTH / 2, HEIGHT / 2);
+		}
+		else {
+			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 
 	}
 
@@ -101,6 +105,93 @@ void Application::run( ObjectManager& om, Camera *&c)
 	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }
+
+
+void Application::initScene()
+{
+	std::vector<util::Vertex>vert = vertexToVertex();
+
+
+	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
+	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
+	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
+
+	m_camera =  new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
+	m_camera->attach(mShaderPhong);
+	m_camera->attach(mShaderLambert);
+	m_camera->attach(mShaderStatic);
+	m_camera->update();
+
+	m_lightPosition = glm::vec3(15.0f, 4.5f, 0.0f);
+
+	mShaderLambert->sendUniform("lightPosition", m_lightPosition);
+	mShaderPhong->sendUniform("lightPosition", m_lightPosition);
+	
+
+	Object ball0 = Object(vert, vert.size());
+	ball0.move(glm::vec3(15.0f, 1.0f, 0.0f));
+	ball0.setShader(mShaderPhong);
+
+	Object ball1 = Object(vert, vert.size());
+	ball1.move(glm::vec3(15.0f, 8.0f, 0.0f));
+	ball1.setShader(mShaderLambert);
+
+	Object ball2 = Object(vert, vert.size());
+	ball2.move(glm::vec3(15.0f, 4.5f, -4.0f));
+	ball2.setShader(mShaderStatic);
+
+	Object ball3 = Object(vert, vert.size());
+	ball3.move(glm::vec3(15.0f, 4.5f, 4.0f));
+	ball3.setShader(mShaderPhong);
+
+	m_objectManager.addObject(ball0);
+	m_objectManager.addObject(ball1);
+	m_objectManager.addObject(ball2);
+	m_objectManager.addObject(ball3);
+
+}
+
+void Application::initCallbacks(Camera *c)
+{
+	this->m_callbackdata = new CallbackData();
+	m_callbackdata->camera = c;
+	m_callbackdata->delta = 0;
+
+	glfwSetWindowUserPointer(m_window, m_callbackdata);
+
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
+		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
+		if (cb->is_moving)
+		{
+			cb->camera->lookAround(cb->delta, xpos - (WIDTH / 2), ypos - (HEIGHT / 2));
+		}
+	});
+
+	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
+		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
+
+		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+			cb->is_moving = !cb->is_moving;
+		}
+	});
+
+	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
+
+		if (key == GLFW_KEY_W)
+		{
+			std::cout << "W\n";
+			cb->camera->moveForward(cb->delta);
+		}
+
+		if (key == GLFW_KEY_S)
+		{
+			std::cout << "S\n";
+			cb->camera->moveBackward(cb->delta);
+		}
+	});
+}
+
 
 Application &Application::getInstance()
 {
