@@ -115,17 +115,20 @@ void Application::initScene()
 	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
 	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
 	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
+	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
 
 	m_camera =  new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 	m_camera->attach(mShaderPhong);
 	m_camera->attach(mShaderLambert);
 	m_camera->attach(mShaderStatic);
+	m_camera->attach(mShaderBlinn);
 	m_camera->update();
 
 	m_lightPosition = glm::vec3(15.0f, 4.5f, 0.0f);
 
 	mShaderLambert->sendUniform("lightPosition", m_lightPosition);
 	mShaderPhong->sendUniform("lightPosition", m_lightPosition);
+	mShaderBlinn->sendUniform("lightPosition", m_lightPosition);
 	
 
 	Object ball0 = Object(vert, vert.size());
@@ -142,7 +145,7 @@ void Application::initScene()
 
 	Object ball3 = Object(vert, vert.size());
 	ball3.move(glm::vec3(15.0f, 4.5f, 4.0f));
-	ball3.setShader(mShaderPhong);
+	ball3.setShader(mShaderBlinn);
 
 	m_objectManager.addObject(ball0);
 	m_objectManager.addObject(ball1);
@@ -178,17 +181,10 @@ void Application::initCallbacks(Camera *c)
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
 
-		if (key == GLFW_KEY_W)
-		{
-			std::cout << "W\n";
-			cb->camera->moveForward(cb->delta);
-		}
-
-		if (key == GLFW_KEY_S)
-		{
-			std::cout << "S\n";
-			cb->camera->moveBackward(cb->delta);
-		}
+		if (key == GLFW_KEY_W){ cb->camera->moveForward(cb->delta);}
+		if (key == GLFW_KEY_S){ cb->camera->moveBackward(cb->delta);}
+		if (key == GLFW_KEY_A){ cb->camera->moveRight(cb->delta);}
+		if (key == GLFW_KEY_D){ cb->camera->moveLeft(cb->delta);}
 	});
 }
 

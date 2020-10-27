@@ -150,6 +150,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FragmentShaderBlinn.glsl" />
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderStatic.glsl" />

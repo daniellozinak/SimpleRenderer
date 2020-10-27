@@ -106,5 +106,8 @@
     <None Include="FragmentShaderStatic.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
+    <None Include="FragmentShaderBlinn.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -15,15 +15,15 @@ const vec3 lightColor = vec3(0.3,0.3,0.3);
 
 void main () {
 	  vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
-	  vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lightPosition,ex_worldNormal));
 	  vec3 lightDirection = (lightPosition - ex_worldPosition.xyz);
+	  vec3 halfVector = (viewDirection + lightDirection) / (length (viewDirection + lightDirection));
 
 	  float diffuseStrength = max(dot(lightDirection,ex_worldNormal),0.0);	
 
 	  vec3 diffuse = diffuseStrength * lightColor;
 	  vec3 ambient = lightIntensity * lightColor;
 
-	  float specular = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
+	  float specular = pow(max(dot(ex_worldNormal,halfVector),0.0),sharpness);
 	  vec3 specularVector = reflectConstant  * specular * lightColor;
 	  vec3 DAS = (diffuse + ambient + specularVector) * color;
       frag_colour = vec4(DAS,1.0);

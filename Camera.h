@@ -37,6 +37,8 @@ public:
 
 	void moveForward(float);
 	void moveBackward(float);
+	void moveRight(float);
+	void moveLeft(float);
 
 
 	void update();

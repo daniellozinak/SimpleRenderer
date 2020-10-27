@@ -6,12 +6,13 @@ in vec3 ex_worldNormal;
 uniform vec3 lightPosition;
 uniform vec3 viewPosition;
 const float lightIntensity = 0.5;
-const vec3 color = vec3(1.0, 0.0, 0.0);
-const vec3 lightColor = vec3(1.0,0.2,0.0);
+const vec3 color = vec3(0.1,0.2,0.7);
+const vec3 lightColor = vec3(0.3,0.3,0.3);
 
 void main() {
 
-	float light_vertexDot = max(dot(normalize(lightPosition - ex_worldPosition.xyz), normalize(ex_worldNormal)), 0.0);
+	vec3 lightDirection = (lightPosition - ex_worldPosition.xyz);
+	float light_vertexDot = max(dot(lightDirection, normalize(ex_worldNormal)), 0.0);
 
 
 	vec3 diffuse = light_vertexDot * lightColor;

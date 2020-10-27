@@ -1,7 +1,7 @@
 #version 330
 	
 out vec3 frag_colour;
-
+const vec3 color = vec3(0.1,0.2,0.7);
 void main () {
-      frag_colour = vec3(1.0f,0.5f,0.3f);
+      frag_colour = color;
 };

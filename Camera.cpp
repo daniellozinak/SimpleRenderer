@@ -27,6 +27,15 @@ void Camera::moveBackward(float delta)
 	this->update();
 }
 
+void Camera::moveLeft(float delta)
+{
+
+}
+
+void Camera::moveRight(float delta)
+{
+	
+}
 
 Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
 {

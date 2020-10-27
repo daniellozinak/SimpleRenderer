@@ -15,4 +15,4 @@ void main () {
       gl_Position = mvp * vec4(vertexPosition, 1.0);
       ex_worldPosition = modelMatrix * vec4(vertexPosition,1.0);
       ex_worldNormal =   normalize(mat3(transpose(inverse(modelMatrix)))* vertexNormal);
-}
+};
