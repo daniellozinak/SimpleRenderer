@@ -11,7 +11,7 @@ const float lightIntensity = 0.9;
 const float reflectConstant = 0.6;
 const float sharpness = 25;
 const vec3 color = vec3(0.1,0.2,0.7);
-const vec3 lightColor = vec3(0.3,0.3,0.3);
+const vec3 lightColor = vec3(1.0);
 
 void main () {
 	  vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
@@ -25,6 +25,8 @@ void main () {
 
 	  float specular = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 	  vec3 specularVector = reflectConstant  * specular * lightColor;
-	  vec3 DAS = (diffuse + ambient + specularVector) * color;
+
+
+	  vec3 DAS = (diffuse + ambient) * color + specularVector*vec3(1.0);
       frag_colour = vec4(DAS,1.0);
 };

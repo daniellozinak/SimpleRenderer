@@ -28,7 +28,6 @@ void ObjectManager::removeObject(Object &o)
 
 void ObjectManager::draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (Object &o : m_objects)
 	{
 		o.draw();

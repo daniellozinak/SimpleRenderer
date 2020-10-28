@@ -80,10 +80,11 @@ void Application::run()
 	while (!glfwWindowShouldClose(m_window))
 	{
 		startTime = glfwGetTime();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		m_objectManager.draw();
-		// update other events like input handling
+		
 		glfwPollEvents();
-		// put the stuff we’ve been drawing onto the display
+		
 		glfwSwapBuffers(m_window);
 
 		this->m_callbackdata->delta = startTime - lastTime;
@@ -181,10 +182,10 @@ void Application::initCallbacks(Camera *c)
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
 
-		if (key == GLFW_KEY_W){ cb->camera->moveForward(cb->delta);}
-		if (key == GLFW_KEY_S){ cb->camera->moveBackward(cb->delta);}
-		if (key == GLFW_KEY_A){ cb->camera->moveRight(cb->delta);}
-		if (key == GLFW_KEY_D){ cb->camera->moveLeft(cb->delta);}
+		if (key == GLFW_KEY_W){ cb->camera->move(cb->delta,MoveDirection::FORWARDS);}
+		if (key == GLFW_KEY_S){ cb->camera->move(cb->delta,MoveDirection::BACKWARDS);}
+		if (key == GLFW_KEY_A){ cb->camera->move(cb->delta, MoveDirection::LEFT);}
+		if (key == GLFW_KEY_D){ cb->camera->move(cb->delta, MoveDirection::RIGHT);}
 	});
 }
 

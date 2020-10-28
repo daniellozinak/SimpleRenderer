@@ -15,27 +15,6 @@ void Camera::lookAround(float delta, float xDiff, float yDiff)
 	this->update();
 }
 
-void Camera::moveForward(float delta)
-{
-	this->m_eye += this->m_center * (m_speed * delta);
-	this->update();
-}
-
-void Camera::moveBackward(float delta)
-{
-	this->m_eye -= this->m_center * (m_speed * delta);
-	this->update();
-}
-
-void Camera::moveLeft(float delta)
-{
-
-}
-
-void Camera::moveRight(float delta)
-{
-	
-}
 
 Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
 {
@@ -71,13 +50,6 @@ void Camera::update()
 }
 
 //observer
-void Camera::attach(IObserver* observer) {
-	this->m_observers.push_back(observer);
-}
-
-void Camera::detach(IObserver* observer) {
-	this->m_observers.remove(observer);
-}
 
 void Camera::notify() {
 	std::list<IObserver*>::iterator it = m_observers.begin();
@@ -88,4 +60,32 @@ void Camera::notify() {
 		(*it)->update("projectionMatrix", this->getProjection());
 		++it;
 	}
+}
+
+void Camera::move(float delta, MoveDirection moveDirection)
+{
+	glm::vec3 moveVector = glm::cross(this->m_center, this->m_up);
+	switch (moveDirection)
+	{
+		case MoveDirection::FORWARDS:
+			this->m_eye += this->m_center * (m_speed * delta);
+			break;
+		case MoveDirection::BACKWARDS:
+			this->m_eye -= this->m_center * (m_speed * delta);
+			break;
+		case MoveDirection::LEFT:
+			this->m_eye -= moveVector * (m_speed * delta);
+			break;
+		case MoveDirection::RIGHT:
+			this->m_eye += moveVector * (m_speed * delta);
+			break;
+		case MoveDirection::UP:
+			//
+			break;
+		case MoveDirection::DOWN:
+			//	
+			break;
+
+	}
+	this->update();
 }

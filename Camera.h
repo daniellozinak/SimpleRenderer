@@ -10,21 +10,21 @@
 
 #include "ISubject.h"
 #include "IObserver.h"
+#include "IMovable.h"
 
 
 # define M_PI 3.14159265358979323846
 
 class Shader; //Shader declaration due to cross reference
-class Camera : public ISubject
+class Camera : public ISubject,IMovable
 {
 public:
 	Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up);
 	~Camera();
 
 	//ISubject method
-	void attach(IObserver *oberver) override;
-	void detach(IObserver *oberver) override;
 	void notify() override;
+	void move(float delta, MoveDirection moveDirection) override;
 
 	glm::mat4 getView();
 	glm::mat4 getProjection();
@@ -35,17 +35,9 @@ public:
 
 	void lookAround(float delta,float xDiff, float yDiff);
 
-	void moveForward(float);
-	void moveBackward(float);
-	void moveRight(float);
-	void moveLeft(float);
-
-
 	void update();
 
 private:
-
-	std::list<IObserver*> m_observers;
 
 	glm::vec3 m_center;
 	glm::vec3 m_eye;

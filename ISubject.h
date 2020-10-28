@@ -2,10 +2,15 @@
 #pragma once
 
 #include "IObserver.h"
+#include <list>
+
 
 class ISubject {
+protected:
+	std::list<IObserver*> m_observers;
 public:
-	virtual void attach(IObserver *observer) = 0;
-	virtual void detach(IObserver *observer) = 0;
+	void attach(IObserver *observer);
+	void detach(IObserver *observer);
 	virtual void notify() = 0;
+
 };

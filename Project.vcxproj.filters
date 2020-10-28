@@ -28,6 +28,9 @@
     <Filter Include="Source Files\Shader\Source">
       <UniqueIdentifier>{69c377d4-a00d-4a71-a0eb-d0c9322dca77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Movable">
+      <UniqueIdentifier>{fe9d51b0-0943-4d52-aab8-9fd2cab90f50}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +56,9 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ISubject.cpp">
+      <Filter>Source Files\Observer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovable.h">
+      <Filter>Source Files\Movable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
