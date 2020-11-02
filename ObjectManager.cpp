@@ -33,3 +33,18 @@ void ObjectManager::draw()
 		o.draw();
 	}
 }
+
+Object ObjectManager::getNext()
+{
+	m_pointer++;
+	if (m_pointer > m_objects.size())
+	{
+		m_pointer = 1;
+	}
+	return m_objects.at(m_pointer-1);
+}
+
+std::size_t ObjectManager::getSize()
+{
+	return m_objects.size();
+}

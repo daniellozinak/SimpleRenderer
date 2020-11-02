@@ -16,4 +16,6 @@ enum MoveDirection
 class IMovable {
 	public:
 		virtual void move(float delta, MoveDirection moveDirection) = 0;
+	protected:
+		const int i_speed = 10;
 };

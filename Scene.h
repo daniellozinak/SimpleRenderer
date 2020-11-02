@@ -28,11 +28,13 @@ class Scene
 		void addObject(Object &);
 		void addObject(Object &, glm::vec3 initialPosition);
 		void addShader(Shader *);
-
-		void draw();
+		void setCamera(Camera *);
+		void setLight(glm::vec3);
 		
 		void removeObject(Object &);
 		void removeShader(Shader *);
+
+		ObjectManager &getObjectManager();
 
 		void attachShaderToObject(Object&, Shader*);
 

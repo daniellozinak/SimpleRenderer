@@ -4,6 +4,7 @@
 #include <vector>
 #include "util.h"
 #include "Shader.h"
+#include "IMovable.h"
 
 #include <glm/mat4x4.hpp> // glm::mat4
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,42 +15,45 @@
 #define GL_COLOR_LAYOUT 1
 
 
-class Object
+class Object : public IMovable
 {
-public:
-	Object();
-	Object(std::vector<util::Vertex>, std::size_t);
-	Object(std::vector<util::Vertex>, std::size_t, glm::mat4);
+	public:
+		Object();
+		Object(std::vector<util::Vertex>, std::size_t);
+		Object(std::vector<util::Vertex>, std::size_t, glm::mat4);
 
-	GLuint getVAO();
-	std::size_t getCount();
+		GLuint getVAO();
+		std::size_t getCount();
 
-	glm::mat4 getModelMatrix();
+		glm::mat4 getModelMatrix();
 
-	void rotate();
+		void rotate();
 
-	void draw();
+		void draw();
 
-	void move(glm::vec3);
+		void move(float delta, MoveDirection moveDirection) override;
 
-	void setShader(Shader*);
+		void setShader(Shader*);
 
-	~Object();
+		void setPosition(glm::vec3);
 
-private:
-	std::vector<glm::vec3> m_pos;
-	std::vector<glm::vec3> m_col;
-	std::size_t m_numberOfVert;
+		~Object();
 
-	GLuint m_VBOPos;
-	GLuint m_VBOCol;
-	GLuint m_VAO;
+	private:
+		std::vector<glm::vec3> m_pos;
+		std::vector<glm::vec3> m_col;
+		std::size_t m_numberOfVert;
 
-	glm::mat4 m_modelMatrix;
+		GLuint m_VBOPos;
+		GLuint m_VBOCol;
+		GLuint m_VAO;
 
-	void m_initVert(std::vector<util::Vertex>, std::size_t);
-	void m_init();
+		glm::mat4 m_modelMatrix;
+		glm::vec3 m_position;
 
-	Shader *m_shader;
+		void m_initVert(std::vector<util::Vertex>, std::size_t);
+		void m_init();
+
+		Shader *m_shader;
 
 };

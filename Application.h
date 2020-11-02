@@ -2,7 +2,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h> 
 
-#include "ObjectManager.h"
+#include "Renderer.h"
 
 #include <stdlib.h>
 #include <functional>
@@ -35,10 +35,7 @@ private:
 	GLFWwindow *m_window;
 	CallbackData *m_callbackdata;
 	
-	ObjectManager &m_objectManager = ObjectManager::getInstance();;
-	Camera *m_camera;
-
-	glm::vec3 m_lightPosition;
+	Renderer *m_renderer;
 
 
 	void initCallbacks(Camera*);

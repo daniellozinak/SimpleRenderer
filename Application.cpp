@@ -18,7 +18,6 @@ std::vector<util::Vertex> vertexToVertex()
 	return toReturn;
 }
 
-
 void Application::init() {
 
 	glfwSetErrorCallback([](int err, const char * desc) {fputs(desc, stderr); });
@@ -60,8 +59,6 @@ void Application::init() {
 	glfwGetFramebufferSize(m_window, &width, &height);
 	float ratio = width / (float)height;
 	glViewport(0, 0, width, height);
-
-	
 }
 
 void Application::run()
@@ -71,35 +68,25 @@ void Application::run()
 
 	this->init();
 	this->initScene();
-	this->initCallbacks(m_camera);
 
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	m_renderer->enableDepth();
 
 	while (!glfwWindowShouldClose(m_window))
 	{
 		startTime = glfwGetTime();
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		m_objectManager.draw();
-		
+
+		m_renderer->render();
+			
 		glfwPollEvents();
-		
+			
 		glfwSwapBuffers(m_window);
 
 		this->m_callbackdata->delta = startTime - lastTime;
 
 		lastTime = startTime;
 
-		if (m_callbackdata->is_moving)
-		{
-			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-			glfwSetCursorPos(m_window, WIDTH / 2, HEIGHT / 2);
-		}
-		else {
-			glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
-
+		if (m_callbackdata->is_moving) { glfwSetCursorPos(m_window, WIDTH / 2, HEIGHT / 2); }
 	}
 
 	glfwDestroyWindow(m_window);
@@ -111,48 +98,48 @@ void Application::run()
 void Application::initScene()
 {
 	std::vector<util::Vertex>vert = vertexToVertex();
-
+	m_renderer = new Renderer();
+	Scene *scene = new Scene();
 
 	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
 	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
 	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
 	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
+	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 
-	m_camera =  new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
-	m_camera->attach(mShaderPhong);
-	m_camera->attach(mShaderLambert);
-	m_camera->attach(mShaderStatic);
-	m_camera->attach(mShaderBlinn);
-	m_camera->update();
 
-	m_lightPosition = glm::vec3(15.0f, 4.5f, 0.0f);
-
-	mShaderLambert->sendUniform("lightPosition", m_lightPosition);
-	mShaderPhong->sendUniform("lightPosition", m_lightPosition);
-	mShaderBlinn->sendUniform("lightPosition", m_lightPosition);
+	scene->setCamera(m_camera);
+	scene->setLight(glm::vec3(15.0f, 4.5f, 0.0f));
+	scene->addShader(mShaderPhong);
+	scene->addShader(mShaderLambert);
+	scene->addShader(mShaderStatic);
+	scene->addShader(mShaderBlinn);
 	
 
 	Object ball0 = Object(vert, vert.size());
-	ball0.move(glm::vec3(15.0f, 1.0f, 0.0f));
+	ball0.setPosition(glm::vec3(15.0f, 1.0f, 0.0f));
 	ball0.setShader(mShaderPhong);
 
 	Object ball1 = Object(vert, vert.size());
-	ball1.move(glm::vec3(15.0f, 8.0f, 0.0f));
+	ball1.setPosition(glm::vec3(15.0f, 8.0f, 0.0f));
 	ball1.setShader(mShaderLambert);
 
 	Object ball2 = Object(vert, vert.size());
-	ball2.move(glm::vec3(15.0f, 4.5f, -4.0f));
+	ball2.setPosition(glm::vec3(15.0f, 4.5f, -4.0f));
 	ball2.setShader(mShaderStatic);
 
 	Object ball3 = Object(vert, vert.size());
-	ball3.move(glm::vec3(15.0f, 4.5f, 4.0f));
+	ball3.setPosition(glm::vec3(15.0f, 4.5f, 4.0f));
 	ball3.setShader(mShaderBlinn);
 
-	m_objectManager.addObject(ball0);
-	m_objectManager.addObject(ball1);
-	m_objectManager.addObject(ball2);
-	m_objectManager.addObject(ball3);
+	scene->addObject(ball0);
+	scene->addObject(ball1);
+	scene->addObject(ball2);
+	scene->addObject(ball3);
 
+
+	m_renderer->setScene(scene);
+	this->initCallbacks(m_camera);
 }
 
 void Application::initCallbacks(Camera *c)
@@ -177,6 +164,13 @@ void Application::initCallbacks(Camera *c)
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 			cb->is_moving = !cb->is_moving;
 		}
+		if (cb->is_moving)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		}
+		else {
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 	});
 
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -189,12 +183,10 @@ void Application::initCallbacks(Camera *c)
 	});
 }
 
-
 Application &Application::getInstance()
 {
 	return instance;
 }
-
 
 Application::Application()
 {

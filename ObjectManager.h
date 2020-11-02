@@ -20,10 +20,15 @@ public:
 
 	void draw();
 
+	Object getNext();
+	std::size_t getSize();
+
 private:
 	static ObjectManager m_instance;
 	ObjectManager();
 	~ObjectManager();
 
 	std::vector<Object> m_objects;
+
+	std::size_t m_pointer = 0;
 };

@@ -17,18 +17,29 @@ void Scene::addObject(Object &object)
 void Scene::addObject(Object &object, glm::vec3 initialPosition)
 {
 	m_objectmanager.addObject(object);
-	object.move(initialPosition);
+	object.setPosition(initialPosition);
 }
 
 void Scene::addShader(Shader *shader)
 {
 	this->m_camera->attach(shader);
 	shader->sendUniform(LIGHT_POSITION, m_lightposition);
+	this->m_camera->update();
 }
 
 void Scene::removeObject(Object &object)
 {
 	this->removeObject(object);
+}
+
+void Scene::setCamera(Camera *camera)
+{
+	m_camera = camera;
+}
+
+void Scene::setLight(glm::vec3 light)
+{
+	m_lightposition = light;
 }
 
 void Scene::removeShader(Shader *shader)
@@ -42,7 +53,4 @@ void Scene::attachShaderToObject(Object&objcet, Shader*shader)
 }
 
 
-void Scene::draw()
-{
-	this->m_objectmanager.draw();
-}
+ObjectManager &Scene::getObjectManager() { return m_objectmanager; }

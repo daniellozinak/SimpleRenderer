@@ -68,16 +68,16 @@ void Camera::move(float delta, MoveDirection moveDirection)
 	switch (moveDirection)
 	{
 		case MoveDirection::FORWARDS:
-			this->m_eye += this->m_center * (m_speed * delta);
+			this->m_eye += this->m_center * (i_speed * delta);
 			break;
 		case MoveDirection::BACKWARDS:
-			this->m_eye -= this->m_center * (m_speed * delta);
+			this->m_eye -= this->m_center * (i_speed * delta);
 			break;
 		case MoveDirection::LEFT:
-			this->m_eye -= moveVector * (m_speed * delta);
+			this->m_eye -= moveVector * (i_speed * delta);
 			break;
 		case MoveDirection::RIGHT:
-			this->m_eye += moveVector * (m_speed * delta);
+			this->m_eye += moveVector * (i_speed * delta);
 			break;
 		case MoveDirection::UP:
 			//

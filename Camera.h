@@ -18,36 +18,35 @@
 class Shader; //Shader declaration due to cross reference
 class Camera : public ISubject,IMovable
 {
-public:
-	Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up);
-	~Camera();
+	public:
+		Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up);
+		~Camera();
 
-	//ISubject method
-	void notify() override;
-	void move(float delta, MoveDirection moveDirection) override;
+		//ISubject method
+		void notify() override;
+		void move(float delta, MoveDirection moveDirection) override;
 
-	glm::mat4 getView();
-	glm::mat4 getProjection();
-	void setEye(glm::vec3);
-	void setCenter(glm::vec3);
-	void setUp(glm::vec3);
-	void setProjection(glm::mat4);
+		glm::mat4 getView();
+		glm::mat4 getProjection();
+		void setEye(glm::vec3);
+		void setCenter(glm::vec3);
+		void setUp(glm::vec3);
+		void setProjection(glm::mat4);
 
-	void lookAround(float delta,float xDiff, float yDiff);
+		void lookAround(float delta,float xDiff, float yDiff);
 
-	void update();
+		void update();
 
-private:
+	private:
 
-	glm::vec3 m_center;
-	glm::vec3 m_eye;
-	glm::vec3 m_up;
+		glm::vec3 m_center;
+		glm::vec3 m_eye;
+		glm::vec3 m_up;
 
-	glm::mat4 m_projection;
+		glm::mat4 m_projection;
 
-	float m_horizontalAngle = 0.0f;
-	float m_verticalAngle = 0.0f;
+		float m_horizontalAngle = 0.0f;
+		float m_verticalAngle = 0.0f;
 
-	const int m_speed = 10;
-	const int m_speedlooking = 1;
+		const int m_speedlooking = 1;
 };

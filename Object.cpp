@@ -1,5 +1,5 @@
 #include "Object.h"
-
+#include <glm/vec3.hpp>
 
 //GLuint Object::m_VAO;
 
@@ -7,6 +7,7 @@ Object::Object()
 {
 	this->m_modelMatrix = glm::mat4(1.0f);
 	this->m_init();
+	this->setPosition(glm::vec3(0, 0, 0));
 }
 
 Object::Object(std::vector<util::Vertex> vert, std::size_t numberOfVert)
@@ -14,6 +15,7 @@ Object::Object(std::vector<util::Vertex> vert, std::size_t numberOfVert)
 	this->m_initVert(vert, numberOfVert);
 	this->m_init();
 	this->m_modelMatrix = glm::mat4(1.0f);
+	this->setPosition(glm::vec3(0, 0, 0));
 }
 
 Object::Object(std::vector<util::Vertex> vert, std::size_t numberOfVert, glm::mat4 modelMatrix)
@@ -21,11 +23,35 @@ Object::Object(std::vector<util::Vertex> vert, std::size_t numberOfVert, glm::ma
 	this->m_initVert(vert, numberOfVert);
 	this->m_modelMatrix = modelMatrix;
 	this->m_init();
+	this->setPosition(glm::vec3(0, 0, 0));
 }
 
-void Object::move(glm::vec3 vec)
+void Object::move(float delta, MoveDirection moveDirection)
 {
-	this->m_modelMatrix = glm::translate(this->m_modelMatrix, vec);
+	glm::vec3 move = glm::vec3(0, 0, 0);
+	switch (moveDirection)
+	{
+	case MoveDirection::FORWARDS:
+		//this->m_eye += this->m_center * (i_speed * delta);
+		break;
+	case MoveDirection::BACKWARDS:
+		//this->m_eye -= this->m_center * (i_speed * delta);
+		break;
+	case MoveDirection::LEFT:
+		//this->m_eye -= moveVector * (i_speed * delta);
+		break;
+	case MoveDirection::RIGHT:
+		//this->m_eye += moveVector * (i_speed * delta);
+		break;
+	case MoveDirection::UP:
+		//
+		break;
+	case MoveDirection::DOWN:
+		//	
+		break;
+	}
+
+	this->setPosition(move);
 }
 
 
@@ -41,6 +67,12 @@ void Object::m_initVert(std::vector<util::Vertex> vert, std::size_t numberOfVert
 void Object::setShader(Shader*shader)
 {
 	this->m_shader = shader;
+}
+
+void Object::setPosition(glm::vec3 position)
+{
+	this->m_position = position;
+	this->m_modelMatrix = glm::translate(this->m_modelMatrix, position);
 }
 
 void Object::draw()
