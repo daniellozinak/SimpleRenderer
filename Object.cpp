@@ -32,22 +32,22 @@ void Object::move(float delta, MoveDirection moveDirection)
 	switch (moveDirection)
 	{
 	case MoveDirection::FORWARDS:
-		//this->m_eye += this->m_center * (i_speed * delta);
+		this->move.z += (i_speed * delta);
 		break;
 	case MoveDirection::BACKWARDS:
-		//this->m_eye -= this->m_center * (i_speed * delta);
+		this->move.z -= (i_speed * delta);
 		break;
 	case MoveDirection::LEFT:
-		//this->m_eye -= moveVector * (i_speed * delta);
+		this->move.x -= (i_speed * delta);
 		break;
 	case MoveDirection::RIGHT:
-		//this->m_eye += moveVector * (i_speed * delta);
+		this->move.y += (i_speed * delta);
 		break;
 	case MoveDirection::UP:
-		//
+		this->move.y += (i_speed * delta);
 		break;
 	case MoveDirection::DOWN:
-		//	
+		this->move.y -= (i_speed * delta);
 		break;
 	}
 

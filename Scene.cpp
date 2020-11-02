@@ -17,7 +17,7 @@ void Scene::addObject(Object &object)
 void Scene::addObject(Object &object, glm::vec3 initialPosition)
 {
 	m_objectmanager.addObject(object);
-	object.setPosition(initialPosition);
+	object.setPosition(initialPosition); 
 }
 
 void Scene::addShader(Shader *shader)
