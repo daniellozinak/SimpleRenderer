@@ -114,21 +114,23 @@ void Application::initScene()
 	scene->addShader(mShaderLambert);
 	scene->addShader(mShaderStatic);
 	scene->addShader(mShaderBlinn);
+
+	Mesh *mesh = new Mesh(vert, vert.size());
 	
 
-	Object ball0 = Object(vert, vert.size());
+	Object ball0 = Object(mesh);
 	ball0.setPosition(glm::vec3(15.0f, 1.0f, 0.0f));
 	ball0.setShader(mShaderPhong);
 
-	Object ball1 = Object(vert, vert.size());
+	Object ball1 = Object(mesh);
 	ball1.setPosition(glm::vec3(15.0f, 8.0f, 0.0f));
 	ball1.setShader(mShaderLambert);
 
-	Object ball2 = Object(vert, vert.size());
+	Object ball2 = Object(mesh);
 	ball2.setPosition(glm::vec3(15.0f, 4.5f, -4.0f));
 	ball2.setShader(mShaderStatic);
 
-	Object ball3 = Object(vert, vert.size());
+	Object ball3 = Object(mesh);
 	ball3.setPosition(glm::vec3(15.0f, 4.5f, 4.0f));
 	ball3.setShader(mShaderBlinn);
 

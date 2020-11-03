@@ -30,6 +30,8 @@ class Scene
 		void addShader(Shader *);
 		void setCamera(Camera *);
 		void setLight(glm::vec3);
+
+		void draw();
 		
 		void removeObject(Object &);
 		void removeShader(Shader *);

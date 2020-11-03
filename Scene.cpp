@@ -53,4 +53,14 @@ void Scene::attachShaderToObject(Object&objcet, Shader*shader)
 }
 
 
+void Scene::draw()
+{
+	for (std::size_t i = 0; i < m_objectmanager.getSize(); i++)
+	{
+		Object o = m_objectmanager.getNext();
+		o.draw();
+	}
+}
+
+
 ObjectManager &Scene::getObjectManager() { return m_objectmanager; }
