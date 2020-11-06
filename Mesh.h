@@ -4,12 +4,15 @@
 #include "util.h"
 #include <cstdio>
 
+#include "Component.h"
+#include "Shader.h"
 
 #define GL_POSITION_LAYOUT 0
 #define GL_COLOR_LAYOUT 1
 
+//Component:Leaf
 
-class Mesh
+class Mesh : public Component 
 {
 	private:
 		void m_initVert(std::vector<util::Vertex>, std::size_t);
@@ -21,11 +24,27 @@ class Mesh
 		GLuint m_VBOPos;
 		GLuint m_VBOCol;
 		GLuint m_VAO;
+		Shader *m_shader;
+
 	public:
-		Mesh(std::vector<util::Vertex>, std::size_t);
+		//constructors,desctructors
+		Mesh(std::vector<util::Vertex>, std::size_t,Shader *shader);
+		~Mesh() {}
 
+		//openGL
 		void bind();
+		void unbind();
 
+		//Component
+		void operation() override;
+		inline std::size_t getCount() override { return m_numberOfVert; }
+		inline bool isComposite() override { return false; }
+
+		//getters, setters
 		inline std::size_t getNumberOfVert() { return this->m_numberOfVert; }
+		inline void setShader(Shader *shader) { this->m_shader = shader; }
+
+		//other
+		void updateModel(glm::mat4&);
 };
 

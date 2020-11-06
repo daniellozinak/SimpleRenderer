@@ -7,11 +7,10 @@
 class Renderer
 {
 	private:
-		Scene *m_scene;
+		void clearBuffer();
 	public:	
-		void render();
 		void enableDepth();
-		void setScene(Scene*);
+		void render();
 		Renderer();
 };
 

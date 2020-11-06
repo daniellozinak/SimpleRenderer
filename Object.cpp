@@ -1,17 +1,16 @@
 #include "Object.h"
 #include <glm/vec3.hpp>
+#include "ComponentManager.h"
 
-//GLuint Object::m_VAO;
+ComponentManager &componentManager = ComponentManager::getInstance();
 
-
-Object::Object(Mesh* mesh)
+Object::Object()
 {
 	this->m_modelMatrix = glm::mat4(1.0f);
 	this->setPosition(glm::vec3(0, 0, 0));
-	this->m_mesh = mesh;
 }
 
-Object::Object(Mesh* mesh, glm::mat4 modelMatrix)
+Object::Object(glm::mat4 modelMatrix)
 {
 	this->m_modelMatrix = modelMatrix;
 	this->setPosition(glm::vec3(0, 0, 0));
@@ -45,35 +44,45 @@ void Object::move(float delta, MoveDirection moveDirection)
 	this->setPosition(move);
 }
 
-
-
-void Object::setShader(Shader*shader)
-{
-	this->m_shader = shader;
-}
-
-void Object::setPosition(glm::vec3 position)
+//TODO 1: fix positioning
+// doesnt work like it should, needs to move other components too
+void Object::setPosition(glm::vec3 position) 
 {
 	this->m_position = position;
 	this->m_modelMatrix = glm::translate(this->m_modelMatrix, position);
+	this->operation();
 }
 
-void Object::draw()
+void Object::add(Component *component)
 {
-	this->m_mesh->bind();
-	this->m_shader->bind();
-	this->m_shader->sendUniform("modelMatrix", this->m_modelMatrix);
-	glDrawArrays(GL_TRIANGLES, 0,m_mesh->getNumberOfVert());
+	this->m_children.emplace_back(component);
+	componentManager.addObject(this); 
+	componentManager.addObject(component);
+	component->setParent(this);
+
+	/* 
+		"this" needs to be added first, otherwise n-th mesh will be drawn on (n-1)th position
+		because of the way Render class loops trough Components
+	*/
 }
 
-void Object::rotate()
+
+void Object::remove(Component *component)
 {
-	this->m_modelMatrix = glm::rotate(this->m_modelMatrix, 0.01f, glm::vec3(1.0f, 0.0f, 0.0f));
+	this->m_children.remove(component);
+	componentManager.removeObject(component);
+	componentManager.removeObject(this);
+	component->setParent(nullptr);
 }
 
-glm::mat4 Object::getModelMatrix() { return this->m_modelMatrix; }
-
-
-Object::~Object()
+void Object::operation()
 {
+	for (Component *component : m_children)
+	{
+		if (!component->isComposite())
+		{
+			Mesh *mesh = dynamic_cast<Mesh*>(component);
+			mesh->updateModel(this->m_modelMatrix);
+		}
+	}
 }

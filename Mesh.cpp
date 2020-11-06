@@ -2,15 +2,33 @@
 
 
 
-Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert)
+Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert,Shader *shader)
 {
 	this->m_initVert(vert, numberOfVert);
 	this->m_init();
+	this->m_shader = shader;
 }
 
 void Mesh::bind()
 {
 	glBindVertexArray(m_VAO);
+	this->m_shader->bind();
+}
+
+void Mesh::unbind()
+{
+	this->m_shader->unbind();
+	glBindVertexArray(0);
+}
+
+void Mesh::operation()
+{
+	this->bind();
+}
+
+void Mesh::updateModel(glm::mat4& model)
+{
+	this->m_shader->sendUniform("modelMatrix", model);
 }
 
 void Mesh::m_initVert(std::vector<util::Vertex> vert, std::size_t numberOfVert) {

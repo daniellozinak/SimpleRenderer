@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Movable">
       <UniqueIdentifier>{fe9d51b0-0943-4d52-aab8-9fd2cab90f50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Composite">
+      <UniqueIdentifier>{c9131847-807e-4344-a38b-790f0708a21a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -48,9 +51,6 @@
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObjectManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Source Files\Shader</Filter>
     </ClCompile>
@@ -66,6 +66,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -75,9 +78,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
@@ -95,9 +95,6 @@
     <ClInclude Include="data.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Source Files\Data</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderLoader.h">
       <Filter>Source Files\Shader</Filter>
     </ClInclude>
@@ -111,6 +108,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Composite</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -6,3 +6,4 @@ int main(void)
 	Application &app = Application::getInstance();
 	app.run();
 }
+

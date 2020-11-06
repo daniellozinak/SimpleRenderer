@@ -4,12 +4,55 @@
 //init instance
 Application Application::instance;
 
-std::vector<util::Vertex> vertexToVertex()
+//temp functions until object loader not impelemted
+std::vector<util::Vertex> loadSphere()
 {
 	std::vector<util::Vertex> toReturn;
-	for (int i = 0; i < pocetPrvku; i++)
+	for (int i = 0; i < sphere; i++)
 	{
-		VertexData vData = VERTICES[i];
+		VertexData vData = vertices_sphere[i];
+		glm::vec3 tempPos = { vData.Position[0],vData.Position[1],vData.Position[2] };
+		glm::vec3 tempNormal = { vData.Normal[0],vData.Normal[1],vData.Normal[2] };
+		util::Vertex tempVert = { tempPos,tempNormal };
+		toReturn.push_back(tempVert);
+	}
+	return toReturn;
+}
+
+std::vector<util::Vertex> loadWorker()
+{
+	std::vector<util::Vertex> toReturn;
+	for (int i = 0; i < worker; i++)
+	{
+		VertexData vData = vertices_worker[i];
+		glm::vec3 tempPos = { vData.Position[0],vData.Position[1],vData.Position[2] };
+		glm::vec3 tempNormal = { vData.Normal[0],vData.Normal[1],vData.Normal[2] };
+		util::Vertex tempVert = { tempPos,tempNormal };
+		toReturn.push_back(tempVert);
+	}
+	return toReturn;
+}
+
+std::vector<util::Vertex> loadBox()
+{
+	std::vector<util::Vertex> toReturn;
+	for (int i = 0; i < box; i++)
+	{
+		VertexData vData = vertices_box[i];
+		glm::vec3 tempPos = { vData.Position[0],vData.Position[1],vData.Position[2] };
+		glm::vec3 tempNormal = { vData.Normal[0],vData.Normal[1],vData.Normal[2] };
+		util::Vertex tempVert = { tempPos,tempNormal };
+		toReturn.push_back(tempVert);
+	}
+	return toReturn;
+}
+
+std::vector<util::Vertex> loadSuzi()
+{
+	std::vector<util::Vertex> toReturn;
+	for (int i = 0; i < suzi; i++)
+	{
+		VertexData vData = vertices_suzi[i];
 		glm::vec3 tempPos = { vData.Position[0],vData.Position[1],vData.Position[2] };
 		glm::vec3 tempNormal = { vData.Normal[0],vData.Normal[1],vData.Normal[2] };
 		util::Vertex tempVert = { tempPos,tempNormal };
@@ -95,9 +138,16 @@ void Application::run()
 }
 
 
+
+//TODO 2: move this to Scene class
 void Application::initScene()
 {
-	std::vector<util::Vertex>vert = vertexToVertex();
+	std::vector<util::Vertex>vert_worker = loadWorker();
+	std::vector<util::Vertex>vert_sphere = loadSphere();
+	std::vector<util::Vertex>vert_suzi = loadSuzi();
+	std::vector<util::Vertex>vert_box = loadBox();
+
+
 	m_renderer = new Renderer();
 	Scene *scene = new Scene();
 
@@ -107,7 +157,6 @@ void Application::initScene()
 	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
 	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 
-
 	scene->setCamera(m_camera);
 	scene->setLight(glm::vec3(15.0f, 4.5f, 0.0f));
 	scene->addShader(mShaderPhong);
@@ -115,32 +164,35 @@ void Application::initScene()
 	scene->addShader(mShaderStatic);
 	scene->addShader(mShaderBlinn);
 
-	Mesh *mesh = new Mesh(vert, vert.size());
+	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderBlinn);
+	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderBlinn);
+	Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderBlinn);
+	Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderBlinn);
 	
+	Object *ball0 = new Object();
+	ball0->add(worker);
+	ball0->setPosition(glm::vec3(7.0f, 1.0f, 0.0f));
 
-	Object ball0 = Object(mesh);
-	ball0.setPosition(glm::vec3(15.0f, 1.0f, 0.0f));
-	ball0.setShader(mShaderPhong);
+	Object *ball1 = new Object();
+	ball1->add(sphere);
+	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));
 
-	Object ball1 = Object(mesh);
-	ball1.setPosition(glm::vec3(15.0f, 8.0f, 0.0f));
-	ball1.setShader(mShaderLambert);
-
-	Object ball2 = Object(mesh);
-	ball2.setPosition(glm::vec3(15.0f, 4.5f, -4.0f));
-	ball2.setShader(mShaderStatic);
-
-	Object ball3 = Object(mesh);
-	ball3.setPosition(glm::vec3(15.0f, 4.5f, 4.0f));
-	ball3.setShader(mShaderBlinn);
-
-	scene->addObject(ball0);
-	scene->addObject(ball1);
-	scene->addObject(ball2);
-	scene->addObject(ball3);
+	Object * ball2 = new Object();
+	ball2->add(suzi);
+	ball2->setPosition(glm::vec3(15.0f, 0.5f, -4.0f));
+	
+	Object * ball3 = new Object();
+	ball3->add(box);
+	ball3->add(ball0);
+	ball3->add(ball2);
+	ball3->add(ball1);
+	
+	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
 
 
-	m_renderer->setScene(scene);
+	//ObjectManager &om = ObjectManager::getInstance();
+	//om.addObject(ball3);
+
 	this->initCallbacks(m_camera);
 }
 
