@@ -1,8 +1,12 @@
 #include "Application.h"
 #include "data.h"
-
+#include "CallbackData.h"
+#include "ComponentManager.h"
 //init instance
 Application Application::instance;
+
+CallbackData &callback_instance = CallbackData::getInstance();
+
 
 //temp functions until object loader not impelemted
 std::vector<util::Vertex> loadSphere()
@@ -125,11 +129,11 @@ void Application::run()
 			
 		glfwSwapBuffers(m_window);
 
-		this->m_callbackdata->delta = startTime - lastTime;
+		callback_instance.setDelta(startTime - lastTime);
 
 		lastTime = startTime;
 
-		if (m_callbackdata->is_moving) { glfwSetCursorPos(m_window, WIDTH / 2, HEIGHT / 2); }
+		if (callback_instance.isMoving()) { glfwSetCursorPos(m_window, WIDTH / 2, HEIGHT / 2); }
 	}
 
 	glfwDestroyWindow(m_window);
@@ -169,56 +173,60 @@ void Application::initScene()
 	Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderBlinn);
 	Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderBlinn);
 	
-	Object *ball0 = new Object();
+	/*Object *ball0 = new Object();
 	ball0->add(worker);
 	ball0->setPosition(glm::vec3(7.0f, 1.0f, 0.0f));
 
 	Object *ball1 = new Object();
 	ball1->add(sphere);
-	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));
+	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));*/
 
 	Object * ball2 = new Object();
 	ball2->add(suzi);
 	ball2->setPosition(glm::vec3(15.0f, 0.5f, -4.0f));
+	ball2->move(0.1f, MoveDirection::FORWARDS,m_camera->getLookDirection());
+	ball2->changeSelected();
 	
 	Object * ball3 = new Object();
-	ball3->add(box);
+	ball3->add(box); 
+	ball3->add(ball2);
+	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
+	ball3->changeSelected();
+		/*
 	ball3->add(ball0);
 	ball3->add(ball2);
 	ball3->add(ball1);
 	
-	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
+	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));*/
 
 
 	//ObjectManager &om = ObjectManager::getInstance();
 	//om.addObject(ball3);
 
-	this->initCallbacks(m_camera);
+	this->initCallbacks();
 }
 
-void Application::initCallbacks(Camera *c)
+void Application::initCallbacks()
 {
-	this->m_callbackdata = new CallbackData();
-	m_callbackdata->camera = c;
-	m_callbackdata->delta = 0;
+	//Camera isnt nullptr
+	assert(callback_instance.getCamera());
 
-	glfwSetWindowUserPointer(m_window, m_callbackdata);
+	callback_instance.setDelta(0);
 
 	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xpos, double ypos) {
-		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
-		if (cb->is_moving)
+		if (callback_instance.isMoving())
 		{
-			cb->camera->lookAround(cb->delta, xpos - (WIDTH / 2), ypos - (HEIGHT / 2));
+			callback_instance.getCamera()->lookAround(callback_instance.getDelta(), xpos - (WIDTH / 2), ypos - (HEIGHT / 2));
 		}
 	});
 
 	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
-		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
 
-		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-			cb->is_moving = !cb->is_moving;
+		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
+		{
+			callback_instance.setMoving(!callback_instance.isMoving());
 		}
-		if (cb->is_moving)
+		if (callback_instance.isMoving())
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		}
@@ -228,12 +236,18 @@ void Application::initCallbacks(Camera *c)
 	});
 
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
-		CallbackData *cb = (CallbackData*)glfwGetWindowUserPointer(window);
+		if (key == GLFW_KEY_W){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::FORWARDS);}
+		if (key == GLFW_KEY_S){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::BACKWARDS);}
+		if (key == GLFW_KEY_A){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::LEFT);}
+		if (key == GLFW_KEY_D){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::RIGHT);}
 
-		if (key == GLFW_KEY_W){ cb->camera->move(cb->delta,MoveDirection::FORWARDS);}
-		if (key == GLFW_KEY_S){ cb->camera->move(cb->delta,MoveDirection::BACKWARDS);}
-		if (key == GLFW_KEY_A){ cb->camera->move(cb->delta, MoveDirection::LEFT);}
-		if (key == GLFW_KEY_D){ cb->camera->move(cb->delta, MoveDirection::RIGHT);}
+		for (Component *component : ComponentManager::getInstance().getObjects())
+		{
+			if (key == GLFW_KEY_UP) { component->move(callback_instance.getDelta(), MoveDirection::FORWARDS, callback_instance.getCamera()->getLookDirection()); }
+			if (key == GLFW_KEY_DOWN) { component->move(callback_instance.getDelta(), MoveDirection::BACKWARDS, callback_instance.getCamera()->getLookDirection()); }
+			if (key == GLFW_KEY_RIGHT) {}
+			if (key == GLFW_KEY_LEFT) {}
+		}
 	});
 }
 

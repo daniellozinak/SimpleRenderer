@@ -1,6 +1,8 @@
 #include "Camera.h"
 #include "Shader.h"
+#include "CallbackData.h"
 
+CallbackData &callbackdata_instance = CallbackData::getInstance();
 
 void Camera::lookAround(float delta, float xDiff, float yDiff)
 {
@@ -22,8 +24,9 @@ Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
 	this->m_eye = eye;
 	this->m_up = up;
 	this->m_projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
-}
 
+	callbackdata_instance.setCamera(this);
+}
 
 
 Camera::~Camera()
@@ -32,7 +35,6 @@ Camera::~Camera()
 
 glm::mat4 Camera::getView() { return glm::lookAt(this->m_eye, (this->m_eye + this->m_center), this->m_up); }
 glm::mat4 Camera::getProjection() { return this->m_projection; }
-
 
 
 void Camera::setEye(glm::vec3 eye) { this->m_eye = eye; }
@@ -50,7 +52,6 @@ void Camera::update()
 }
 
 //observer
-
 void Camera::notify() {
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
@@ -62,7 +63,7 @@ void Camera::notify() {
 	}
 }
 
-void Camera::move(float delta, MoveDirection moveDirection)
+void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosition)
 {
 	glm::vec3 moveVector = glm::cross(this->m_center, this->m_up);
 	switch (moveDirection)

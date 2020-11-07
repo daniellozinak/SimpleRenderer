@@ -39,6 +39,7 @@ class Mesh : public Component
 		void operation() override;
 		inline std::size_t getCount() override { return m_numberOfVert; }
 		inline bool isComposite() override { return false; }
+		inline void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0))override {}
 
 		//getters, setters
 		inline std::size_t getNumberOfVert() { return this->m_numberOfVert; }

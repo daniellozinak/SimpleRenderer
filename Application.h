@@ -23,21 +23,13 @@ public:
 	void init();
 
 private:
-
-	struct CallbackData {
-		Camera *camera;
-		float delta;
-		bool is_moving = false;
-	};
-
 	static Application instance;
 	Application();
 	GLFWwindow *m_window;
-	CallbackData *m_callbackdata;
 	
 	Renderer *m_renderer;
 
 
-	void initCallbacks(Camera*);
+	void initCallbacks();
 	void initScene();
 };

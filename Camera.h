@@ -24,10 +24,12 @@ class Camera : public ISubject,IMovable
 
 		//ISubject method
 		void notify() override;
-		void move(float delta, MoveDirection moveDirection) override;
+		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0)) override;
 
 		glm::mat4 getView();
 		glm::mat4 getProjection();
+		inline glm::vec3 getLookDirection() { return this->m_eye - this->m_center; }
+
 		void setEye(glm::vec3);
 		void setCenter(glm::vec3);
 		void setUp(glm::vec3);

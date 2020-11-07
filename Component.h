@@ -1,10 +1,12 @@
 #pragma once
 #include <cstdio>
+#include "IMovable.h"
 
-class Component {
+class Component : public IMovable {
 
 protected:
 	Component *parent;
+	bool is_selected = false;
 public:
 	virtual ~Component() {};
 	void setParent(Component *component)
@@ -20,6 +22,10 @@ public:
 		return false;
 	}
 
-	virtual void operation() = 0;
+	void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0))override {};
+
+	bool isSelected() { return is_selected; }
+
+	virtual void operation()	   = 0;
 	virtual std::size_t getCount() = 0;
 };

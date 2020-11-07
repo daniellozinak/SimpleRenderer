@@ -17,7 +17,7 @@
 
 //Component:Composite
 
-class Object : public IMovable,public Component
+class Object : public Component
 {
 	private:
 		glm::mat4 m_modelMatrix;
@@ -33,7 +33,7 @@ class Object : public IMovable,public Component
 		~Object() {}
 
 		//IMovable
-		void move(float delta, MoveDirection moveDirection) override;
+		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon) override;
 
 		//Composite
 		void add(Component *component)override;
@@ -45,4 +45,6 @@ class Object : public IMovable,public Component
 		//getters,setters
 		inline glm::mat4 getModelMatrix() { return this->m_modelMatrix; }
 		void setPosition(glm::vec3);
+		inline bool isSelected() { return is_selected; }
+		inline void changeSelected() { is_selected = !is_selected; }
 };

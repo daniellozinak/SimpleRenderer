@@ -16,47 +16,53 @@ Object::Object(glm::mat4 modelMatrix)
 	this->setPosition(glm::vec3(0, 0, 0));
 }
 
-void Object::move(float delta, MoveDirection moveDirection)
+void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection)
 {
-	glm::vec3 move = glm::vec3(0, 0, 0);
+	if (!this->is_selected) { return; }
+	glm::vec3 newPosition = this->m_position;
 	switch (moveDirection)
 	{
 	case MoveDirection::FORWARDS:
-		move.z += (i_speed * delta);
+		newPosition += lookDirection *((i_speed * delta)/10);
 		break;
 	case MoveDirection::BACKWARDS:
-		move.z -= (i_speed * delta);
+		newPosition -= lookDirection * ((i_speed * delta)/10);
 		break;
 	case MoveDirection::LEFT:
-		move.x -= (i_speed * delta);
+		
 		break;
 	case MoveDirection::RIGHT:
-		move.y += (i_speed * delta);
+		
 		break;
 	case MoveDirection::UP:
-		move.y += (i_speed * delta);
+		
 		break;
 	case MoveDirection::DOWN:
-		move.y -= (i_speed * delta);
+		
 		break;
 	}
 
-	this->setPosition(move);
+	this->setPosition(this->m_position - newPosition);
+
+	for (Component * component : m_children)
+	{
+		component->move(delta, moveDirection, lookDirection);
+	}
+
 }
 
-//TODO 1: fix positioning
-// doesnt work like it should, needs to move other components too
-void Object::setPosition(glm::vec3 position) 
+
+void Object::setPosition(glm::vec3 moveVector) 
 {
-	this->m_position = position;
-	this->m_modelMatrix = glm::translate(this->m_modelMatrix, position);
+	this->m_position += moveVector;
+	this->m_modelMatrix = glm::translate(this->m_modelMatrix, moveVector);
 	this->operation();
 }
 
 void Object::add(Component *component)
 {
 	this->m_children.emplace_back(component);
-	componentManager.addObject(this); 
+	componentManager.addObject(this);
 	componentManager.addObject(component);
 	component->setParent(this);
 
