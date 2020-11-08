@@ -3,7 +3,7 @@
 #include <GLFW/glfw3.h> 
 
 #include "Renderer.h"
-
+#include <glm/vec3.hpp>
 #include <stdlib.h>
 #include <functional>
 #include <vector>

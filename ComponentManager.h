@@ -14,10 +14,13 @@ public:
 	static ComponentManager &getInstance();
 
 	void addObject(Component *);
+	void addObject(Component *, GLint index);
 	void removeObject(Component *);
 	std::size_t getSize();
 
 	inline std::vector<Component*> getObjects() { return this->m_objects; }
+
+	void selectObject(GLint id);
 
 private:
 	static ComponentManager m_instance;

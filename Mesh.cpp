@@ -1,12 +1,15 @@
 #include "Mesh.h"
 
-
+GLint Mesh::idGenerator = 1;
 
 Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert,Shader *shader)
 {
 	this->m_initVert(vert, numberOfVert);
 	this->m_init();
 	this->m_shader = shader;
+
+	this->m_ID = idGenerator;
+	idGenerator++;
 }
 
 void Mesh::bind()

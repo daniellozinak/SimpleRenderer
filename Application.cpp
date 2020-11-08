@@ -6,6 +6,8 @@
 Application Application::instance;
 
 CallbackData &callback_instance = CallbackData::getInstance();
+ComponentManager &component_manager = ComponentManager::getInstance();
+
 
 
 //temp functions until object loader not impelemted
@@ -64,6 +66,9 @@ std::vector<util::Vertex> loadSuzi()
 	}
 	return toReturn;
 }
+
+
+std::vector<util::Vertex>global_ball = loadSphere();
 
 void Application::init() {
 
@@ -154,6 +159,7 @@ void Application::initScene()
 
 	m_renderer = new Renderer();
 	Scene *scene = new Scene();
+	callback_instance.setScene(scene);
 
 	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
 	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
@@ -167,31 +173,43 @@ void Application::initScene()
 	scene->addShader(mShaderLambert);
 	scene->addShader(mShaderStatic);
 	scene->addShader(mShaderBlinn);
-
+	
 	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderBlinn);
 	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderBlinn);
 	Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderBlinn);
 	Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderBlinn);
-	
-	/*Object *ball0 = new Object();
-	ball0->add(worker);
-	ball0->setPosition(glm::vec3(7.0f, 1.0f, 0.0f));
 
+	scene->addMesh(sphere);
+	scene->addMesh(worker);
+	scene->addMesh(suzi);
+	scene->addMesh(box);
+	//
+	//Object *ball0 = new Object();
+	//ball0->add(worker);
+	//ball0->setPosition(glm::vec3(7.0f, 1.0f, 0.0f));
+
+	Object * ball3 = new Object();
+	ball3->add(box);
+	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
+	
 	Object *ball1 = new Object();
 	ball1->add(sphere);
-	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));*/
+	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));
 
 	Object * ball2 = new Object();
 	ball2->add(suzi);
 	ball2->setPosition(glm::vec3(15.0f, 0.5f, -4.0f));
 	ball2->move(0.1f, MoveDirection::FORWARDS,m_camera->getLookDirection());
-	ball2->changeSelected();
+	//ball2->changeSelected();
 	
-	Object * ball3 = new Object();
-	ball3->add(box); 
+	ball3->add(ball1);
 	ball3->add(ball2);
-	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
-	ball3->changeSelected();
+
+	/*Object *ball1 = new Object();
+	ball1->add(sphere);
+	ball1->setPosition(glm::vec3(15.0f, 0.0f, 4.0f));*/
+
+
 		/*
 	ball3->add(ball0);
 	ball3->add(ball2);
@@ -199,6 +217,11 @@ void Application::initScene()
 	
 	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));*/
 
+	
+	/*component_manager.addObject(ball2);
+	component_manager.addObject(suzi);
+	component_manager.addObject(ball3);
+	component_manager.addObject(box);*/
 
 	//ObjectManager &om = ObjectManager::getInstance();
 	//om.addObject(ball3);
@@ -222,7 +245,7 @@ void Application::initCallbacks()
 
 	glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods) {
 
-		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) 
+		if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) 
 		{
 			callback_instance.setMoving(!callback_instance.isMoving());
 		}
@@ -230,8 +253,37 @@ void Application::initCallbacks()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		}
-		else {
+		else if(!callback_instance.isMoving() && action == GLFW_RELEASE) {
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			double xpos, ypos;
+
+			glfwGetCursorPos(window, &xpos, &ypos);
+
+
+			GLbyte color[4];
+			GLfloat depth;
+			GLuint index;
+
+			GLint x = xpos;
+			GLint y = HEIGHT - ypos;
+
+			glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+			glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+			glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+			component_manager.selectObject(index);
+			callback_instance.setIndex(index);
+
+
+			glm::vec3 screenX = glm::vec3(x, y, depth);
+			glm::mat4 view = callback_instance.getCamera()->getView();
+			glm::mat4 projection = callback_instance.getCamera()->getProjection();
+			glm::vec4 viewPort = glm::vec4(0, 0, WIDTH, HEIGHT);
+			glm::vec3 position = glm::unProject(screenX, view, projection, viewPort);
+
+
+			//std::cout << "Position : " << glm::to_string(position) << "\n";
+			callback_instance.setPosition(position);
 		}
 	});
 
@@ -240,6 +292,17 @@ void Application::initCallbacks()
 		if (key == GLFW_KEY_S){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::BACKWARDS);}
 		if (key == GLFW_KEY_A){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::LEFT);}
 		if (key == GLFW_KEY_D){ callback_instance.getCamera()->move(callback_instance.getDelta(),MoveDirection::RIGHT);}
+
+		if (key == GLFW_KEY_ENTER && action == GLFW_PRESS && !callback_instance.isMoving())
+		{
+			if (callback_instance.getIndex() > 0)
+			{
+				Scene * scene = callback_instance.getScene();
+				Object *newObject = scene->createNewObject(global_ball,callback_instance.getPosition());
+				component_manager.addObject(newObject, callback_instance.getIndex());
+				std::cout << "New object at : " << glm::to_string(callback_instance.getPosition()) << "\n";
+			}
+		}
 
 		for (Component *component : ComponentManager::getInstance().getObjects())
 		{

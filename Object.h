@@ -41,10 +41,10 @@ class Object : public Component
 		void operation() override;
 		inline std::size_t getCount() override { return 0; } //Object it self has getCount() = 0, only meshes have getCount()>0
 		inline bool isComposite()override { return true; }
+		inline GLint getID()override { return -1; }
+		void setSelected(bool selected) override;
 
 		//getters,setters
 		inline glm::mat4 getModelMatrix() { return this->m_modelMatrix; }
 		void setPosition(glm::vec3);
-		inline bool isSelected() { return is_selected; }
-		inline void changeSelected() { is_selected = !is_selected; }
 };

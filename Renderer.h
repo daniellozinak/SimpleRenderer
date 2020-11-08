@@ -10,6 +10,7 @@ class Renderer
 		void clearBuffer();
 	public:	
 		void enableDepth();
+		void enableStencil();
 		void render();
 		Renderer();
 };

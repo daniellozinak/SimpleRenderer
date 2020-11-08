@@ -26,6 +26,9 @@ class Mesh : public Component
 		GLuint m_VAO;
 		Shader *m_shader;
 
+		static GLint idGenerator;
+		GLint m_ID;
+
 	public:
 		//constructors,desctructors
 		Mesh(std::vector<util::Vertex>, std::size_t,Shader *shader);
@@ -40,6 +43,7 @@ class Mesh : public Component
 		inline std::size_t getCount() override { return m_numberOfVert; }
 		inline bool isComposite() override { return false; }
 		inline void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0))override {}
+		inline GLint getID()override { return m_ID; }
 
 		//getters, setters
 		inline std::size_t getNumberOfVert() { return this->m_numberOfVert; }

@@ -16,9 +16,14 @@ Object::Object(glm::mat4 modelMatrix)
 	this->setPosition(glm::vec3(0, 0, 0));
 }
 
-void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection)
+
+void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection) 
 {
-	if (!this->is_selected) { return; }
+	for (Component * component : m_children)
+	{
+		component->move(delta, moveDirection, lookDirection);
+	}
+	if (!isSelected()) {return; }
 	glm::vec3 newPosition = this->m_position;
 	switch (moveDirection)
 	{
@@ -44,11 +49,6 @@ void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirecti
 
 	this->setPosition(this->m_position - newPosition);
 
-	for (Component * component : m_children)
-	{
-		component->move(delta, moveDirection, lookDirection);
-	}
-
 }
 
 
@@ -59,18 +59,38 @@ void Object::setPosition(glm::vec3 moveVector)
 	this->operation();
 }
 
+void Object::setSelected(bool selected)
+{
+	is_selected = selected;
+
+	for (Component *component : m_children)
+	{
+		if (selected && component->isSelected())
+		{
+			component->setSelected(selected);
+			std::cout << "Selected [" << component->getID() << "]\n";
+		}
+	}
+	
+}
+
 void Object::add(Component *component)
 {
 	this->m_children.emplace_back(component);
-	componentManager.addObject(this);
-	componentManager.addObject(component);
 	component->setParent(this);
 
+	if (!component->isComposite()) //check if component is not composite, otherwise we would add Component 2x into ComponentManager 
+	{
+		componentManager.addObject(this);
+		componentManager.addObject(component);
+	}
 	/* 
 		"this" needs to be added first, otherwise n-th mesh will be drawn on (n-1)th position
 		because of the way Render class loops trough Components
 	*/
 }
+
+
 
 
 void Object::remove(Component *component)
