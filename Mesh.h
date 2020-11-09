@@ -9,6 +9,7 @@
 
 #define GL_POSITION_LAYOUT 0
 #define GL_COLOR_LAYOUT 1
+#define SHADER_SELECT_LOCATION "is_selected"
 
 //Component:Leaf
 
@@ -44,6 +45,7 @@ class Mesh : public Component
 		inline bool isComposite() override { return false; }
 		inline void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0))override {}
 		inline GLint getID()override { return m_ID; }
+		inline void newScale() override { return; }
 
 		//getters, setters
 		inline std::size_t getNumberOfVert() { return this->m_numberOfVert; }

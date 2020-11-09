@@ -36,14 +36,21 @@ void ComponentManager::addObject(Component *inComponent, GLint index)
 
 void ComponentManager::selectObject(GLint id)
 {
+
+	for (Component * component : m_objects)
+	{
+		component->setSelected(false);
+	}
+
 	for (Component * component : m_objects)
 	{
 		if (component->getID() == id)
 		{
-			if (component->getParent() != nullptr) { component->getParent()->setSelected(true); }
-		}
-		else {
-			if (component->getParent() != nullptr) { component->getParent()->setSelected(false); }
+			if (component->getParent() != nullptr)
+			{ 
+				component->setSelected(true);
+				component->getParent()->setSelected(true); 
+			}
 		}
 	}
 }

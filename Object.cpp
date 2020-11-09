@@ -8,6 +8,7 @@ Object::Object()
 {
 	this->m_modelMatrix = glm::mat4(1.0f);
 	this->setPosition(glm::vec3(0, 0, 0));
+
 }
 
 Object::Object(glm::mat4 modelMatrix)
@@ -16,13 +17,9 @@ Object::Object(glm::mat4 modelMatrix)
 	this->setPosition(glm::vec3(0, 0, 0));
 }
 
-
+//TODO : implement
 void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection) 
 {
-	for (Component * component : m_children)
-	{
-		component->move(delta, moveDirection, lookDirection);
-	}
 	if (!isSelected()) {return; }
 	glm::vec3 newPosition = this->m_position;
 	switch (moveDirection)
@@ -48,7 +45,10 @@ void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirecti
 	}
 
 	this->setPosition(this->m_position - newPosition);
-
+	for (Component * component : m_children)
+	{
+		component->move(delta, moveDirection, lookDirection);
+	}
 }
 
 
@@ -65,19 +65,33 @@ void Object::setSelected(bool selected)
 
 	for (Component *component : m_children)
 	{
-		if (selected && component->isSelected())
-		{
+		if(selected)
 			component->setSelected(selected);
-			std::cout << "Selected [" << component->getID() << "]\n";
-		}
 	}
 	
+}
+
+void Object::newScale()
+{
+	this->m_modelMatrix = glm::scale(this->m_modelMatrix, glm::vec3(scale));
 }
 
 void Object::add(Component *component)
 {
 	this->m_children.emplace_back(component);
 	component->setParent(this);
+
+
+	if (this->parent == nullptr && this->isComposite())
+	{
+		this->scale = 1;
+	}
+
+	else if (this->parent != nullptr && this->isComposite())
+	{
+		component->setScale(this->getScale() / 2);
+		component->newScale();
+	}
 
 	if (!component->isComposite()) //check if component is not composite, otherwise we would add Component 2x into ComponentManager 
 	{

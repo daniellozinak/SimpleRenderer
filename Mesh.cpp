@@ -32,6 +32,15 @@ void Mesh::operation()
 void Mesh::updateModel(glm::mat4& model)
 {
 	this->m_shader->sendUniform("modelMatrix", model);
+
+	//highlight mesh if selected (color multiplied by 3)
+	if (is_selected)
+	{
+		this->m_shader->sendUniform(SHADER_SELECT_LOCATION, 3);
+	}
+	else {
+		this->m_shader->sendUniform(SHADER_SELECT_LOCATION, 1);
+	}	
 }
 
 void Mesh::m_initVert(std::vector<util::Vertex> vert, std::size_t numberOfVert) {

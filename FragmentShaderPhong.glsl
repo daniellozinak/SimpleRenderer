@@ -10,13 +10,17 @@ uniform vec3 viewPosition;
 const float lightIntensity = 0.9;
 const float reflectConstant = 0.6;
 const float sharpness = 25;
-const vec3 color = vec3(0.1,0.2,0.7);
+vec3 color = vec3(0.1,0.2,0.7);
 const vec3 lightColor = vec3(1.0);
 
+uniform float is_selected = 1;
+
 void main () {
+
+	  color = color *is_selected;
 	  vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
 	  vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lightPosition,ex_worldNormal));
-	  vec3 lightDirection = (lightPosition - ex_worldPosition.xyz);
+	  vec3 lightDirection = normalize(lightPosition - ex_worldPosition.xyz);
 
 	  float diffuseStrength = max(dot(lightDirection,ex_worldNormal),0.0);	
 

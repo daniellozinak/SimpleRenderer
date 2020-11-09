@@ -8,6 +8,7 @@ class Component : public IMovable {
 protected:
 	Component *parent;
 	bool is_selected = false;
+	float scale;
 public:
 	virtual ~Component() {};
 	void setParent(Component *component)
@@ -16,6 +17,9 @@ public:
 	}
 
 	Component *getParent()const { return parent; }
+
+	inline float getScale() { return scale; }
+	inline void setScale(float scale) { this->scale = scale; }
 
 	virtual void add(Component *component) {}
 	virtual void remove(Component*component) {}
@@ -31,4 +35,5 @@ public:
 	virtual void operation()	   = 0;
 	virtual std::size_t getCount() = 0;
 	virtual GLint getID()		   = 0;
+	virtual void newScale()		   = 0;
 };

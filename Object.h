@@ -11,11 +11,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 
-#define GL_POSITION_LAYOUT 0
-#define GL_COLOR_LAYOUT 1
-
-
 //Component:Composite
+
 
 class Object : public Component
 {
@@ -24,8 +21,10 @@ class Object : public Component
 		glm::vec3 m_position;
 		std::size_t m_count = 0;
 
-		//object moze mat viac Meshes (kompozit)
 		std::list<Component*> m_children;
+
+
+		void newScale() override;
 	public:
 		//constructors,destructors
 		Object();
