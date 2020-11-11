@@ -7,8 +7,7 @@ Renderer::Renderer()
 
 void Renderer::render()
 {
-	this->clearBuffer();
-	this->enableStencil();
+	this->clearBuffer();	this->enableStencil();
 	for (Component *component : ComponentManager::getInstance().getObjects())
 	{
 		//bind shader

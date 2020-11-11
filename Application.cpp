@@ -269,6 +269,13 @@ void Application::initCallbacks()
 			}
 		}
 
+		if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS && !callback_instance.isMoving())
+		{
+			std::cout << "DELETE\n";
+			component_manager.removeObject(callback_instance.getIndex());
+			callback_instance.setIndex(0);
+		}
+
 		for (Component *component : ComponentManager::getInstance().getObjects())
 		{
 			if (key == GLFW_KEY_UP) { component->move(callback_instance.getDelta(), MoveDirection::FORWARDS, callback_instance.getCamera()->getLookDirection()); }

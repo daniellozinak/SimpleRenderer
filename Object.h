@@ -22,8 +22,6 @@ class Object : public Component
 		std::size_t m_count = 0;
 
 		std::list<Component*> m_children;
-
-
 		void newScale() override;
 	public:
 		//constructors,destructors
@@ -46,4 +44,5 @@ class Object : public Component
 		//getters,setters
 		inline glm::mat4 getModelMatrix() { return this->m_modelMatrix; }
 		void setPosition(glm::vec3);
+		inline std::list<Component*> getChildren() { return m_children; }
 };

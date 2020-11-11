@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <list>
 #include <functional>
 
 #include "Component.h"
@@ -16,9 +16,10 @@ public:
 	void addObject(Component *);
 	void addObject(Component *, GLint index);
 	void removeObject(Component *);
+	void removeObject(GLint index);
 	std::size_t getSize();
 
-	inline std::vector<Component*> getObjects() { return this->m_objects; }
+	inline std::list<Component*> getObjects() { return this->m_objects; }
 
 	void selectObject(GLint id);
 
@@ -27,6 +28,6 @@ private:
 	ComponentManager();
 	~ComponentManager();
 
-	std::vector<Component*> m_objects;
+	std::list<Component*> m_objects;
 
 };

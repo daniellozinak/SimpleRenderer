@@ -55,9 +55,32 @@ void ComponentManager::selectObject(GLint id)
 	}
 }
 
-void ComponentManager::removeObject(Component *o)
+void ComponentManager::removeObject(Component *component)
 {
-	return;
+	m_objects.remove(component);
+}
+
+void ComponentManager::removeObject(GLint index)
+{
+	Component *toDelete = nullptr;
+	for (Component * component : m_objects)
+	{
+		if (component->getID() == index)
+		{
+			std::cout << "Object found\n";
+			toDelete = component;
+			break;
+		}
+	}
+
+	if (toDelete != nullptr)
+	{
+		std::cout << "toDelete: " <<toDelete->getID()<< "\n";
+		toDelete->getParent()->remove(toDelete);
+		
+		return;
+	}
+	std::cout << "Object not found\n";
 }
 
 std::size_t ComponentManager::getSize()

@@ -3,8 +3,11 @@
 #include "IMovable.h"
 #include <GLFW/glfw3.h> 
 
-class Component : public IMovable {
 
+
+//TODO: implement Composite and Leaf class 
+class Component : public IMovable {
+	
 protected:
 	Component *parent;
 	bool is_selected = false;
@@ -17,9 +20,7 @@ public:
 	}
 
 	Component *getParent()const { return parent; }
-
 	inline float getScale() { return scale; }
-	inline void setScale(float scale) { this->scale = scale; }
 
 	virtual void add(Component *component) {}
 	virtual void remove(Component*component) {}
@@ -31,7 +32,9 @@ public:
 
 	bool isSelected() { return is_selected; }
 	virtual void setSelected(bool selected) { is_selected = selected; }
+	inline void setScale(float scale) { this->scale = scale; }
 
+	
 	virtual void operation()	   = 0;
 	virtual std::size_t getCount() = 0;
 	virtual GLint getID()		   = 0;

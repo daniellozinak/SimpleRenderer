@@ -81,12 +81,13 @@ void Object::add(Component *component)
 	this->m_children.emplace_back(component);
 	component->setParent(this);
 
-
+	//set root scale
 	if (this->parent == nullptr && this->isComposite())
 	{
 		this->scale = 1;
 	}
 
+	//set the scale to parent scale /2
 	else if (this->parent != nullptr && this->isComposite())
 	{
 		component->setScale(this->getScale() / 2);
@@ -104,16 +105,27 @@ void Object::add(Component *component)
 	*/
 }
 
-
-
-
 void Object::remove(Component *component)
 {
+	for (Component * tmp_component : this->m_children)
+	{
+		if (tmp_component->isComposite()) // if object is made of another objects
+		{
+			Object *obj = reinterpret_cast<Object*>(tmp_component);
+			for (Component *cmp : obj->getChildren()) // iterate over all meshes and delete them
+			{
+				obj->remove(cmp);
+			}
+			componentManager.removeObject(obj); 
+			componentManager.removeObject(this);
+		}
+	}
+
 	this->m_children.remove(component);
-	componentManager.removeObject(component);
-	componentManager.removeObject(this);
 	component->setParent(nullptr);
+	componentManager.removeObject(component);
 }
+
 
 void Object::operation()
 {
