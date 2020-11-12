@@ -74,6 +74,20 @@ void Shader::sendUniform(const char*name, float data)
 	}
 }
 
+void Shader::sendUnifrom(const char*name, int data)
+{
+	GLuint m_matID = glGetUniformLocation(this->m_id, name);
+
+	if (m_matID >= 0)
+	{
+		glUniform1i(m_matID, data);
+	}
+	else {
+		printf("Uniform name not found\n");
+		system("pause");
+	}
+}
+
 
 void Shader::bind() {
 	glUseProgram(this->m_id);
@@ -89,6 +103,11 @@ void Shader::update(const char*uniformName, glm::mat4 data)
 }
 
 void Shader::update(const char*uniformName, glm::vec3 data)
+{
+	this->sendUniform(uniformName, data);
+}
+
+void Shader::update(const char*uniformName, int data)
 {
 	this->sendUniform(uniformName, data);
 }

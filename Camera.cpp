@@ -14,7 +14,7 @@ void Camera::lookAround(float delta, float xDiff, float yDiff)
 		cos(m_horizontalAngle) ,
 		sin(m_verticalAngle),
 		sin(m_horizontalAngle));
-	this->update();
+	this->notify();
 }
 
 
@@ -43,16 +43,15 @@ void Camera::setUp(glm::vec3 up) { this->m_up = up; }
 void Camera::setProjection(glm::mat4 projection) { this->m_projection = projection; }
 
 
-void Camera::update()
-{
-	this->m_center.x = cos(m_horizontalAngle);
-	this->m_center.z = sin(m_horizontalAngle);
-	this->m_center.y = sin(m_verticalAngle);
-	this->notify();
-}
+
 
 //observer
 void Camera::notify() {
+
+	this->m_center.x = cos(m_horizontalAngle);
+	this->m_center.z = sin(m_horizontalAngle);
+	this->m_center.y = sin(m_verticalAngle);
+
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
 	{
@@ -88,5 +87,5 @@ void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPositi
 			break;
 
 	}
-	this->update();
+	this->notify();
 }

@@ -36,9 +36,6 @@ class Camera : public ISubject,IMovable
 		void setProjection(glm::mat4);
 
 		void lookAround(float delta,float xDiff, float yDiff);
-
-		void update();
-
 	private:
 
 		glm::vec3 m_center;

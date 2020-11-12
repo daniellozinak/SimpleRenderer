@@ -9,7 +9,6 @@ uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 vec3 diffuse = vec3(1.0,1.0,1.0);
 
-
 void main () {
 	  mat4 mvp =  projectionMatrix * viewMatrix * modelMatrix;
       gl_Position = mvp * vec4(vertexPosition, 1.0);

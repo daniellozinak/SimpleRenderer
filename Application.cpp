@@ -168,15 +168,14 @@ void Application::initScene()
 	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 
 	scene->setCamera(m_camera);
-	scene->setLight(glm::vec3(15.0f, 4.5f, 0.0f));
 	scene->addShader(mShaderPhong);
 	scene->addShader(mShaderLambert);
 	scene->addShader(mShaderStatic);
 	scene->addShader(mShaderBlinn);
 	
-	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderBlinn);
-	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderBlinn);
-	Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderBlinn);
+	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
+	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
+	Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderPhong);
 	Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderPhong);
 
 	scene->addMesh(sphere);
@@ -187,9 +186,7 @@ void Application::initScene()
 
 	Object * ball3 = new Object();
 	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
-	ball3->add(box);
-
-
+	ball3->add(sphere);
 
 	this->initCallbacks();
 }
@@ -246,8 +243,6 @@ void Application::initCallbacks()
 			glm::vec4 viewPort = glm::vec4(0, 0, WIDTH, HEIGHT);
 			glm::vec3 position = glm::unProject(screenX, view, projection, viewPort);
 
-
-			//std::cout << "Position : " << glm::to_string(position) << "\n";
 			callback_instance.setPosition(position);
 		}
 	});
@@ -271,7 +266,6 @@ void Application::initCallbacks()
 
 		if (key == GLFW_KEY_BACKSPACE && action == GLFW_PRESS && !callback_instance.isMoving())
 		{
-			std::cout << "DELETE\n";
 			component_manager.removeObject(callback_instance.getIndex());
 			callback_instance.setIndex(0);
 		}

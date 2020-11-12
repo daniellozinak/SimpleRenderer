@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Composite">
       <UniqueIdentifier>{c9131847-807e-4344-a38b-790f0708a21a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Light">
+      <UniqueIdentifier>{c8e3506b-b048-47ea-99fa-7bef31362f23}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -72,6 +75,9 @@
     <ClCompile Include="CallbackData.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Source Files\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -104,9 +110,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMovable.h">
-      <Filter>Source Files\Movable</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -121,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="CallbackData.h">
       <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="IMovable.h">
+      <Filter>Source Files\Movable</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Source Files\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
