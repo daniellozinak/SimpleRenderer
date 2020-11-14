@@ -2,6 +2,10 @@
 #include "data.h"
 #include "CallbackData.h"
 #include "ComponentManager.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "DirectionalLight.h"
+
 //init instance
 Application Application::instance;
 
@@ -161,17 +165,25 @@ void Application::initScene()
 	Scene *scene = new Scene();
 	callback_instance.setScene(scene);
 
-	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
+	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
 	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
 	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
 	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
+
 	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
+	PointLight *pointLight = new PointLight(glm::vec3(0), "lights[0]", .002f, .01f, 1.0f);
+	DirectionalLight *directionLight = new DirectionalLight(glm::vec3(15), "lights[0]");
+	SpotLight *spotLight = new SpotLight(glm::vec3(0), glm::vec3(1.0, 1.0, 1.0), "lights[1]", 0.55f);
+	
 
 	scene->setCamera(m_camera);
 	scene->addShader(mShaderPhong);
-	scene->addShader(mShaderLambert);
-	scene->addShader(mShaderStatic);
-	scene->addShader(mShaderBlinn);
+
+	scene->addLight(spotLight, LightType::Spot);
+	//scene->addLight(pointLight, LightType::Point);
+	scene->addLight(directionLight, LightType::Directional);
+
+	mShaderPhong->sendUniform(LIGHT_COUNT_UNIFROM, 2);
 	
 	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
 	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
@@ -183,9 +195,17 @@ void Application::initScene()
 	scene->addMesh(suzi);
 	scene->addMesh(box);
 	
+	Object * ball = new Object();
+	ball->setPosition(glm::vec3(10.0f, 4.5f, -4.0f));
+	ball->add(box);
+
+
+	Object * ball1 = new Object();
+	ball1->setPosition(glm::vec3(10.0f, 4.5f, -8.0f));
+	ball1->add(box);
 
 	Object * ball3 = new Object();
-	ball3->setPosition(glm::vec3(10.0f, 4.5f, 4.0f));
+	ball3->setPosition(glm::vec3(17.0f, 4.5f, 4.0f));
 	ball3->add(sphere);
 
 	this->initCallbacks();

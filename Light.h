@@ -8,19 +8,29 @@ enum LightType {
 	Spot
 };
 
+#define DIRECTIONAL 0
+#define POINT 1
+#define SPOT 2
+
+#define LIGHT_TYPE_UNIFROM ".lightType"
+#define LIGHT_COUNT_UNIFROM "lightCount"
+
 
 class Light : public ISubject
 {
 	private:
 		std::string m_id;
-		glm::vec3 m_position;
+
+		glm::vec3 ambient;
+		glm::vec3 diffuse;
+		glm::vec3 specular;
 	public:
-		Light(glm::vec3 position,std::string id);
+		Light(std::string id);
 		~Light();
 
 		void notify() override;
 
-		inline glm::vec3 getPosition() { return m_position; }
+		inline std::string getID() { return m_id; }
 
 };
 

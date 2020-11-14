@@ -16,7 +16,7 @@ const vec3 lightColor = vec3(1.0);
 
 uniform float is_selected = 1;
 
-uniform int lightCount = 2;
+uniform int lightCount = 1;
 
 struct Light{
 	vec3 position;

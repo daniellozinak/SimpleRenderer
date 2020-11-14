@@ -26,13 +26,17 @@ class Scene
 		std::vector<Shader*> m_shaders;
 		std::vector<Mesh*> m_meshes;
 
+		Light *tempLight;
+
 	public:
 		Scene();
 		~Scene();
 
-		void addShader(Shader *);
-		void setCamera(Camera *);
-		void addMesh(Mesh *);
+		void addShader(Shader*);
+		void addShader(const char*, const char*);
+		void setCamera(Camera*);
+		void addMesh(Mesh*);
+		void addLight(Light *light, LightType type);
 
 		Object *createNewObject(std::vector<util::Vertex> vertex,glm::vec3 position);
 		

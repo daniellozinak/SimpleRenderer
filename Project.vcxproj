@@ -129,16 +129,19 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="CallbackData.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="ISubject.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -146,6 +149,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="data.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="IMovable.h" />
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ISubject.h" />
@@ -153,16 +157,19 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShaderBlinn.glsl" />
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
+    <None Include="FragmentShaderPhongPoint.glsl" />
     <None Include="FragmentShaderStatic.glsl" />
     <None Include="VertexShader.glsl" />
   </ItemGroup>
