@@ -10,6 +10,7 @@ SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, std::string id, fl
 
 void SpotLight::notify()
 {
+	Light::notify();
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
 	{

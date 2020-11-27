@@ -14,6 +14,7 @@ PointLight::PointLight(glm::vec3 position, std::string id, float quadratic, floa
 
 void PointLight::notify()
 {
+	Light::notify();
 	std::list<IObserver*>::iterator it = m_observers.begin();
 
 	glm::vec3 quadVector = glm::vec3(m_quadratic, m_linear, m_constant);

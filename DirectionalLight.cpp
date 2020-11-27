@@ -8,6 +8,7 @@ DirectionalLight::DirectionalLight(glm::vec3 direction, std::string id) : Light(
 
 void DirectionalLight::notify()
 {
+	Light::notify();
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
 	{

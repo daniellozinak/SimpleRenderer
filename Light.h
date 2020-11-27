@@ -21,9 +21,9 @@ class Light : public ISubject
 	private:
 		std::string m_id;
 
-		glm::vec3 ambient;
-		glm::vec3 diffuse;
-		glm::vec3 specular;
+		glm::vec3 m_ambient;
+		glm::vec3 m_diffuse;
+		glm::vec3 m_specular;
 	public:
 		Light(std::string id);
 		~Light();
@@ -31,6 +31,11 @@ class Light : public ISubject
 		void notify() override;
 
 		inline std::string getID() { return m_id; }
+
+
+		inline void setAmbient(glm::vec3 ambient) { m_ambient = ambient; }
+		inline void setDiffuse(glm::vec3 diffuse) { m_diffuse = diffuse; }
+		inline void setSpecular(glm::vec3 specular) { m_specular = specular; }
 
 };
 

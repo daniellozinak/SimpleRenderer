@@ -166,24 +166,25 @@ void Application::initScene()
 	callback_instance.setScene(scene);
 
 	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
-	Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
+	/*Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
 	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
-	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
+	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");*/
 
 	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
-	PointLight *pointLight = new PointLight(glm::vec3(0), "lights[0]", .002f, .01f, 1.0f);
-	DirectionalLight *directionLight = new DirectionalLight(glm::vec3(15), "lights[0]");
-	SpotLight *spotLight = new SpotLight(glm::vec3(0), glm::vec3(1.0, 1.0, 1.0), "lights[1]", 0.55f);
+	PointLight *pointLight = new PointLight(glm::vec3(15), "lights[1]", 0.002f, .03f, 0.0f);
+	DirectionalLight *directionLight = new DirectionalLight(glm::vec3(0), "lights[2]");
+	SpotLight *spotLight = new SpotLight(glm::vec3(5.0f), glm::vec3(1.0, 1.0, 1.0), "lights[0]", 0.55f);
 	
 
 	scene->setCamera(m_camera);
 	scene->addShader(mShaderPhong);
 
-	scene->addLight(spotLight, LightType::Spot);
-	//scene->addLight(pointLight, LightType::Point);
 	scene->addLight(directionLight, LightType::Directional);
+	//scene->addLight(spotLight, LightType::Spot);
+	scene->addLight(pointLight, LightType::Point);
+	scene->addLight(spotLight, LightType::Spot);
 
-	mShaderPhong->sendUniform(LIGHT_COUNT_UNIFROM, 2);
+	mShaderPhong->sendUniform(LIGHT_COUNT_UNIFROM, 3);
 	
 	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
 	Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
@@ -197,16 +198,16 @@ void Application::initScene()
 	
 	Object * ball = new Object();
 	ball->setPosition(glm::vec3(10.0f, 4.5f, -4.0f));
-	ball->add(box);
+	ball->add(new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong));
 
 
 	Object * ball1 = new Object();
 	ball1->setPosition(glm::vec3(10.0f, 4.5f, -8.0f));
-	ball1->add(box);
+	ball1->add(new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong));
 
 	Object * ball3 = new Object();
-	ball3->setPosition(glm::vec3(17.0f, 4.5f, 4.0f));
-	ball3->add(sphere);
+	ball3->setPosition(glm::vec3(15.0f, 4.5f, 4.0f));
+	ball3->add(new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong));
 
 	this->initCallbacks();
 }

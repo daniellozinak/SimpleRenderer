@@ -5,6 +5,7 @@ class PointLight : public Light
 {
 private:
 	glm::vec3 m_position;
+	glm::vec3 m_direction;
 
 	float m_quadratic;
 	float m_linear;
