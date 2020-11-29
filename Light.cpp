@@ -6,9 +6,9 @@
 Light::Light(std::string id)
 {
 	this->m_id = id;
-	this->m_ambient  = glm::vec3(0.5f, 0.5f, 0.6f);
+	this->m_ambient  = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->m_diffuse  = glm::vec3(0.5f, 0.5f, 0.5f);
-	this->m_specular = glm::vec3(0.5f, 0.5f, 0.9f);
+	this->m_specular = glm::vec3(0.5f, 0.5f, 0.5f);
 }
 
 void Light::notify() 

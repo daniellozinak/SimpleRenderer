@@ -11,9 +11,9 @@ void Camera::lookAround(float delta, float xDiff, float yDiff)
 
 
 	this->m_center = glm::vec3(
-		cos(m_horizontalAngle) ,
+		cos(m_verticalAngle)* sin(m_horizontalAngle) ,
 		sin(m_verticalAngle),
-		sin(m_horizontalAngle));
+		cos(m_verticalAngle) * cos(m_horizontalAngle));
 	this->notify();
 }
 

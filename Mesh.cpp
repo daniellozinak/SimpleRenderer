@@ -1,15 +1,16 @@
 #include "Mesh.h"
+#include "SOIL.h"
 
 GLint Mesh::idGenerator = 1;
 
 Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert,Shader *shader)
 {
 	this->m_initVert(vert, numberOfVert);
-	this->m_init();
 	this->m_shader = shader;
 
 	this->m_ID = idGenerator;
 	idGenerator++;
+	this->m_init();
 }
 
 void Mesh::bind()
@@ -46,7 +47,8 @@ void Mesh::updateModel(glm::mat4& model)
 void Mesh::m_initVert(std::vector<util::Vertex> vert, std::size_t numberOfVert) {
 	for (std::size_t i = 0; i < numberOfVert; i++) {
 		this->m_pos.push_back(vert[i].position);
-		this->m_col.push_back(vert[i].color);
+		this->m_nor.push_back(vert[i].color);
+		this->m_tex.push_back(vert[i].texture);
 	}
 
 	this->m_numberOfVert = numberOfVert;
@@ -74,20 +76,54 @@ void Mesh::m_init() {
 		(void*)0
 	);
 
-	//VBO color
-	glGenBuffers(1, &this->m_VBOCol);
-	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBOCol);
-	glBufferData(GL_ARRAY_BUFFER, this->m_col.size() * sizeof(glm::vec3), this->m_col.data(), GL_STATIC_DRAW);
+	//VBO normal
+	glGenBuffers(1, &this->m_VBONor);
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBONor);
+	glBufferData(GL_ARRAY_BUFFER, this->m_nor.size() * sizeof(glm::vec3), this->m_nor.data(), GL_STATIC_DRAW);
 
-	//enable vertex attribute for color on layout=1
-	glEnableVertexAttribArray(GL_COLOR_LAYOUT);
-	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBOCol);
+	//enable vertex attribute for normal on layout=1
+	glEnableVertexAttribArray(GL_NORMAL_LAYOUT);
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBONor);
 	glVertexAttribPointer(
-		GL_COLOR_LAYOUT,
+		GL_NORMAL_LAYOUT,
 		3,
 		GL_FLOAT,
 		GL_FALSE,
 		0,
 		(void*)0
 	);
+
+
+	//VBO texture
+	glGenBuffers(1, &this->m_VBOTex);
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBOTex);
+	glBufferData(GL_ARRAY_BUFFER, this->m_tex.size() * sizeof(glm::vec2), this->m_tex.data(), GL_STATIC_DRAW);
+
+	//enable vertex attribute for texture on layout=2
+	glEnableVertexAttribArray(GL_TEXTURE_LAYOUT);
+	glBindBuffer(GL_ARRAY_BUFFER, this->m_VBOTex);
+	glVertexAttribPointer(
+		GL_TEXTURE_LAYOUT,
+		2,
+		GL_FLOAT,
+		GL_FALSE,
+		0,
+		(void*)0
+	);
+
+	glActiveTexture(GL_TEXTURE0);
+
+	this->m_TextureID = SOIL_load_OGL_texture("./Textures/mino.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+	if (m_TextureID == 0)
+	{
+		std::cout << "[SOIL Error] Texture loading failed Message: [" << SOIL_last_result() << "]\n";
+		exit(1);
+	}
+	std::cout << "Texture successfully loaded: " << this->m_TextureID << "\n";
+
+	glBindTexture(GL_TEXTURE_2D, this->m_TextureID);
+
+	this->m_shader->sendUniform("textureUnitID", (float)this->m_TextureID);
 }
+
+

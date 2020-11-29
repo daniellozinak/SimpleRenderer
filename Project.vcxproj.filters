@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Light">
       <UniqueIdentifier>{c8e3506b-b048-47ea-99fa-7bef31362f23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Textures">
+      <UniqueIdentifier>{39426e56-c1ae-4101-8da2-f715dc64b72b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -166,8 +169,19 @@
     <None Include="FragmentShaderBlinn.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
+    <None Include="FragmentUV.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderPhongPointTexture.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
     <None Include="FragmentShaderPhongPoint.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="C:\Users\danol\Downloads\mino.png">
+      <Filter>Source Files\Textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -8,7 +8,8 @@
 #include "Shader.h"
 
 #define GL_POSITION_LAYOUT 0
-#define GL_COLOR_LAYOUT 1
+#define GL_NORMAL_LAYOUT 1
+#define GL_TEXTURE_LAYOUT 2
 #define SHADER_SELECT_LOCATION "is_selected"
 
 //Component:Leaf
@@ -19,12 +20,15 @@ class Mesh : public Component
 		void m_initVert(std::vector<util::Vertex>, std::size_t);
 		void m_init();
 		std::vector<glm::vec3> m_pos;
-		std::vector<glm::vec3> m_col;
+		std::vector<glm::vec3> m_nor;
+		std::vector<glm::vec2> m_tex;
 		std::size_t m_numberOfVert;
 
 		GLuint m_VBOPos;
-		GLuint m_VBOCol;
+		GLuint m_VBONor;
+		GLuint m_VBOTex;
 		GLuint m_VAO;
+		GLuint m_TextureID;
 		Shader *m_shader;
 
 		static GLint idGenerator;

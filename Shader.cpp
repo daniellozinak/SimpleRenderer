@@ -79,6 +79,7 @@ void Shader::sendUniform(const char*name, int data)
 {
 	GLuint m_matID = glGetUniformLocation(this->m_id, name);
 
+
 	if (m_matID >= 0)
 	{
 		//glUniform1i(m_matID, data);
