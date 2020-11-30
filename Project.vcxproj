@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)extern\SOIL\include;$(SolutionDir)extern\GLEW\include;$(SolutionDir)extern\GLM;$(SolutionDir)extern\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,6 +130,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="CallbackData.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="ISubject.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -136,6 +138,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
+    <ClCompile Include="object_loader.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -148,6 +151,7 @@
     <ClInclude Include="CallbackData.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Cubemap.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="IMovable.h" />
@@ -157,6 +161,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="object_loader.hpp" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Scene.h" />
@@ -171,9 +176,11 @@
     <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderPhongPoint.glsl" />
     <None Include="FragmentShaderPhongPointTexture.glsl" />
+    <None Include="FragmentShaderSkyBox.glsl" />
     <None Include="FragmentShaderStatic.glsl" />
     <None Include="FragmentUV.glsl" />
     <None Include="VertexShader.glsl" />
+    <None Include="VertexShaderSkyBox.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="C:\Users\danol\Downloads\mino.png" />

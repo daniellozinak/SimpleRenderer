@@ -73,4 +73,10 @@ Object *Scene::createNewObject(std::vector<util::Vertex> vertex, glm::vec3 posit
 	return newObject;
 }
 
+void Scene::bindSkyBox()
+{
+	if (m_skybox == nullptr) { return; }
+	m_skybox->bind(m_camera->getView(), m_camera->getProjection());
+}
+
 

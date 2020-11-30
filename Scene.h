@@ -6,6 +6,7 @@
 #include "Object.h"
 #include "Mesh.h"
 #include "Light.h"
+#include "Cubemap.h"
 
 #include <vector>
 
@@ -27,6 +28,7 @@ class Scene
 		std::vector<Mesh*> m_meshes;
 
 		Light *tempLight;
+		Cubemap* m_skybox;
 
 	public:
 		Scene();
@@ -38,9 +40,14 @@ class Scene
 		void addMesh(Mesh*);
 		void addLight(Light *light, LightType type);
 
+		inline void setSkyBox(Cubemap* skybox) { m_skybox = skybox; }
+
+		void bindSkyBox();
+
 		Object *createNewObject(std::vector<util::Vertex> vertex,glm::vec3 position);
 		
 		void removeShader(Shader *);
+		
 
 };
 

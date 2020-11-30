@@ -27,20 +27,24 @@ class Mesh : public Component
 		GLuint m_VBOPos;
 		GLuint m_VBONor;
 		GLuint m_VBOTex;
-		GLuint m_VAO;
-		GLuint m_TextureID;
-		Shader *m_shader;
 
 		static GLint idGenerator;
+		static int offset;
 		GLint m_ID;
+
+	protected:
+		GLuint m_TextureID;
+		Shader* m_shader;
+		GLuint m_VAO;
 
 	public:
 		//constructors,desctructors
 		Mesh(std::vector<util::Vertex>, std::size_t,Shader *shader);
+		Mesh(const char* modelPath, Shader* shader);
 		~Mesh() {}
 
 		//openGL
-		void bind();
+		virtual void bind();
 		void unbind();
 
 		//Component
@@ -57,5 +61,6 @@ class Mesh : public Component
 
 		//other
 		void updateModel(glm::mat4&);
+		virtual bool addTexture(const char* path);
 };
 

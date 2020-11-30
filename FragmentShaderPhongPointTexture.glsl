@@ -12,6 +12,9 @@ in vec2 ex_texture;
 
 uniform vec3 viewPosition;
 uniform sampler2D textureUnitID;    
+uniform samplerCube skybox;
+
+uniform int isSkybox;
 
 const float sharpness = 25;
 vec3 color = vec3(1.0,1.0,1.0);
@@ -110,5 +113,8 @@ void main () {
 		}
 		vec3 DAS = (diffuse + ambient) * color + specular*vec3(1.0);
 
+
 		frag_colour = texture(textureUnitID, ex_texture) * vec4(DAS,1.0);
+		
+		
 };

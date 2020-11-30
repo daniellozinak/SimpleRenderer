@@ -1,5 +1,6 @@
 #include "Renderer.h"
-#include "ComponentManager.h"
+#include "ComponentManager.h"#
+#include "Cubemap.h"
 
 Renderer::Renderer()
 {
@@ -18,6 +19,11 @@ void Renderer::render()
 			glStencilFunc(GL_ALWAYS, component->getID(), 0xFF);
 			glDrawArrays(GL_TRIANGLES, 0, component->getCount());
 		}
+	}
+
+	if (m_scene != nullptr)
+	{
+		m_scene->bindSkyBox();
 	}
 }
 

@@ -90,6 +90,12 @@
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Source Files\Light</Filter>
     </ClCompile>
+    <ClCompile Include="object_loader.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -152,6 +158,12 @@
     <ClInclude Include="DirectionalLight.h">
       <Filter>Source Files\Light</Filter>
     </ClInclude>
+    <ClInclude Include="object_loader.hpp">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Cubemap.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader.glsl">
@@ -176,6 +188,12 @@
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="FragmentShaderPhongPoint.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="VertexShaderSkyBox.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderSkyBox.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
   </ItemGroup>

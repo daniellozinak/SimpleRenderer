@@ -5,13 +5,13 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "DirectionalLight.h"
+#include "Cubemap.h"
 
 //init instance
 Application Application::instance;
 
 CallbackData &callback_instance = CallbackData::getInstance();
 ComponentManager &component_manager = ComponentManager::getInstance();
-
 
 
 //temp functions until object loader not impelemted
@@ -45,6 +45,8 @@ std::vector<util::Vertex> loadSphere()
 	}
 	return toReturn;
 }
+
+std::vector<util::Vertex>global_ball = loadSphere();
 
 
 void Application::init() {
@@ -134,16 +136,15 @@ void Application::initScene()
 
 	m_renderer = new Renderer();
 	Scene *scene = new Scene();
+	m_renderer->setScene(scene);
 	callback_instance.setScene(scene);
 
 	Shader *mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
-	/*Shader *mShaderLambert = new Shader("./VertexShader.glsl", "./FragmentShaderLambert.glsl");
-	Shader *mShaderStatic = new Shader("./VertexShader.glsl", "./FragmentShaderStatic.glsl");
-	Shader *mShaderBlinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");*/
 	Shader *mShaderTexture = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPointTexture.glsl");
+	Shader* mShaderSkyBox = new Shader("./VertexShaderSkyBox.glsl", "./FragmentShaderSkyBox.glsl");
 
 	Camera *m_camera = new Camera(glm::vec3(-4, -3, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
-	//PointLight *pointLight = new PointLight(glm::vec3(15), "lights[1]", 0.002f, .03f, 0.0f);
+	PointLight *pointLight = new PointLight(glm::vec3(15), "lights[1]", 0.002f, .03f, 0.0f);
 	DirectionalLight *directionLight = new DirectionalLight(glm::vec3(8.0,3.0,-2.0), "lights[0]");
 	//SpotLight *spotLight = new SpotLight(glm::vec3(5.0f), glm::vec3(1.0, 1.0, 1.0), "lights[0]", 0.55f);
 	
@@ -151,21 +152,32 @@ void Application::initScene()
 	scene->setCamera(m_camera);
 	scene->addShader(mShaderPhong);
 	scene->addShader(mShaderTexture);
+	scene->addShader(mShaderSkyBox);
+
 
 	scene->addLight(directionLight, LightType::Directional);
 	//scene->addLight(spotLight, LightType::Spot);
-	//scene->addLight(pointLight, LightType::Point);
-	//scene->addLight(spotLight, LightType::Spot);
+	scene->addLight(pointLight, LightType::Point);
 
-	mShaderPhong->sendUniform(LIGHT_COUNT_UNIFROM, 1);
-	mShaderTexture->sendUniform(LIGHT_COUNT_UNIFROM, 1);
+	mShaderPhong->sendUniform(LIGHT_COUNT_UNIFROM, 2);
+	mShaderTexture->sendUniform(LIGHT_COUNT_UNIFROM, 2);
 	
 	Mesh *sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
 	//Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
 	//Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderPhong);
 	//Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderPhong);
 	/*Mesh* plain = new Mesh(vert_plain, vert_plain.size(), mShaderPhong);*/
+
 	Mesh* pln = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
+	pln->addTexture("./Textures/mino.png");
+
+	//create skybox
+	Cubemap* skybox = new Cubemap("./Objects/skybox.obj", mShaderSkyBox);
+	skybox->load();
+
+	//add skybox
+	scene->setSkyBox(skybox);
+
 	/*scene->addMesh(sphere);
 	scene->addMesh(worker);
 	scene->addMesh(suzi);
@@ -180,6 +192,7 @@ void Application::initScene()
 	Object* plainObject = new Object();
 	plainObject->setPosition(glm::vec3(8.0, 2.0, 2.0));
 	plainObject->add(pln);
+
 
 	this->initCallbacks();
 }
@@ -250,10 +263,10 @@ void Application::initCallbacks()
 		{
 			if (callback_instance.getIndex() > 0)
 			{
-				/*Scene * scene = callback_instance.getScene();
+				Scene * scene = callback_instance.getScene();
 				Object *newObject = scene->createNewObject(global_ball,callback_instance.getPosition());
 				component_manager.addObject(newObject, callback_instance.getIndex());
-				std::cout << "New object at : " << glm::to_string(callback_instance.getPosition()) << "\n";*/
+				std::cout << "New object at : " << glm::to_string(callback_instance.getPosition()) << "\n";
 			}
 		}
 
