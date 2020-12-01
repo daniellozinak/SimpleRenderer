@@ -28,7 +28,7 @@ class Camera : public ISubject,IMovable
 
 		glm::mat4 getView();
 		glm::mat4 getProjection();
-		inline glm::vec3 getLookDirection() { return this->m_eye - this->m_center; }
+		inline glm::vec3 getLookDirection() { return this->m_eye - this->m_direction; }
 
 		void setEye(glm::vec3);
 		void setCenter(glm::vec3);
@@ -38,7 +38,7 @@ class Camera : public ISubject,IMovable
 		void lookAround(float delta,float xDiff, float yDiff);
 	private:
 
-		glm::vec3 m_center;
+		glm::vec3 m_direction;
 		glm::vec3 m_eye;
 		glm::vec3 m_up;
 
@@ -47,5 +47,5 @@ class Camera : public ISubject,IMovable
 		float m_horizontalAngle = 0.0f;
 		float m_verticalAngle = 0.0f;
 
-		const int m_speedlooking = 1;
+		const float m_speedlooking = 0.2;
 };

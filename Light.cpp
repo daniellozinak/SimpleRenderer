@@ -9,6 +9,25 @@ Light::Light(std::string id)
 	this->m_ambient  = glm::vec3(0.7f, 0.7f, 0.7f);
 	this->m_diffuse  = glm::vec3(0.7f, 0.7f, 0.7f);
 	this->m_specular = glm::vec3(0.7f, 0.7f, 0.7f);
+
+	m_isIdSet = true;
+}
+
+Light::Light()
+{
+	this->m_ambient = glm::vec3(0.7f, 0.7f, 0.7f);
+	this->m_diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
+	this->m_specular = glm::vec3(0.7f, 0.7f, 0.7f);
+}
+
+void Light::setId(int id)
+{
+	std::string str = "lights[";
+	str.append(std::to_string(id));
+	str.append("]");
+
+	this->m_id = str;
+	m_isIdSet = true;
 }
 
 void Light::notify() 

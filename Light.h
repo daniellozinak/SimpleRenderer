@@ -24,14 +24,20 @@ class Light : public ISubject
 		glm::vec3 m_ambient;
 		glm::vec3 m_diffuse;
 		glm::vec3 m_specular;
+
+
+		bool m_isIdSet = false;
 	public:
 		Light(std::string id);
+		Light();
 		~Light();
 
 		void notify() override;
 
 		inline std::string getID() { return m_id; }
+		void setId(int id);
 
+		inline bool isIdSet() { return m_isIdSet; }
 
 		inline void setAmbient(glm::vec3 ambient) { m_ambient = ambient; }
 		inline void setDiffuse(glm::vec3 diffuse) { m_diffuse = diffuse; }

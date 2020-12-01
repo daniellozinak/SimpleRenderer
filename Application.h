@@ -29,7 +29,5 @@ private:
 	
 	Renderer *m_renderer;
 
-
 	void initCallbacks();
-	void initScene();
 };

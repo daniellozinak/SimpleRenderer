@@ -9,6 +9,7 @@ private:
 	glm::vec3 m_position;
 public:
 	SpotLight(glm::vec3 position, glm::vec3 direction, std::string id, float angle);
+	SpotLight(glm::vec3 position, glm::vec3 direction, float angle);
 	~SpotLight();
 
 	void notify() override;

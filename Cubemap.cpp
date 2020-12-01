@@ -39,7 +39,7 @@ bool Cubemap::load()
 	if (m_TextureID == 0)
 	{
 		std::cout << "Cant load cubemap " << std::endl;
-		exit(1);
+		return false;
 	}
 
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

@@ -6,6 +6,12 @@ DirectionalLight::DirectionalLight(glm::vec3 direction, std::string id) : Light(
 	this->m_direction = direction;
 }
 
+DirectionalLight::DirectionalLight(glm::vec3 direction) : Light()
+{
+	this->m_direction = direction;
+}
+
+
 void DirectionalLight::notify()
 {
 	Light::notify();

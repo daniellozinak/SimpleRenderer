@@ -1,9 +1,14 @@
 #include "Renderer.h"
 #include "ComponentManager.h"#
 #include "Cubemap.h"
+#include "CallbackData.h"
 
 Renderer::Renderer()
 {
+	Scene* scene = new Scene();
+	setScene(scene);
+	CallbackData::getInstance().scene = scene;
+	scene->initScene();
 }
 
 void Renderer::render()

@@ -96,6 +96,9 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="data_loader.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="Cubemap.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="data_loader.hpp">
+      <Filter>Source Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

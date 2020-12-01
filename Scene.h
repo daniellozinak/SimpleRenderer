@@ -10,10 +10,6 @@
 
 #include <vector>
 
-#define VERTEX_SHADER "./VertexShader.glsl"
-#define FRAGMENT_SHADER_L "./FragmentShaderLambert.glsl"
-#define FRAGMENT_SHADER_P "./FragmentShaderPhong.glsl"
-#define FRAGMENT_SHADER_S "./FragmentShaderStatic.glsl"
 
 #define LIGHT_POSITION "lightPosition"
 
@@ -23,12 +19,10 @@ class Scene
 		Camera *m_camera;
 
 		std::vector<Light*> m_ligths;
-
 		std::vector<Shader*> m_shaders;
 		std::vector<Mesh*> m_meshes;
-
-		Light *tempLight;
 		Cubemap* m_skybox;
+		int m_lightCount = 0;
 
 	public:
 		Scene();
@@ -48,6 +42,6 @@ class Scene
 		
 		void removeShader(Shader *);
 		
-
+		void initScene();
 };
 

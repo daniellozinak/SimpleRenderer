@@ -12,6 +12,7 @@ private:
 	float m_constant;
 public:
 	PointLight(glm::vec3 position, std::string id,float quadratic,float linear,float constant);
+	PointLight(glm::vec3 position, float quadratic, float linear, float constant);
 
 	void notify() override;
 };

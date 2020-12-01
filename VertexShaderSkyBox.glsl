@@ -9,7 +9,7 @@ uniform mat4 projectionMatrix;
 
 void main()
 {
-	TexCoors = vec3(modelMatrix * vec4(vertexPosition,1.0));
+	TexCoors = vertexPosition;
 	vec4 pos = projectionMatrix * viewMatrix * modelMatrix *  vec4(vertexPosition,1.0);
 	gl_Position = pos.xyww;
 }

@@ -8,6 +8,14 @@ SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, std::string id, fl
 	this->m_position = position;
 }
 
+SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, float angle) : Light()
+{
+	this->m_angle = angle;
+	this->m_direction = direction;
+	this->m_position = position;
+}
+
+
 void SpotLight::notify()
 {
 	Light::notify();

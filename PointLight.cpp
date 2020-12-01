@@ -12,6 +12,14 @@ PointLight::PointLight(glm::vec3 position, std::string id, float quadratic, floa
 	this->m_constant = constant;
 }
 
+PointLight::PointLight(glm::vec3 position, float quadratic, float linear, float constant) : Light()
+{
+	this->m_position = position;
+	this->m_quadratic = quadratic;
+	this->m_linear = linear;
+	this->m_constant = constant;
+}
+
 void PointLight::notify()
 {
 	Light::notify();
