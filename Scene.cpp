@@ -89,7 +89,6 @@ void Scene::bindSkyBox()
 
 void Scene::initScene()
 {
-
 	std::vector<util::Vertex>vert_plain = loadPlain();
 	std::vector<util::Vertex>vert_sphere = loadSphere();
 

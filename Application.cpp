@@ -159,10 +159,13 @@ void Application::initCallbacks()
 	});
 
 	glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+		//Camera control
 		if (key == GLFW_KEY_W){ callback_instance.camera->move(callback_instance.delta,MoveDirection::FORWARDS);}
 		if (key == GLFW_KEY_S){ callback_instance.camera->move(callback_instance.delta,MoveDirection::BACKWARDS);}
 		if (key == GLFW_KEY_A){ callback_instance.camera->move(callback_instance.delta,MoveDirection::LEFT);}
 		if (key == GLFW_KEY_D){ callback_instance.camera->move(callback_instance.delta,MoveDirection::RIGHT);}
+		if (key == GLFW_KEY_Q) { callback_instance.camera->move(callback_instance.delta, MoveDirection::UP); }
+		if (key == GLFW_KEY_E) { callback_instance.camera->move(callback_instance.delta, MoveDirection::DOWN); }
 
 		if (key == GLFW_KEY_ENTER && action == GLFW_PRESS && !callback_instance.is_moving)
 		{
@@ -183,10 +186,25 @@ void Application::initCallbacks()
 
 		for (Component *component : ComponentManager::getInstance().getObjects())
 		{
-			if (key == GLFW_KEY_UP) { component->move(callback_instance.delta, MoveDirection::FORWARDS, callback_instance.camera->getLookDirection()); }
-			if (key == GLFW_KEY_DOWN) { component->move(callback_instance.delta, MoveDirection::BACKWARDS, callback_instance.camera->getLookDirection()); }
-			if (key == GLFW_KEY_RIGHT) {}
-			if (key == GLFW_KEY_LEFT) {}
+			//Component control
+			if (key == GLFW_KEY_UP) { component->move(callback_instance.delta, MoveDirection::FORWARDS,
+				callback_instance.camera->getLookDirection(),callback_instance.camera->getUpVector()); }
+
+			if (key == GLFW_KEY_DOWN) { component->move(callback_instance.delta, MoveDirection::BACKWARDS, 
+				callback_instance.camera->getLookDirection(), callback_instance.camera->getUpVector()); }
+
+			if (key == GLFW_KEY_RIGHT) { component->move(callback_instance.delta, MoveDirection::RIGHT,
+					callback_instance.camera->getLookDirection(), callback_instance.camera->getUpVector());}
+
+			if (key == GLFW_KEY_LEFT) { component->move(callback_instance.delta, MoveDirection::LEFT,
+					callback_instance.camera->getLookDirection(), callback_instance.camera->getUpVector());}
+
+			if (key == GLFW_KEY_O) { component->move(callback_instance.delta, MoveDirection::UP,
+					callback_instance.camera->getLookDirection(), callback_instance.camera->getUpVector());}
+
+			if (key == GLFW_KEY_P) { component->move(callback_instance.delta, MoveDirection::DOWN,
+					callback_instance.camera->getLookDirection(), callback_instance.camera->getUpVector());}
+
 		}
 	});
 }

@@ -18,29 +18,30 @@ Object::Object(glm::mat4 modelMatrix)
 }
 
 //TODO : implement
-void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection) 
+void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection, glm::vec3 upVector)
 {
 	if (!isSelected()) {return; }
 	glm::vec3 newPosition = this->m_position;
+	glm::vec3 moveVector = glm::cross(lookDirection, upVector);
 	switch (moveDirection)
 	{
 	case MoveDirection::FORWARDS:
-		newPosition += lookDirection *((i_speed * delta)/10);
+		newPosition += lookDirection *(i_speed * delta);
 		break;
 	case MoveDirection::BACKWARDS:
-		newPosition -= lookDirection * ((i_speed * delta)/10);
+		newPosition -= lookDirection * (i_speed * delta);
 		break;
 	case MoveDirection::LEFT:
-		
+		newPosition -= moveVector * (i_speed * delta);
 		break;
 	case MoveDirection::RIGHT:
-		
+		newPosition += moveVector * (i_speed * delta);
 		break;
 	case MoveDirection::UP:
-		
+		newPosition += upVector * (i_speed * delta);
 		break;
 	case MoveDirection::DOWN:
-		
+		newPosition -= upVector * (i_speed * delta);
 		break;
 	}
 

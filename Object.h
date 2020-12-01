@@ -30,7 +30,7 @@ class Object : public Component
 		~Object() {}
 
 		//IMovable
-		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon) override;
+		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0),glm::vec3 upVector = glm::vec3(0)) override;
 
 		//Composite
 		void add(Component *component)override;

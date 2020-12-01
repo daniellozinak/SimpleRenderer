@@ -60,7 +60,7 @@ void Camera::notify() {
 	}
 }
 
-void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosition)
+void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosition,glm::vec3 upVector)
 {
 	glm::vec3 moveVector = glm::cross(this->m_direction, this->m_up);
 	switch (moveDirection)
@@ -78,10 +78,10 @@ void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPositi
 			this->m_eye -= moveVector * (i_speed * delta);
 			break;
 		case MoveDirection::UP:
-			//
+			this->m_eye += this->m_up * (i_speed * delta);
 			break;
 		case MoveDirection::DOWN:
-			//	
+			this->m_eye -= this->m_up * (i_speed * delta);
 			break;
 
 	}

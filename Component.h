@@ -28,7 +28,7 @@ public:
 		return false;
 	}
 
-	void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0))override {};
+	void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0), glm::vec3 upVector = glm::vec3(0))override {};
 
 	bool isSelected() { return is_selected; }
 	virtual void setSelected(bool selected) { is_selected = selected; }
