@@ -18,11 +18,6 @@ class Mesh : public Component
 {
 	private:
 		void m_initVert(std::vector<util::Vertex>, std::size_t);
-		void m_init();
-		std::vector<glm::vec3> m_pos;
-		std::vector<glm::vec3> m_nor;
-		std::vector<glm::vec2> m_tex;
-		std::size_t m_numberOfVert;
 
 		GLuint m_VBOPos;
 		GLuint m_VBONor;
@@ -37,10 +32,16 @@ class Mesh : public Component
 		Shader* m_shader;
 		GLuint m_VAO;
 
+		std::vector<glm::vec3> m_pos;
+		std::vector<glm::vec3> m_nor;
+		std::vector<glm::vec2> m_tex;
+		std::size_t m_numberOfVert;
+
 	public:
 		//constructors,desctructors
 		Mesh(std::vector<util::Vertex>, std::size_t,Shader *shader);
 		Mesh(const char* modelPath, Shader* shader);
+		Mesh(Shader *);
 		~Mesh() {}
 
 		//openGL
@@ -62,5 +63,9 @@ class Mesh : public Component
 		//other
 		void updateModel(glm::mat4&);
 		virtual bool addTexture(const char* path);
+		bool loadFromObj(const char* filePath);
+
+		void m_init();
+
 };
 

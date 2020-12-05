@@ -61,13 +61,13 @@ void Application::init() {
 	float ratio = width / (float)height;
 	glViewport(0, 0, width, height);
 
-
 	m_renderer = new Renderer();
 	this->initCallbacks();
 }
 
 void Application::run()
 {
+
 	double startTime = glfwGetTime();
 	double lastTime = startTime;
 

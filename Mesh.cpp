@@ -29,8 +29,20 @@ Mesh::Mesh(const char* modelPath,Shader *shader)
 	idGenerator++;
 	this->m_init();
 
-	std::cout << "size: " << m_numberOfVert << std::endl;
+	std::cout << "vert count: " << m_numberOfVert << std::endl;
 	
+}
+
+Mesh::Mesh(Shader* shader)
+{
+	this->m_shader = shader;
+	this->m_ID = idGenerator;
+	idGenerator++;
+}
+
+bool Mesh::loadFromObj(const char* filePath)
+{
+	return loadOBJ(filePath, m_pos, m_tex, m_nor, m_numberOfVert);
 }
 
 void Mesh::bind()
@@ -151,5 +163,4 @@ bool Mesh::addTexture(const char* path)
 
 	return true;
 }
-
 

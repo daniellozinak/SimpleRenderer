@@ -11,7 +11,7 @@ const float ambientConstant = 0.2;
 const float diffuseConstant = 0.8;
 const float specularConstant = 0.8;
 const float sharpness = 25;
-vec3 color = vec3(0.1,0.2,0.7);
+vec3 color = vec3(0.1,0.2,0.3);
 const vec3 lightColor = vec3(1.0);
 
 uniform float is_selected = 1;

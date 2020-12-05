@@ -76,13 +76,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)extern\SOIL\include;$(SolutionDir)extern\GLEW\include;$(SolutionDir)extern\GLM;$(SolutionDir)extern\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)extern\SOIL\include;$(SolutionDir)extern\GLEW\include;$(SolutionDir)extern\GLM;$(SolutionDir)extern\GLFW\include;$(SolutionDir)extern\ASSIMP\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)extern\SOIL\lib;$(SolutionDir)extern\GLFW\lib-vc2017;$(SolutionDir)extern\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)extern\SOIL\lib;$(SolutionDir)extern\GLFW\lib-vc2017;$(SolutionDir)extern\ASSIMP\lib;$(SolutionDir)extern\GLEW\lib\Release\Win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32.lib;glfw3.lib;SOIL.lib;assimp-vc142-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -146,6 +146,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -170,10 +171,12 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShaderBlinn.glsl" />
+    <None Include="FragmentShaderColorTerrain.glsl" />
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderPhongPoint.glsl" />
@@ -181,6 +184,7 @@
     <None Include="FragmentShaderSkyBox.glsl" />
     <None Include="FragmentShaderStatic.glsl" />
     <None Include="FragmentUV.glsl" />
+    <None Include="packages.config" />
     <None Include="VertexShader.glsl" />
     <None Include="VertexShaderSkyBox.glsl" />
   </ItemGroup>
@@ -189,5 +193,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets" Condition="Exists('..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\assimp_native.redist.4.0.1\build\native\assimp_native.redist.targets'))" />
+  </Target>
 </Project>

@@ -4,6 +4,7 @@
 #include "DirectionalLight.h"
 #include "data_loader.hpp"
 #include "CallbackData.h"
+#include "Terrain.h"
 
 
 Scene::Scene()
@@ -92,7 +93,7 @@ void Scene::initScene()
 	std::vector<util::Vertex>vert_plain = loadPlain();
 	std::vector<util::Vertex>vert_sphere = loadSphere();
 
-	Shader* mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
+	Shader* mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderColorTerrain.glsl");
 	Shader* mShaderTexture = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPointTexture.glsl");
 	Shader* mShaderSkyBox = new Shader("./VertexShaderSkyBox.glsl", "./FragmentShaderSkyBox.glsl");
 
@@ -111,18 +112,24 @@ void Scene::initScene()
 	this->addLight(directionLight, LightType::Directional);
 	this->addLight(pointLight, LightType::Point);
 
-	Mesh* sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
+	//Mesh* sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
 	//Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
 	//Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderPhong);
 	//Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderPhong);
 	/*Mesh* plain = new Mesh(vert_plain, vert_plain.size(), mShaderPhong);*/
 
-	Mesh* pln = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
-	pln->addTexture("./Textures/mino.png");
+	/*Mesh* pln = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
+	pln->addTexture("./Textures/mino.png");*/
 
 	//create skybox
 	Cubemap* skybox = new Cubemap("./Objects/skybox.obj", mShaderSkyBox);
 	skybox->load();
+
+	Terrain* terrain_plane_mesh = new Terrain(mShaderPhong,50,50);
+	//terrain_plane_mesh->loadFromObj("./Objects/terrain_plane.obj");
+	terrain_plane_mesh->generateTerrain();
+	terrain_plane_mesh->m_init();
+	//terrain_plane_mesh->addTexture("./Textures/mino.png");
 
 	//add skybox
 	this->setSkyBox(skybox);
@@ -133,13 +140,17 @@ void Scene::initScene()
 	scene->addMesh(box);*/
 
 
-	Object* ball = new Object();
+	/*Object* ball = new Object();
 	ball->setPosition(glm::vec3(8.0, 1.0, -2.0));
-	ball->add(sphere);
+	ball->add(sphere);*/
 
 
-	Object* plainObject = new Object();
+	/*Object* plainObject = new Object();
 	plainObject->setPosition(glm::vec3(8.0, 2.0, 2.0));
-	plainObject->add(pln);
+	plainObject->add(pln);*/
+
+	Object* terrain = new Object();
+	terrain->setPosition(glm::vec3(2));
+	terrain->add(terrain_plane_mesh);
 }
 
