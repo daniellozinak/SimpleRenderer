@@ -37,6 +37,8 @@ class Mesh : public Component
 		std::vector<glm::vec2> m_tex;
 		std::size_t m_numberOfVert;
 
+		void m_init();
+
 	public:
 		//constructors,desctructors
 		Mesh(std::vector<util::Vertex>, std::size_t,Shader *shader);
@@ -64,8 +66,6 @@ class Mesh : public Component
 		void updateModel(glm::mat4&);
 		virtual bool addTexture(const char* path);
 		bool loadFromObj(const char* filePath);
-
-		void m_init();
 
 };
 

@@ -93,7 +93,6 @@ void Scene::initScene()
 	std::vector<util::Vertex>vert_plain = loadPlain();
 	std::vector<util::Vertex>vert_sphere = loadSphere();
 
-	Shader* mShaderPhong = new Shader("./VertexShader.glsl", "./FragmentShaderColorTerrain.glsl");
 	Shader* mShaderTexture = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPointTexture.glsl");
 	Shader* mShaderSkyBox = new Shader("./VertexShaderSkyBox.glsl", "./FragmentShaderSkyBox.glsl");
 
@@ -104,13 +103,8 @@ void Scene::initScene()
 
 
 	this->setCamera(m_camera);
-	this->addShader(mShaderPhong);
 	this->addShader(mShaderTexture);
 	this->addShader(mShaderSkyBox);
-
-	this->addLight(spotLight, LightType::Spot);
-	this->addLight(directionLight, LightType::Directional);
-	this->addLight(pointLight, LightType::Point);
 
 	//Mesh* sphere = new Mesh(vert_sphere, vert_sphere.size(), mShaderPhong);
 	//Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
@@ -125,10 +119,8 @@ void Scene::initScene()
 	Cubemap* skybox = new Cubemap("./Objects/skybox.obj", mShaderSkyBox);
 	skybox->load();
 
-	Terrain* terrain_plane_mesh = new Terrain(mShaderPhong,50,50);
-	//terrain_plane_mesh->loadFromObj("./Objects/terrain_plane.obj");
-	terrain_plane_mesh->generateTerrain();
-	terrain_plane_mesh->m_init();
+	Terrain* terrain_plane_mesh = new Terrain(250,250,8,8,0.7);
+	this->addShader(terrain_plane_mesh->getShader());
 	//terrain_plane_mesh->addTexture("./Textures/mino.png");
 
 	//add skybox
@@ -148,6 +140,12 @@ void Scene::initScene()
 	/*Object* plainObject = new Object();
 	plainObject->setPosition(glm::vec3(8.0, 2.0, 2.0));
 	plainObject->add(pln);*/
+
+
+	//add lights after all the shaders have been added
+	//this->addLight(spotLight, LightType::Spot);
+	//this->addLight(directionLight, LightType::Directional);
+	this->addLight(pointLight, LightType::Point);
 
 	Object* terrain = new Object();
 	terrain->setPosition(glm::vec3(2));

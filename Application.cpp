@@ -155,6 +155,8 @@ void Application::initCallbacks()
 			glm::vec3 position = glm::unProject(screenX, view, projection, viewPort);
 
 			callback_instance.position = position;
+
+			std::cout << "click position: " << glm::to_string(position) << std::endl;
 		}
 	});
 

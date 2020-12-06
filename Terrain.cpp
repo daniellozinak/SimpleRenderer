@@ -3,12 +3,35 @@
 #include "glm/gtx/string_cast.hpp"
 #include <vector>
 
-Terrain::Terrain(Shader* shader, int xVertCount, int zVertCount) : Mesh(shader)
+Terrain::Terrain(int xVertCount, int zVertCount) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
 {
 	m_width = 5;
 	m_height = 5;
 	m_xVertices = xVertCount;
 	m_zVertices = zVertCount;
+	generateTerrain();
+	m_init();
+}
+
+Terrain::Terrain(int xVertCount, int zVertCount, int width, int height) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
+{
+	m_width = width;
+	m_height = height;
+	m_xVertices = xVertCount;
+	m_zVertices = zVertCount;
+	generateTerrain();
+	m_init();
+}
+
+Terrain::Terrain(int xVertCount, int zVertCount, int width, int height, float amplitude) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
+{
+	m_width = width;
+	m_height = height;
+	m_xVertices = xVertCount;
+	m_zVertices = zVertCount;
+	m_amplitude = amplitude;
+	generateTerrain();
+	m_init();
 }
 
 void Terrain::generatePlain()
@@ -59,16 +82,33 @@ void Terrain::generatePlain()
 void Terrain::generateTerrain()
 {
 	generatePlain();
+	float max = m_pos.at(0).y;
+	float min = m_pos.at(0).y;
 	for (int i = 0; i < m_numberOfVert; i++)
 	{
 		glm::vec2 vertex_xz = glm::vec2(m_pos.at(i).x, m_pos.at(i).z);
-		float new_y = m_altitude * glm::perlin(vertex_xz);
+		float new_y = m_amplitude * glm::perlin(vertex_xz);
 
 		m_pos.at(i) = glm::vec3(m_pos.at(i).x, new_y, m_pos.at(i).z);
+
+		if (m_pos.at(i).y > max)
+		{
+			max = m_pos.at(i).y;
+		}
+
+		if (m_pos.at(i).y < min)
+		{
+			min = m_pos.at(i).y;
+		}
 
 		//std::cout << glm::to_string(m_pos.at(i)) << std::endl;
 
 	}
+
+	std::cout << "MAX HEIGHT: " << m_amplitude * max << std::endl;
+	std::cout << "MIN HEIGHT: " << m_amplitude * min << std::endl;
+
+	this->m_shader->sendUniform("max_height", m_amplitude * max);
 
 
 	for (int i = 0; i < m_numberOfVert; i +=3)
