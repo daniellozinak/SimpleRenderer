@@ -18,7 +18,7 @@ Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
 	this->m_direction = center;
 	this->m_eye = eye;
 	this->m_up = up;
-	this->m_projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
+	this->m_projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 800.0f);
 }
 
 
@@ -62,26 +62,27 @@ void Camera::notify() {
 
 void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosition,glm::vec3 upVector)
 {
+	const int camera_speed = 50;
 	glm::vec3 moveVector = glm::cross(this->m_direction, this->m_up);
 	switch (moveDirection)
 	{
 		case MoveDirection::FORWARDS:
-			this->m_eye -= this->m_direction * (i_speed * delta);
+			this->m_eye -= this->m_direction * (i_speed * camera_speed * delta);
 			break;
 		case MoveDirection::BACKWARDS:
-			this->m_eye += this->m_direction * (i_speed * delta);
+			this->m_eye += this->m_direction * (i_speed * camera_speed * delta);
 			break;
 		case MoveDirection::LEFT:
-			this->m_eye += moveVector * (i_speed * delta);
+			this->m_eye += moveVector * (i_speed * camera_speed * delta);
 			break;
 		case MoveDirection::RIGHT:
-			this->m_eye -= moveVector * (i_speed * delta);
+			this->m_eye -= moveVector * (i_speed * camera_speed * delta);
 			break;
 		case MoveDirection::UP:
-			this->m_eye += this->m_up * (i_speed * delta);
+			this->m_eye += this->m_up * (i_speed * camera_speed * delta);
 			break;
 		case MoveDirection::DOWN:
-			this->m_eye -= this->m_up * (i_speed * delta);
+			this->m_eye -= this->m_up * (i_speed * camera_speed * delta);
 			break;
 
 	}

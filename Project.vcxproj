@@ -139,6 +139,7 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="ComponentManager.cpp" />
+    <ClCompile Include="ObjectGenerator.cpp" />
     <ClCompile Include="object_loader.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ComponentManager.h" />
+    <ClInclude Include="ObjectGenerator.h" />
     <ClInclude Include="object_loader.hpp" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Renderer.h" />

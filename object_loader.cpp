@@ -30,6 +30,7 @@ bool loadOBJ(
 		return false;
 	}
 
+
 	while (1) {
 
 		char lineHeader[128];
@@ -80,6 +81,8 @@ bool loadOBJ(
 			char stupidBuffer[1000];
 			fgets(stupidBuffer, 1000, file);
 		}
+
+		
 
 	}
 

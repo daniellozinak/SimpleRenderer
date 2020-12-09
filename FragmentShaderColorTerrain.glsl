@@ -44,7 +44,7 @@ vec3 calculateColor()
 
 	height += max_height;
 
-	if(height <= max_height*(1/6))
+	if(height <= max_height*(1/4))
 	{
 		worldNormal = vec3(0,1,0);
 		return vec3(50.0/255.0, 115/255.0, 168/255.0);

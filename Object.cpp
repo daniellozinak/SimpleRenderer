@@ -17,7 +17,6 @@ Object::Object(glm::mat4 modelMatrix)
 	this->setPosition(glm::vec3(0, 0, 0));
 }
 
-//TODO : implement
 void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection, glm::vec3 upVector)
 {
 	if (!isSelected()) {return; }
@@ -138,4 +137,14 @@ void Object::operation()
 			mesh->updateModel(this->m_modelMatrix);
 		}
 	}
+}
+
+void Object::setScale(glm::vec3 scale)
+{
+	this->m_modelMatrix = glm::scale(m_modelMatrix, scale);
+}
+
+void Object::setRotate(float degrees,glm::vec3 rotate)
+{
+	m_modelMatrix = glm::rotate(m_modelMatrix, degrees,rotate);
 }

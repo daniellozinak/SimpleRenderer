@@ -5,6 +5,9 @@
 #include "data_loader.hpp"
 #include "CallbackData.h"
 #include "Terrain.h"
+#include "ObjectGenerator.h"
+
+#include <glm/mat4x4.hpp>
 
 
 Scene::Scene()
@@ -27,7 +30,6 @@ void Scene::addShader(const char* vertexPath, const char*fragmentPath)
 	Shader *newShader = new Shader(vertexPath, fragmentPath);
 	m_shaders.emplace_back(newShader);
 	m_camera->attach(newShader);
-
 	m_camera->notify();
 }
 
@@ -74,12 +76,7 @@ Object *Scene::createNewObject(std::vector<util::Vertex> vertex, glm::vec3 posit
 {
 	assert(m_shaders.at(0));
 	Shader* defaultShader = m_shaders.at(0);
-	Object *newObject = new Object();
-	Mesh *mesh = new Mesh(vertex,vertex.size(), defaultShader);
-	newObject->add(mesh);
-	newObject->setPosition(position);
-
-	return newObject;
+	return ObjectGenerator::getInstance().getRandomObject(position,defaultShader);
 }
 
 void Scene::bindSkyBox()
@@ -93,6 +90,7 @@ void Scene::initScene()
 	std::vector<util::Vertex>vert_plain = loadPlain();
 	std::vector<util::Vertex>vert_sphere = loadSphere();
 
+	Shader* shader = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
 	Shader* mShaderTexture = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPointTexture.glsl");
 	Shader* mShaderSkyBox = new Shader("./VertexShaderSkyBox.glsl", "./FragmentShaderSkyBox.glsl");
 
@@ -103,6 +101,7 @@ void Scene::initScene()
 
 
 	this->setCamera(m_camera);
+	this->addShader(shader);
 	this->addShader(mShaderTexture);
 	this->addShader(mShaderSkyBox);
 
@@ -115,11 +114,13 @@ void Scene::initScene()
 	/*Mesh* pln = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
 	pln->addTexture("./Textures/mino.png");*/
 
+
+	Mesh* tree = new Mesh("./Objects/lowpoly_tree.obj", shader);
 	//create skybox
 	Cubemap* skybox = new Cubemap("./Objects/skybox.obj", mShaderSkyBox);
 	skybox->load();
 
-	Terrain* terrain_plane_mesh = new Terrain(250,250,8,8,0.7);
+	Terrain* terrain_plane_mesh = new Terrain(200,200,10,10,0.4);
 	this->addShader(terrain_plane_mesh->getShader());
 	//terrain_plane_mesh->addTexture("./Textures/mino.png");
 
@@ -145,10 +146,15 @@ void Scene::initScene()
 	//add lights after all the shaders have been added
 	//this->addLight(spotLight, LightType::Spot);
 	//this->addLight(directionLight, LightType::Directional);
-	this->addLight(pointLight, LightType::Point);
+	this->addLight(directionLight, LightType::Directional);
 
 	Object* terrain = new Object();
 	terrain->setPosition(glm::vec3(2));
+	terrain->setModelMatatrix(glm::scale(terrain->getModelMatrix(), glm::vec3(100)));
 	terrain->add(terrain_plane_mesh);
+
+	Object* treeObj = new Object();
+	treeObj->add(tree);
+	
 }
 

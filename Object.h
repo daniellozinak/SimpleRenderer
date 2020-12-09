@@ -43,6 +43,9 @@ class Object : public Component
 
 		//getters,setters
 		inline glm::mat4 getModelMatrix() { return this->m_modelMatrix; }
-		void setPosition(glm::vec3);
+		inline void setModelMatatrix(glm::mat4 model) { this->m_modelMatrix = model; }
 		inline std::list<Component*> getChildren() { return m_children; }
+		void setPosition(glm::vec3);
+		void setScale(glm::vec3);
+		void setRotate(float degrees,glm::vec3);
 };

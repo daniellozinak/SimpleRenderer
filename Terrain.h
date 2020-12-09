@@ -18,6 +18,7 @@ private:
 	int m_height;
 
 	void generatePlain();
+	glm::vec3 calculateNormal(glm::vec3 currentNormal, int position);
 public:
 	Terrain(int xVertCount,int zVertCount);
 	Terrain(int xVertCount, int zVertCount,int width,int height);

@@ -36,7 +36,6 @@ Terrain::Terrain(int xVertCount, int zVertCount, int width, int height, float am
 
 void Terrain::generatePlain()
 {
-	//init height
 	const int y = 0;
 
 	std::vector<glm::vec3> plain_points;
@@ -110,14 +109,46 @@ void Terrain::generateTerrain()
 
 	this->m_shader->sendUniform("max_height", m_amplitude * max);
 
-
+	//gen normals
 	for (int i = 0; i < m_numberOfVert; i +=3)
 	{
 		glm::vec3 vector1 = m_pos.at(i + 1) - m_pos.at(i);
 		glm::vec3 vector2 = m_pos.at(i + 2) - m_pos.at(i);
 		glm::vec3 new_normal = glm::cross(vector1, vector2);
+
+
 		m_nor.emplace_back(new_normal);
 		m_nor.emplace_back(new_normal);
 		m_nor.emplace_back(new_normal);
 	}
+
+
+	for (int i = 0; i < m_nor.size(); i++)
+	{
+		m_nor.at(i) = calculateNormal(m_nor.at(i), i);
+
+	}
+}
+
+glm::vec3 Terrain::calculateNormal(glm::vec3 currentNormal, int position)
+{
+	float neighbourWight = 8.0f;
+	int normalCount = m_nor.size();
+	if (position - 1 < 0 || position - m_zVertices < 0 || position + 1 >= normalCount || position + m_zVertices >= normalCount)
+	{
+		return currentNormal;
+	}
+	int pos0 = position - m_zVertices;
+	int pos1 = position + 1;
+	int pos2 = position + m_zVertices;
+	int pos3 = position - 1;
+
+
+	glm::vec3 neighbourNormal0 = m_nor.at(position - m_zVertices) * neighbourWight;
+	glm::vec3 neighbourNormal1 = m_nor.at(position + 1) * neighbourWight;
+	glm::vec3 neighbourNormal2 = m_nor.at(position + m_zVertices) * neighbourWight;
+	glm::vec3 neighbourNormal3 = m_nor.at(position - 1) * neighbourWight;
+
+
+	return (neighbourNormal0 + neighbourNormal1 + neighbourNormal2 + neighbourNormal3 + (currentNormal)*16.0f) / 5.0f;
 }
