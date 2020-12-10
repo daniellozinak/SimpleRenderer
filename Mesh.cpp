@@ -3,7 +3,6 @@
 #include "object_loader.hpp"
 
 GLint Mesh::idGenerator = 1;
-int Mesh::offset = 0;
 
 Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert,Shader *shader)
 {
@@ -49,12 +48,22 @@ void Mesh::bind()
 {
 	glBindVertexArray(m_VAO);
 	this->m_shader->bind();
+
+	if (m_texture != nullptr)
+	{
+		m_texture->bind();
+		int toSend = m_texture->getTextureUnit();
+		this->m_shader->sendUniform("textureUnitID", toSend);
+	}
+	
 }
 
 void Mesh::unbind()
 {
 	this->m_shader->unbind();
 	glBindVertexArray(0);
+
+	if (m_texture != nullptr){ m_texture->unbind(); }
 }
 
 void Mesh::operation()
@@ -144,23 +153,13 @@ void Mesh::m_init() {
 	);
 }
 
-bool Mesh::addTexture(const char* path)
+bool Mesh::addTexture(Texture* texture)
 {
-	glActiveTexture(GL_TEXTURE0 + offset);
-
-	this->m_TextureID = SOIL_load_OGL_texture(path, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-	if (m_TextureID == 0)
-	{
-		std::cout << "[SOIL Error] Texture loading failed Message: [" << SOIL_last_result() << "]\n";
-		return false;
-	}
-	std::cout << "Texture successfully loaded: " << this->m_TextureID << "\n";
-	offset += 1;
-
-	glBindTexture(GL_TEXTURE_2D, this->m_TextureID);
-
-	this->m_shader->sendUniform("textureUnitID", (float)this->m_TextureID);
-
+	m_texture = texture;
+	m_texture->bind();
+	int toSend = texture->getTextureUnit();
+	this->m_shader->sendUniform("textureUnitID", toSend);
+	
 	return true;
 }
 

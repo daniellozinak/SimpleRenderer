@@ -1,17 +1,15 @@
 #pragma once
 
-#include "Mesh.h"
+#include "Texture.h"
 #include <vector>
 #include <string>
 #include <glm/mat4x4.hpp>
 
-class Cubemap : public Mesh
+class Cubemap : public Texture
 {
 	private:
-		std::vector<std::string>m_sideTexturesPath;
+		std::string  m_images[6];
 	public:
-		Cubemap(const char* modelPath, Shader* shader);
-		bool load();
-		void bind(glm::mat4 view,glm::mat4 project);
+		Cubemap(std::string  m_images[6], GLuint textureUnit);
 };
 

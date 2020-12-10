@@ -26,10 +26,10 @@ void Renderer::render()
 		}
 	}
 
-	if (m_scene != nullptr)
+	/*if (m_scene != nullptr)
 	{
 		m_scene->bindSkyBox();
-	}
+	}*/
 }
 
 

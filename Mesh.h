@@ -6,6 +6,7 @@
 
 #include "Component.h"
 #include "Shader.h"
+#include "Texture.h"
 
 #define GL_POSITION_LAYOUT 0
 #define GL_NORMAL_LAYOUT 1
@@ -22,13 +23,12 @@ class Mesh : public Component
 		GLuint m_VBOPos;
 		GLuint m_VBONor;
 		GLuint m_VBOTex;
+		Texture* m_texture;
 
 		static GLint idGenerator;
-		static int offset;
 		GLint m_ID;
 
 	protected:
-		GLuint m_TextureID;
 		Shader* m_shader;
 		GLuint m_VAO;
 
@@ -64,7 +64,7 @@ class Mesh : public Component
 
 		//other
 		void updateModel(glm::mat4&);
-		virtual bool addTexture(const char* path);
+		virtual bool addTexture(Texture *);
 		bool loadFromObj(const char* filePath);
 
 };

@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Textures">
       <UniqueIdentifier>{39426e56-c1ae-4101-8da2-f715dc64b72b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Texture">
+      <UniqueIdentifier>{6280f51b-a884-4781-9715-6acd4e21bb7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -93,9 +96,6 @@
     <ClCompile Include="object_loader.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="Cubemap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="data_loader.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
@@ -104,6 +104,15 @@
     </ClCompile>
     <ClCompile Include="ObjectGenerator.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Cubemap.cpp">
+      <Filter>Source Files\Texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,9 +179,6 @@
     <ClInclude Include="object_loader.hpp">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Cubemap.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="data_loader.hpp">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
@@ -181,6 +187,15 @@
     </ClInclude>
     <ClInclude Include="ObjectGenerator.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Source Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Source Files\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Cubemap.h">
+      <Filter>Source Files\Texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

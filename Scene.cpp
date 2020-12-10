@@ -6,7 +6,8 @@
 #include "CallbackData.h"
 #include "Terrain.h"
 #include "ObjectGenerator.h"
-
+#include "Texture2D.h"
+#include "Mesh.h"
 #include <glm/mat4x4.hpp>
 
 
@@ -81,8 +82,8 @@ Object *Scene::createNewObject(std::vector<util::Vertex> vertex, glm::vec3 posit
 
 void Scene::bindSkyBox()
 {
-	if (m_skybox == nullptr) { return; }
-	m_skybox->bind(m_camera->getView(), m_camera->getProjection());
+	/*if (m_skybox == nullptr) { return; }
+	m_skybox->bind(m_camera->getView(), m_camera->getProjection());*/
 }
 
 void Scene::initScene()
@@ -109,52 +110,72 @@ void Scene::initScene()
 	//Mesh *worker = new Mesh(vert_worker, vert_worker.size(), mShaderPhong);
 	//Mesh *suzi = new Mesh(vert_suzi, vert_suzi.size(), mShaderPhong);
 	//Mesh *box = new Mesh(vert_box, vert_box.size(), mShaderPhong);
-	/*Mesh* plain = new Mesh(vert_plain, vert_plain.size(), mShaderPhong);*/
 
-	/*Mesh* pln = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
-	pln->addTexture("./Textures/mino.png");*/
+	std::string files[] = {
+		"./Textures/cubemap/negx.jpg",
+		"./Textures/cubemap/posx.jpg",
+		"./Textures/cubemap/posy.jpg",
+		"./Textures/cubemap/negy.jpg",
+		"./Textures/cubemap/negz.jpg",
+		"./Textures/cubemap/posz.jpg"
+	};
+
+	
+
+	Mesh* plain0 = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
+	Texture2D * me = new Texture2D(0, "./Textures/me.png",200,200);
+	plain0->addTexture(me);
+
+	Mesh* plain1 = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
+	Texture2D* mino = new Texture2D( 1, "./Textures/mino.png", 200, 200);
+	plain1->addTexture(mino);
+
+	Mesh* plain2 = new Mesh(vert_plain, vert_plain.size(), mShaderTexture);
+	Texture2D* danko = new Texture2D( 2, "./Textures/danko.png", 200, 200);
+	plain2->addTexture(danko);
+
+	Mesh* skybox = new Mesh("./Objects/skybox.obj", mShaderSkyBox);
+	Cubemap* skyboxCubemap = new Cubemap(files,3);
+	skybox->addTexture(skyboxCubemap);
 
 
 	Mesh* tree = new Mesh("./Objects/lowpoly_tree.obj", shader);
-	//create skybox
-	Cubemap* skybox = new Cubemap("./Objects/skybox.obj", mShaderSkyBox);
-	skybox->load();
 
-	Terrain* terrain_plane_mesh = new Terrain(200,200,10,10,0.4);
-	this->addShader(terrain_plane_mesh->getShader());
+
+
+
+
+	/*Terrain* terrain_plane_mesh = new Terrain(200,200,10,10,0.4);
+	this->addShader(terrain_plane_mesh->getShader());*/
 	//terrain_plane_mesh->addTexture("./Textures/mino.png");
 
-	//add skybox
-	this->setSkyBox(skybox);
-
-	/*scene->addMesh(sphere);
-	scene->addMesh(worker);
-	scene->addMesh(suzi);
-	scene->addMesh(box);*/
-
-
-	/*Object* ball = new Object();
-	ball->setPosition(glm::vec3(8.0, 1.0, -2.0));
-	ball->add(sphere);*/
-
-
-	/*Object* plainObject = new Object();
-	plainObject->setPosition(glm::vec3(8.0, 2.0, 2.0));
-	plainObject->add(pln);*/
-
-
-	//add lights after all the shaders have been added
-	//this->addLight(spotLight, LightType::Spot);
-	//this->addLight(directionLight, LightType::Directional);
 	this->addLight(directionLight, LightType::Directional);
 
-	Object* terrain = new Object();
+	/*Object* terrain = new Object();
 	terrain->setPosition(glm::vec3(2));
 	terrain->setModelMatatrix(glm::scale(terrain->getModelMatrix(), glm::vec3(100)));
-	terrain->add(terrain_plane_mesh);
+	terrain->add(terrain_plane_mesh);*/
 
-	Object* treeObj = new Object();
-	treeObj->add(tree);
+	Object* minoObject = new Object();
+	minoObject->setPosition(glm::vec3(-11.0f, -2.0f, 6.0f));
+	minoObject->add(plain1);
+
+	Object* meObject = new Object();
+	meObject->setPosition(glm::vec3(-10.0f,-2.0f, 5.0f));
+	meObject->add(plain0);
+
+	Object* dankoobject = new Object();
+	dankoobject->setPosition(glm::vec3(-9.0f, -3.0f, 5.0f));
+	dankoobject->add(plain2);
+
+	Object* box = new Object();
+	box->setPosition(glm::vec3(-15.0f, -3.0f, 5.0f));
+	box->add(skybox);
+
+	
+
+	/*Object* testCube = new Object();
+	testCube->add(skybox);*/
 	
 }
 
