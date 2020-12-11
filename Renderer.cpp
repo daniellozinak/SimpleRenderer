@@ -14,6 +14,7 @@ Renderer::Renderer()
 void Renderer::render()
 {
 	this->clearBuffer();	this->enableStencil();
+	glDepthFunc(GL_LESS);
 	for (Component *component : ComponentManager::getInstance().getObjects())
 	{
 		//bind shader
@@ -26,10 +27,13 @@ void Renderer::render()
 		}
 	}
 
-	/*if (m_scene != nullptr)
+	if (m_scene != nullptr)
 	{
+		glDepthFunc(GL_LEQUAL);
 		m_scene->bindSkyBox();
-	}*/
+
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+	}
 }
 
 

@@ -146,6 +146,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
@@ -183,6 +185,7 @@
   <ItemGroup>
     <None Include="FragmentShaderBlinn.glsl" />
     <None Include="FragmentShaderColorTerrain.glsl" />
+    <None Include="FragmentShaderCubemap.glsl" />
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderPhongPoint.glsl" />
@@ -192,6 +195,7 @@
     <None Include="FragmentUV.glsl" />
     <None Include="packages.config" />
     <None Include="VertexShader.glsl" />
+    <None Include="VertexShaderCubemap.glsl" />
     <None Include="VertexShaderSkyBox.glsl" />
   </ItemGroup>
   <ItemGroup>

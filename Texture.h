@@ -12,7 +12,7 @@ class Texture
 		Texture(GLenum type, GLuint textureUnit);
 		~Texture();
 
-		void bind();
+		virtual void bind();
 		void unbind();
 
 		inline GLuint getId() { return m_id; }

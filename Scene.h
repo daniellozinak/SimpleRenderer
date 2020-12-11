@@ -7,6 +7,7 @@
 #include "Mesh.h"
 #include "Light.h"
 #include "Cubemap.h"
+#include "Skybox.h"
 
 #include <vector>
 
@@ -21,7 +22,7 @@ class Scene
 		std::vector<Light*> m_ligths;
 		std::vector<Shader*> m_shaders;
 		std::vector<Mesh*> m_meshes;
-		Cubemap* m_skybox;
+		Skybox* m_skybox;
 		int m_lightCount = 0;
 
 	public:
@@ -34,7 +35,6 @@ class Scene
 		void addMesh(Mesh*);
 		void addLight(Light *light, LightType type);
 
-		inline void setSkyBox(Cubemap* skybox) { m_skybox = skybox; }
 
 		void bindSkyBox();
 

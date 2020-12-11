@@ -114,6 +114,9 @@
     <ClCompile Include="Cubemap.cpp">
       <Filter>Source Files\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -197,6 +200,9 @@
     <ClInclude Include="Cubemap.h">
       <Filter>Source Files\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader.glsl">
@@ -231,6 +237,12 @@
     </None>
     <None Include="packages.config" />
     <None Include="FragmentShaderColorTerrain.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderCubemap.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="VertexShaderCubemap.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
   </ItemGroup>

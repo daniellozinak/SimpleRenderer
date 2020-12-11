@@ -11,5 +11,6 @@ class Cubemap : public Texture
 		std::string  m_images[6];
 	public:
 		Cubemap(std::string  m_images[6], GLuint textureUnit);
+		void bind() override;
 };
 
