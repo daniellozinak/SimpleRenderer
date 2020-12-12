@@ -14,8 +14,8 @@ uniform vec3 viewPosition;
 uniform sampler2D textureUnitID;    
 
 const float sharpness = 25;
-vec3 color = vec3(0.5,0.3,0.5);
-const vec3 lightColor = vec3(1.0);
+vec3 color = vec3(0.1,0.8,0.2);
+const vec3 lightColor = vec3(0.4);
 
 uniform float is_selected = 1;
 

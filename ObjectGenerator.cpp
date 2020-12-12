@@ -1,14 +1,18 @@
 #include "ObjectGenerator.h"
-
+#include "Texture2D.h"
 
 ObjectGenerator ObjectGenerator::m_instance;
+
 
 ObjectGenerator& ObjectGenerator::getInstance() { return m_instance; }
 
 ObjectGenerator::ObjectGenerator() {}
 
+
+
 Object* ObjectGenerator::getRandomObject(glm::vec3 position, Shader* shader)
 {
+
 	Object* newObject = new Object();
 
 	Mesh* newMesh = new Mesh(m_meshPath, shader);
@@ -16,6 +20,34 @@ Object* ObjectGenerator::getRandomObject(glm::vec3 position, Shader* shader)
 	newObject->setPosition(position);
 	newObject->setRotate(m_randomRotation(), m_rotationAxis);
 	newObject->setScale(m_randomScale());
+
+	return newObject;
+}
+
+Object* ObjectGenerator::getRandomTree(glm::vec3 position, Shader* shaderTrunk, Shader* shaderLeaves,Mesh*tree,Mesh *leaves)
+{
+	Object* newObject = new Object();
+
+
+
+	Object* treeObject0 = new Object();
+	treeObject0->add(tree);
+
+
+	Object* leavesObject = new Object();
+	leavesObject->add(leaves);
+
+	newObject->add(treeObject0);
+	newObject->add(leavesObject);
+
+	newObject->setPosition(position);
+
+
+	treeObject0->setRotate(m_randomRotation(), m_rotationAxis);
+	treeObject0->setScale(m_randomScale());
+
+	leavesObject->setRotate(m_randomRotation(), m_rotationAxis);
+	leavesObject->setScale(m_randomScale());
 
 	return newObject;
 }

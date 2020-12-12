@@ -13,9 +13,9 @@ public:
 	ComponentManager(const ComponentManager&) = delete;
 	static ComponentManager &getInstance();
 
-	void addObject(Component *);
-	void addObject(Component *, GLint index);
-	void removeObject(Component *);
+	void addObject(Component*);
+	void addObject(Component*, GLint index);
+	void removeObject(Component*);
 	void removeObject(GLint index);
 	std::size_t getSize();
 

@@ -142,7 +142,7 @@ void Application::initCallbacks()
 
 			glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
 			glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
-			glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+			glReadPixels(x, y, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);	
 
 			component_manager.selectObject(index);
 			callback_instance.index = index;
@@ -156,7 +156,7 @@ void Application::initCallbacks()
 
 			callback_instance.position = position;
 
-			std::cout << "click position: " << glm::to_string(position) << std::endl;
+			std::cout << "[" << index  << "] click position: " << glm::to_string(position) << std::endl;
 		}
 	});
 
@@ -186,7 +186,7 @@ void Application::initCallbacks()
 			callback_instance.index = 0;
 		}
 
-		for (Component *component : ComponentManager::getInstance().getObjects())
+		for (Component*component : ComponentManager::getInstance().getObjects())
 		{
 			//Component control
 			if (key == GLFW_KEY_UP) { component->move(callback_instance.delta, MoveDirection::FORWARDS,

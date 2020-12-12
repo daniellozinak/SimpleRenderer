@@ -2,16 +2,14 @@
 #include "SOIL.h"
 #include "object_loader.hpp"
 
-GLint Mesh::idGenerator = 1;
+int Mesh::idGenerator = 1;
 
 Mesh::Mesh(std::vector<util::Vertex> vert, std::size_t numberOfVert,Shader *shader)
 {
 	this->m_initVert(vert, numberOfVert);
 	this->m_shader = shader;
-
-	this->m_ID = idGenerator;
-	idGenerator++;
 	this->m_init();
+	this->generateID();
 }
 
 Mesh::Mesh(const char* modelPath,Shader *shader)
@@ -23,21 +21,17 @@ Mesh::Mesh(const char* modelPath,Shader *shader)
 		exit(1);
 	}
 	this->m_shader = shader;
-
-	this->m_ID = idGenerator;
-	idGenerator++;
 	this->m_init();
-
-	std::cout << "vert count: " << m_numberOfVert << std::endl;
-	
+	this->generateID();
 }
+
 
 Mesh::Mesh(Shader* shader)
 {
 	this->m_shader = shader;
-	this->m_ID = idGenerator;
-	idGenerator++;
+	this->generateID();
 }
+
 
 bool Mesh::loadFromObj(const char* filePath)
 {
@@ -163,3 +157,12 @@ bool Mesh::addTexture(Texture* texture)
 	return true;
 }
 
+void Mesh::generateID()
+{
+	this->m_ID = idGenerator;
+	idGenerator++;
+}
+Mesh* Mesh::clone()
+{
+	return new Mesh(*this);
+}

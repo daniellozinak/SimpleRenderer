@@ -24,7 +24,7 @@ class Camera : public ISubject,IMovable
 
 		//ISubject method
 		void notify() override;
-		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0), glm::vec3 upVector = glm::vec3(0)) override;
+		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0), glm::vec3 upVector = glm::vec3(0), glm::vec3 parentMovement = glm::vec3(0)) override;
 
 		glm::mat4 getView();
 		glm::mat4 getProjection();

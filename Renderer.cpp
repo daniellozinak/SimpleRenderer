@@ -29,6 +29,7 @@ void Renderer::render()
 
 	if (m_scene != nullptr)
 	{
+		glDisable(GL_STENCIL_TEST);
 		glDepthFunc(GL_LEQUAL);
 		m_scene->bindSkyBox();
 

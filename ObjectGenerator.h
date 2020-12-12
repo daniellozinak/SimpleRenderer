@@ -18,11 +18,11 @@ class ObjectGenerator
 		const glm::vec3 m_rotationAxis = glm::vec3(0, 1, 0);
 		const float m_maxScale = 1.5f;
 		const float m_minScale = 0.4f;
-
 	public:
 		ObjectGenerator(const ObjectGenerator&) = delete;
 		static ObjectGenerator& getInstance();
 
 		Object* getRandomObject(glm::vec3 position,Shader *shader);
+		Object* getRandomTree(glm::vec3 position, Shader* shaderTrunk, Shader* shaderLeaves, Mesh* tree, Mesh* leaves);
 };
 

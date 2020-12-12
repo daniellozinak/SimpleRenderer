@@ -17,14 +17,14 @@ ComponentManager &ComponentManager::getInstance() {
 	return ComponentManager::m_instance;
 }
 
-void ComponentManager::addObject(Component *component)
+void ComponentManager::addObject(Component*component)
 {
 	m_objects.push_back(component);
 }
 
-void ComponentManager::addObject(Component *inComponent, GLint index)
+void ComponentManager::addObject(Component*inComponent, GLint index)
 {
-	for (Component *component : m_objects)
+	for (Component*component : m_objects)
 	{
 		if (component->getID() == index)
 		{
@@ -36,16 +36,16 @@ void ComponentManager::addObject(Component *inComponent, GLint index)
 
 void ComponentManager::selectObject(GLint id)
 {
-
-	for (Component * component : m_objects)
+	for (Component* component : m_objects)
 	{
 		component->setSelected(false);
 	}
 
-	for (Component * component : m_objects)
+	for (Component* component : m_objects)
 	{
 		if (component->getID() == id)
 		{
+			
 			if (component->getParent() != nullptr)
 			{ 
 				component->setSelected(true);
@@ -55,15 +55,15 @@ void ComponentManager::selectObject(GLint id)
 	}
 }
 
-void ComponentManager::removeObject(Component *component)
+void ComponentManager::removeObject(Component*component)
 {
 	m_objects.remove(component);
 }
 
 void ComponentManager::removeObject(GLint index)
 {
-	Component *toDelete = nullptr;
-	for (Component * component : m_objects)
+	Component*toDelete = nullptr;
+	for (Component* component : m_objects)
 	{
 		if (component->getID() == index)
 		{

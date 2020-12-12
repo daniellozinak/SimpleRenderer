@@ -5,6 +5,7 @@
 #include "util.h"
 #include "IMovable.h"
 #include "Mesh.h"
+
 #include "Component.h"
 
 #include <glm/mat4x4.hpp> // glm::mat4
@@ -23,6 +24,9 @@ class Object : public Component
 
 		std::list<Component*> m_children;
 		void newScale() override;
+		void move(glm::vec3);
+
+		glm::vec3 m_scale = glm::vec3(1);
 	public:
 		//constructors,destructors
 		Object();
@@ -30,7 +34,7 @@ class Object : public Component
 		~Object() {}
 
 		//IMovable
-		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0),glm::vec3 upVector = glm::vec3(0)) override;
+		void move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon = glm::vec3(0),glm::vec3 upVector = glm::vec3(0),glm::vec3 parentMovement = glm::vec3(0)) override;
 
 		//Composite
 		void add(Component *component)override;

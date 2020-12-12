@@ -4,6 +4,7 @@
 
 ComponentManager &componentManager = ComponentManager::getInstance();
 
+
 Object::Object()
 {
 	this->m_modelMatrix = glm::mat4(1.0f);
@@ -15,26 +16,30 @@ Object::Object(glm::mat4 modelMatrix)
 {
 	this->m_modelMatrix = modelMatrix;
 	this->setPosition(glm::vec3(0, 0, 0));
+
 }
 
-void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirection, glm::vec3 upVector)
+void Object::move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon, glm::vec3 upVector, glm::vec3 parentMovement )
 {
-	if (!isSelected()) {return; }
+	if (!isSelected()) { return; }
 	glm::vec3 newPosition = this->m_position;
-	glm::vec3 moveVector = glm::cross(lookDirection, upVector);
+	glm::vec3 sideMoveVector = glm::cross(lookPositon, upVector);
+
+	
+
 	switch (moveDirection)
 	{
 	case MoveDirection::FORWARDS:
-		newPosition += lookDirection *(i_speed * delta);
+		newPosition += lookPositon *(i_speed * delta);
 		break;
 	case MoveDirection::BACKWARDS:
-		newPosition -= lookDirection * (i_speed * delta);
+		newPosition -= lookPositon * (i_speed * delta);
 		break;
 	case MoveDirection::LEFT:
-		newPosition -= moveVector * (i_speed * delta);
+		newPosition -= sideMoveVector * (i_speed * delta);
 		break;
 	case MoveDirection::RIGHT:
-		newPosition += moveVector * (i_speed * delta);
+		newPosition += sideMoveVector * (i_speed * delta);
 		break;
 	case MoveDirection::UP:
 		newPosition += upVector * (i_speed * delta);
@@ -44,18 +49,30 @@ void Object::move(float delta, MoveDirection moveDirection,glm::vec3 lookDirecti
 		break;
 	}
 
-	this->setPosition(this->m_position - newPosition);
-	for (Component * component : m_children)
-	{
-		component->move(delta, moveDirection, lookDirection);
-	}
+	this->move(this->m_position - newPosition);
 }
 
 
-void Object::setPosition(glm::vec3 moveVector) 
+void Object::setPosition(glm::vec3 newPosition) {
+
+	for(Component *component : m_children)
+	{
+		if (component->isComposite())
+		{
+			Object* obj = reinterpret_cast<Object*>(component);
+			obj->setPosition(newPosition);
+		}
+		
+	}
+
+	this->m_modelMatrix = glm::translate(this->m_modelMatrix, newPosition);
+	this->operation();
+}
+
+void Object::move(glm::vec3 vector)
 {
-	this->m_position += moveVector;
-	this->m_modelMatrix = glm::translate(this->m_modelMatrix, moveVector);
+	this->m_position += vector;
+	this->m_modelMatrix = glm::translate(this->m_modelMatrix, vector);
 	this->operation();
 }
 
@@ -141,6 +158,7 @@ void Object::operation()
 
 void Object::setScale(glm::vec3 scale)
 {
+	m_scale = scale;
 	this->m_modelMatrix = glm::scale(m_modelMatrix, scale);
 }
 

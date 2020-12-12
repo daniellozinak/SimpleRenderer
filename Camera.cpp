@@ -60,7 +60,7 @@ void Camera::notify() {
 	}
 }
 
-void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosition,glm::vec3 upVector)
+void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPositon , glm::vec3 upVector,glm::vec3 parentMovement)
 {
 	const int camera_speed = 50;
 	glm::vec3 moveVector = glm::cross(this->m_direction, this->m_up);

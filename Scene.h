@@ -25,6 +25,12 @@ class Scene
 		Skybox* m_skybox;
 		int m_lightCount = 0;
 
+		Shader* m_default;
+		Shader* m_texture;
+
+		Mesh* m_tree;
+		Mesh* m_leaves;
+
 	public:
 		Scene();
 		~Scene();
