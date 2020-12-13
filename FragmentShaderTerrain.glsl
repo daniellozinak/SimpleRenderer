@@ -8,20 +8,19 @@
 out vec4 frag_colour;
 in vec4 ex_worldPosition;
 in vec3 ex_worldNormal;
-in vec2 ex_texture;
+in float default_height;
 
 uniform vec3 viewPosition;
-uniform sampler2D textureUnitID;    
-
-uniform int isSkybox;
 
 const float sharpness = 25;
-vec3 color = vec3(1.0,1.0,1.0);
 const vec3 lightColor = vec3(1.0);
 
 uniform float is_selected = 1;
+uniform float max_height;
 
 uniform int lightCount;
+
+vec3 worldNormal = ex_worldNormal;
 
 struct Light{
 	vec3 position;
@@ -36,19 +35,43 @@ struct Light{
 	int lightType;
 };
 
+//min: 60, max: 150
+
+
+vec3 calculateColor()
+{
+	float height = default_height;
+
+	height += max_height;
+
+	if(height <= max_height*(1/4))
+	{
+		worldNormal = vec3(0,1,0);
+		return vec3(50.0/255.0, 115/255.0, 168/255.0);
+	}
+
+	const float maxR = 150.0;
+	const float minR = 60.0;
+
+	float diffR = maxR-minR;
+
+	float R = minR + ( diffR * (height/(max_height*2)) );
+
+
+
+	return vec3(R/255.0,110.0/255.0,25.0/255.0);
+}
 
 uniform Light lights[MAX_LIGHTS];
 
 
 void main () {
-
-		color = color *is_selected;
 		vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
 
-		vec3 ambient;
+		vec3 ambient = vec3(0);
 
-		vec3 diffuse;
-		vec3 specular;
+		vec3 diffuse = vec3(0);
+		vec3 specular= vec3(0);
 
 		float light_angle;
 		for(int i = 0; i < lightCount; i++)
@@ -58,35 +81,29 @@ void main () {
 			if(lights[i].lightType == SPOT)
 			{
 				
-				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].position,ex_worldNormal));
+				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].position,worldNormal));
 				vec3 lightDirection = normalize(lights[i].position - ex_worldPosition.xyz);
 
-				float diffuseStrength = max(dot(lightDirection,ex_worldNormal),0.0);	
+				float diffuseStrength = max(dot(lightDirection,worldNormal),0.0);	
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
 				specular += lights[i].specular  * specularStrength * lightColor;
 
-				light_angle = dot(lightDirection,normalize(-lights[i].direction));
 
-				if(light_angle > lights[i].angle)
-				{
-					float diff = lights[i].angle / light_angle;
-					diffuse  *= diff;
-					specular *= diff;
-				}
-				else{
-					diffuse = vec3(0.0);
-					specular =  vec3(0.0);
-				}
+				float theta = acos(max(0, dot(lights[i].direction, -lightDirection)));
+				float intensity =  (lights[i].angle - theta) * 2.0;
+
+				diffuse *=  intensity;
+				specular *= intensity;
 			}
 			else if(lights[i].lightType == POINT)
 			{
 				
-				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].position,ex_worldNormal));
+				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].position,worldNormal));
 				vec3 lightDirection = normalize(lights[i].position - ex_worldPosition.xyz);
 
-				float diffuseStrength = max(dot(lightDirection,ex_worldNormal),0.0);	
+				float diffuseStrength = max(dot(lightDirection,worldNormal),0.0);	
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
@@ -100,20 +117,17 @@ void main () {
 			}
 			else if(lights[i].lightType == DIRECTIONAL)
 			{
-				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].direction,ex_worldNormal));
+				vec3 reflectDirection =  normalize(reflect(ex_worldPosition.xyz-lights[i].direction,worldNormal));
 				vec3 lightDirection = normalize(lights[i].direction - ex_worldPosition.xyz);
 
-				float diffuseStrength = max(dot(lightDirection,ex_worldNormal),0.0);	
+				float diffuseStrength = max(dot(lightDirection,worldNormal),0.0);	
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
 				specular += lights[i].specular * specularStrength * lightColor;
 			}
 		}
-		vec3 DAS = (diffuse + ambient) * color + specular*vec3(1.0);
+		vec3 DAS = (diffuse + ambient) * calculateColor();
 
-
-		frag_colour = texture(textureUnitID, ex_texture) * vec4(DAS,1.0);
-		
-		
+		frag_colour =  vec4(DAS,1.0);
 };

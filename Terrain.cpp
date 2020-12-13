@@ -100,8 +100,6 @@ void Terrain::generateTerrain()
 			min = m_pos.at(i).y;
 		}
 
-		//std::cout << glm::to_string(m_pos.at(i)) << std::endl;
-
 	}
 
 	std::cout << "MAX HEIGHT: " << m_amplitude * max << std::endl;

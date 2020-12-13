@@ -188,14 +188,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FragmentShaderBlinn.glsl" />
-    <None Include="FragmentShaderColorTerrain.glsl" />
+    <None Include="FragmentShaderLeaves.glsl" />
+    <None Include="FragmentShaderTerrain.glsl" />
     <None Include="FragmentShaderCubemap.glsl" />
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
-    <None Include="FragmentShaderPhongPoint.glsl" />
-    <None Include="FragmentShaderPhongPointTexture.glsl" />
     <None Include="FragmentShaderSkyBox.glsl" />
-    <None Include="FragmentShaderStatic.glsl" />
     <None Include="FragmentUV.glsl" />
     <None Include="packages.config" />
     <None Include="VertexShader.glsl" />

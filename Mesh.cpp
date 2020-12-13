@@ -48,6 +48,7 @@ void Mesh::bind()
 		m_texture->bind();
 		int toSend = m_texture->getTextureUnit();
 		this->m_shader->sendUniform("textureUnitID", toSend);
+		this->m_shader->sendUniform("istexture", 1);
 	}
 	
 }

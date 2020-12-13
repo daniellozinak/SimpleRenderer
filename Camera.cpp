@@ -84,7 +84,5 @@ void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosito
 			this->m_eye -= this->m_up * (i_speed * camera_speed * delta);
 			break;
 	}
-
-
 	this->notify();
 }

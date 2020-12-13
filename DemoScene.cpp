@@ -9,8 +9,8 @@
 
 DemoScene::DemoScene():Scene()
 {
-	m_default = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPoint.glsl");
-	m_texture = new Shader("./VertexShader.glsl", "./FragmentShaderPhongPointTexture.glsl");
+	m_default = new Shader("./VertexShader.glsl", "./FragmentShaderLeaves.glsl");
+	m_texture = new Shader("./VertexShader.glsl", "./FragmentShaderPhong.glsl");
 
 	m_tree = new Mesh("./Objects/MapleTreeStem.obj", m_texture);
 	m_leaves = new Mesh("./Objects/MapleTreeLeaves.obj", m_default);
@@ -26,15 +26,16 @@ void DemoScene::initScene()
 	m_spotCamera = new SpotCamera(glm::vec3(-4, 0, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 	setCamera(m_spotCamera);
 
-	Shader* terrainShader = new Shader("./VertexShader.glsl", "./FragmentShaderColorTerrain.glsl");
-
+	Shader* terrainShader = new Shader("./VertexShader.glsl", "./FragmentShaderTerrain.glsl");
+	Shader *blinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
 	addShader(m_default);
 	addShader(m_texture);
+	addShader(blinn);
 	addShader(terrainShader);
 
 	std::vector<util::Vertex> sphere = loadSphere();
 
-	Mesh* cube = new Mesh("./Objects/skybox.obj", m_default);
+	Mesh* cube = new Mesh(sphere,sphere.size(), blinn);
 	Object* cubeObject = new Object();
 	cubeObject->add(cube);
 
@@ -45,22 +46,10 @@ void DemoScene::initScene()
 	terrain->setScale(glm::vec3(100));
 	terrain->add(terrain_plane_mesh);
 
-
-	Mesh* ball = new Mesh(sphere, sphere.size(), m_default);
-	Object* ballObj = new Object();
-	ballObj->add(ball);
-
-	Object* ballObje = new Object();
-	Mesh* anotherBall = ball->clone();
-	anotherBall->generateID();
-	ballObje->add(anotherBall);
-	ballObje->setPosition(glm::vec3(4, 3, 1));
-
-
 	DirectionalLight* spotik = new DirectionalLight(glm::vec3(5));
 	PointLight* direct = new PointLight(glm::vec3(5),0.2f,0.5f,0.3f);
 	addLight(m_spotCamera->getLight());
-	//addLight(spotik);
+	addLight(spotik);
 
 	
 }

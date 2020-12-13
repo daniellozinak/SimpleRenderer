@@ -226,25 +226,13 @@
     <None Include="VertexShader.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
-    <None Include="FragmentShaderPhong.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
     <None Include="FragmentShaderLambert.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
-    <None Include="FragmentShaderStatic.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="FragmentShaderBlinn.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="FragmentUV.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
-    <None Include="FragmentShaderPhongPointTexture.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
-    <None Include="FragmentShaderPhongPoint.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="VertexShaderSkyBox.glsl">
@@ -254,13 +242,19 @@
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="packages.config" />
-    <None Include="FragmentShaderColorTerrain.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
     <None Include="FragmentShaderCubemap.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="VertexShaderCubemap.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderPhong.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderTerrain.glsl">
+      <Filter>Source Files\Shader\Source</Filter>
+    </None>
+    <None Include="FragmentShaderLeaves.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
   </ItemGroup>
