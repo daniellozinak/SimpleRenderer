@@ -2,7 +2,7 @@
 #include "Mesh.h"
 
 #define VERTEX_SHADER_PATH "./VertexShader.glsl"
-#define FRAGMENT_SHADER_PATH  "./FragmentShaderColorTerrain.glsl"
+#define FRAGMENT_SHADER_PATH  "./FragmentShaderPhongPoint.glsl"
 
 class Terrain : public Mesh
 {
@@ -16,13 +16,12 @@ private:
 	//width and height in the world space
 	int m_width;
 	int m_height;
-
 	void generatePlain();
 	glm::vec3 calculateNormal(glm::vec3 currentNormal, int position);
 public:
-	Terrain(int xVertCount,int zVertCount);
-	Terrain(int xVertCount, int zVertCount,int width,int height);
-	Terrain(int xVertCount, int zVertCount, int width, int height,float amplitude);
+	Terrain(int xVertCount,int zVertCount,Shader *);
+	Terrain(int xVertCount, int zVertCount,int width,int height, Shader*);
+	Terrain(int xVertCount, int zVertCount, int width, int height,float amplitude, Shader*);
 
 	void generateTerrain();
 

@@ -24,7 +24,7 @@ class Object : public Component
 
 		std::list<Component*> m_children;
 		void newScale() override;
-		void move(glm::vec3);
+		void m_move(glm::vec3);
 
 		glm::vec3 m_scale = glm::vec3(1);
 	public:

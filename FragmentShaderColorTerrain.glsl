@@ -68,9 +68,10 @@ uniform Light lights[MAX_LIGHTS];
 void main () {
 		vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
 
-		vec3 ambient;
+		vec3 ambient = vec3(0);
 
-		vec3 diffuse;
+		vec3 diffuse = vec3(0);
+		vec3 specular= vec3(0);
 
 		float light_angle;
 		for(int i = 0; i < lightCount; i++)
@@ -87,17 +88,16 @@ void main () {
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
+				specular += lights[i].specular  * specularStrength * lightColor;
 
-				light_angle = dot(lightDirection,normalize(-lights[i].direction));
 
-				if(light_angle > lights[i].angle)
-				{
-					float diff = lights[i].angle / light_angle;
-					diffuse  *= diff;
-				}
-				else{
-					diffuse = vec3(0.0);
-				}
+				float theta = acos(max(0, dot(lights[i].direction, -lightDirection)));
+				float epsilon = (lights[i].angle  - lights[i].angle );
+				//float intensity = clamp((theta -lights[i].outerAngle)/epsilon,0.0,1.0);
+				float intensity =  (lights[i].angle - theta) * 2.0;
+
+				diffuse *=  intensity;
+				specular *= intensity;
 			}
 			else if(lights[i].lightType == POINT)
 			{
@@ -109,11 +109,13 @@ void main () {
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
+				specular += lights[i].specular  * specularStrength * lightColor;
 
 				float lightDistance = length(lights[i].position - ex_worldPosition.xyz);
 				float attenuation = 1.0/(((lights[i].quad.x)*(lightDistance*lightDistance)) + ((lights[i].quad.y)*(lightDistance)) + ((lights[i].quad.z)));
 				
 				diffuse  *= attenuation;
+				specular *= attenuation;
 			}
 			else if(lights[i].lightType == DIRECTIONAL)
 			{
@@ -124,6 +126,7 @@ void main () {
 				float specularStrength = pow(max(dot(viewDirection,reflectDirection),0.0),sharpness);
 
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
+				specular += lights[i].specular * specularStrength * lightColor;
 			}
 		}
 		vec3 DAS = (diffuse + ambient) * calculateColor();

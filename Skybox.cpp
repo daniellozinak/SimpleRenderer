@@ -26,6 +26,6 @@ void Skybox::bind(glm::mat4 view, glm::mat4 project)
 	m_cubemap->bind();
 
 	m_shader->sendUniform("modelMatrix", glm::mat4(1.0));
-	m_shader->sendUniform("viewMatrix", glm::mat3(view));
+	m_shader->sendUniform("viewMatrix", glm::mat3(view)); 
 	m_shader->sendUniform("projectionMatrix", project);
 }

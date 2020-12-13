@@ -27,13 +27,11 @@ Object* ObjectGenerator::getRandomObject(glm::vec3 position, Shader* shader)
 Object* ObjectGenerator::getRandomTree(glm::vec3 position, Shader* shaderTrunk, Shader* shaderLeaves,Mesh*tree,Mesh *leaves)
 {
 	Object* newObject = new Object();
-
+	glm::vec3 random_scale = m_randomScale();
 
 
 	Object* treeObject0 = new Object();
 	treeObject0->add(tree);
-
-
 	Object* leavesObject = new Object();
 	leavesObject->add(leaves);
 
@@ -42,12 +40,11 @@ Object* ObjectGenerator::getRandomTree(glm::vec3 position, Shader* shaderTrunk, 
 
 	newObject->setPosition(position);
 
-
 	treeObject0->setRotate(m_randomRotation(), m_rotationAxis);
-	treeObject0->setScale(m_randomScale());
+	treeObject0->setScale(random_scale);
 
 	leavesObject->setRotate(m_randomRotation(), m_rotationAxis);
-	leavesObject->setScale(m_randomScale());
+	leavesObject->setScale(random_scale);
 
 	return newObject;
 }

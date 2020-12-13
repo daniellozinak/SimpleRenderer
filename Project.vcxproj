@@ -132,6 +132,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cubemap.cpp" />
     <ClCompile Include="data_loader.cpp" />
+    <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="ISubject.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SpotCamera.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="Cubemap.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="data_loader.hpp" />
+    <ClInclude Include="DemoScene.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="IMovable.h" />
     <ClInclude Include="IObserver.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SpotCamera.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />

@@ -6,18 +6,18 @@
 Light::Light(std::string id)
 {
 	this->m_id = id;
-	this->m_ambient  = glm::vec3(0.7f, 0.7f, 0.7f);
-	this->m_diffuse  = glm::vec3(0.7f, 0.7f, 0.7f);
-	this->m_specular = glm::vec3(0.7f, 0.7f, 0.7f);
+	this->m_ambient = glm::vec3(0.15f, 0.15f, 0.15f);
+	this->m_diffuse  = glm::vec3(1.0f, 1.0f, 1.0f);
+	this->m_specular = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	m_isIdSet = true;
 }
 
 Light::Light()
 {
-	this->m_ambient = glm::vec3(0.7f, 0.7f, 0.7f);
-	this->m_diffuse = glm::vec3(0.7f, 0.7f, 0.7f);
-	this->m_specular = glm::vec3(0.7f, 0.7f, 0.7f);
+	this->m_ambient = glm::vec3(0.15f, 0.15f, 0.15f);
+	this->m_diffuse = glm::vec3(1.0f, 1.0f, 1.0f);
+	this->m_specular = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 void Light::setId(int id)

@@ -2,10 +2,11 @@
 #include "ComponentManager.h"#
 #include "Cubemap.h"
 #include "CallbackData.h"
+#include "DemoScene.h"
 
 Renderer::Renderer()
 {
-	Scene* scene = new Scene();
+	DemoScene* scene = new DemoScene();
 	setScene(scene);
 	CallbackData::getInstance().scene = scene;
 	scene->initScene();

@@ -15,11 +15,11 @@
 
 # define M_PI 3.14159265358979323846
 
-class Shader; //Shader declaration due to cross reference
+
 class Camera : public ISubject,IMovable
 {
 	public:
-		Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up);
+		Camera(glm::vec3 direction, glm::vec3 center, glm::vec3 up);
 		~Camera();
 
 		//ISubject method
@@ -30,13 +30,14 @@ class Camera : public ISubject,IMovable
 		glm::mat4 getProjection();
 		inline glm::vec3 getLookDirection() { return this->m_direction; }
 		inline glm::vec3 getUpVector() { return m_up; }
+		inline glm::vec3 getPosition() { return m_eye; }
 
 		void setEye(glm::vec3);
 		void setCenter(glm::vec3);
 		void setUp(glm::vec3);
 		void setProjection(glm::mat4);
 
-		void lookAround(float delta,float xDiff, float yDiff);
+		virtual void lookAround(float delta,float xDiff, float yDiff);
 	private:
 
 		glm::vec3 m_direction;

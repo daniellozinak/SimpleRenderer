@@ -13,5 +13,8 @@ public:
 	~SpotLight();
 
 	void notify() override;
+
+	inline void setDirection(glm::vec3 direction) { m_direction = direction; }
+	inline void setPosition(glm::vec3 position) { m_position = position; }
 };
 

@@ -1,16 +1,16 @@
 #include "SpotLight.h"
-
+#include <iostream>
 
 SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, std::string id, float angle) : Light(id)
 {
-	this->m_angle = angle;
+	this->m_angle = angle* (3.14/180);
 	this->m_direction = direction;
 	this->m_position = position;
 }
 
 SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, float angle) : Light()
 {
-	this->m_angle = angle;
+	this->m_angle = angle * (3.14 / 180);
 	this->m_direction = direction;
 	this->m_position = position;
 }
@@ -18,6 +18,7 @@ SpotLight::SpotLight(glm::vec3 position, glm::vec3 direction, float angle) : Lig
 
 void SpotLight::notify()
 {
+
 	Light::notify();
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())

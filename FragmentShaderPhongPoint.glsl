@@ -11,7 +11,6 @@ in vec3 ex_worldNormal;
 in vec2 ex_texture;
 
 uniform vec3 viewPosition;
-uniform sampler2D textureUnitID;    
 
 const float sharpness = 25;
 vec3 color = vec3(0.1,0.8,0.2);
@@ -47,8 +46,6 @@ void main () {
 
 		vec3 diffuse;
 		vec3 specular;
-
-		float light_angle;
 		for(int i = 0; i < lightCount; i++)
 		{
 			ambient = lights[i].ambient * lightColor;
@@ -65,18 +62,17 @@ void main () {
 				diffuse  += lights[i].diffuse * diffuseStrength * lightColor;
 				specular += lights[i].specular  * specularStrength * lightColor;
 
-				light_angle = dot(lightDirection,normalize(-lights[i].direction));
+				float theta = acos(max(0, dot(lights[i].direction, -lightDirection)));
+				float epsilon = (lights[i].angle  - lights[i].angle );
+				//float intensity = clamp((theta -lights[i].outerAngle)/epsilon,0.0,1.0);
+				float intensity =  (lights[i].angle - theta) * 2.0;
 
-				if(light_angle > lights[i].angle)
-				{
-					float diff = lights[i].angle / light_angle;
-					diffuse  *= diff;
-					specular *= diff;
-				}
-				else{
-					diffuse = vec3(0.0);
-					specular =  vec3(0.0);
-				}
+				diffuse *=  intensity;
+				specular *= intensity;
+
+				
+				
+				
 			}
 			else if(lights[i].lightType == POINT)
 			{

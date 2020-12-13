@@ -3,7 +3,7 @@
 #include "glm/gtx/string_cast.hpp"
 #include <vector>
 
-Terrain::Terrain(int xVertCount, int zVertCount) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
+Terrain::Terrain(int xVertCount, int zVertCount, Shader*shader) : Mesh(shader)
 {
 	m_width = 5;
 	m_height = 5;
@@ -13,7 +13,7 @@ Terrain::Terrain(int xVertCount, int zVertCount) : Mesh(new Shader(VERTEX_SHADER
 	m_init();
 }
 
-Terrain::Terrain(int xVertCount, int zVertCount, int width, int height) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
+Terrain::Terrain(int xVertCount, int zVertCount, int width, int height, Shader*shader) : Mesh(shader)
 {
 	m_width = width;
 	m_height = height;
@@ -23,7 +23,7 @@ Terrain::Terrain(int xVertCount, int zVertCount, int width, int height) : Mesh(n
 	m_init();
 }
 
-Terrain::Terrain(int xVertCount, int zVertCount, int width, int height, float amplitude) : Mesh(new Shader(VERTEX_SHADER_PATH, FRAGMENT_SHADER_PATH))
+Terrain::Terrain(int xVertCount, int zVertCount, int width, int height, float amplitude, Shader* shader) : Mesh(shader)
 {
 	m_width = width;
 	m_height = height;
@@ -109,46 +109,70 @@ void Terrain::generateTerrain()
 
 	this->m_shader->sendUniform("max_height", m_amplitude * max);
 
-	//gen normals
+	////gen normals
 	for (int i = 0; i < m_numberOfVert; i +=3)
 	{
 		glm::vec3 vector1 = m_pos.at(i + 1) - m_pos.at(i);
 		glm::vec3 vector2 = m_pos.at(i + 2) - m_pos.at(i);
 		glm::vec3 new_normal = glm::cross(vector1, vector2);
 
-
-		m_nor.emplace_back(new_normal);
-		m_nor.emplace_back(new_normal);
-		m_nor.emplace_back(new_normal);
+		m_nor.emplace_back(-1.0f * new_normal);
+		m_nor.emplace_back(-1.0f * new_normal);
+		m_nor.emplace_back(-1.0f * new_normal);
 	}
 
 
+	int count = 0;
 	for (int i = 0; i < m_nor.size(); i++)
 	{
-		m_nor.at(i) = calculateNormal(m_nor.at(i), i);
-
+		glm::vec3 original = m_nor.at(i);
+		glm::vec3 changed = calculateNormal(m_nor.at(i), i);
+		count += (changed != original) ? 1 : 0;
+		//m_nor[i] = changed;
 	}
+
+	std::cout << "COUNT: " << count << " / " << m_nor.size() << std::endl;
 }
 
 glm::vec3 Terrain::calculateNormal(glm::vec3 currentNormal, int position)
 {
-	float neighbourWight = 8.0f;
+
+	glm::vec3 neighbourNormal0 = currentNormal;
+	glm::vec3 neighbourNormal1 = currentNormal;
+	glm::vec3 neighbourNormal2 = currentNormal;
+	glm::vec3 neighbourNormal3 = currentNormal;
+
+	glm::vec3 cornerNormal0 = currentNormal;
+	glm::vec3 cornerNormal1 = currentNormal;
+	glm::vec3 cornerNormal2 = currentNormal;
+	glm::vec3 cornerNormal3 = currentNormal;
+
+
+	float neighbourWeight = 0.05f;
+	float cornerWeight = 0.01f;
+	float currentWeight = 1.0f;
 	int normalCount = m_nor.size();
-	if (position - 1 < 0 || position - m_zVertices < 0 || position + 1 >= normalCount || position + m_zVertices >= normalCount)
-	{
-		return currentNormal;
-	}
+
+
 	int pos0 = position - m_zVertices;
 	int pos1 = position + 1;
 	int pos2 = position + m_zVertices;
 	int pos3 = position - 1;
 
+	int corner0 = position + m_zVertices - 1;
+	int corner1 = position - m_zVertices - 1;
+	int corner2 = position + m_zVertices + 1;
+	int corner3 = position - m_zVertices + 1;
 
-	glm::vec3 neighbourNormal0 = m_nor.at(position - m_zVertices) * neighbourWight;
-	glm::vec3 neighbourNormal1 = m_nor.at(position + 1) * neighbourWight;
-	glm::vec3 neighbourNormal2 = m_nor.at(position + m_zVertices) * neighbourWight;
-	glm::vec3 neighbourNormal3 = m_nor.at(position - 1) * neighbourWight;
+	if (pos0 >= 0) { neighbourNormal0 = m_nor.at(pos0) * neighbourWeight; }
+	if(pos1 < normalCount) { neighbourNormal1 = m_nor.at(pos1) * neighbourWeight; }
+	if(pos2 < normalCount) {  neighbourNormal2 = m_nor.at(pos2) * neighbourWeight; }
+	if(pos3 >=0) {  neighbourNormal3 = m_nor.at(pos3) * neighbourWeight; }
 
+	if (corner0 < normalCount) { cornerNormal0 = m_nor.at(corner0) * cornerWeight; }
+	if (corner1 >= 0) { cornerNormal1 = m_nor.at(corner1) * cornerWeight; }
+	if (corner2 < normalCount) { cornerNormal2 = m_nor.at(corner2) * cornerWeight; }
+	if (corner3 >= 0) { cornerNormal3 = m_nor.at(corner3) * cornerWeight; }
 
-	return (neighbourNormal0 + neighbourNormal1 + neighbourNormal2 + neighbourNormal3 + (currentNormal)*16.0f) / 5.0f;
+	return (neighbourNormal0 + neighbourNormal1 + neighbourNormal2 + neighbourNormal3 + cornerNormal0 + cornerNormal1 + cornerNormal2 + cornerNormal3 + (currentNormal * currentWeight)) / 9.0f;
 }

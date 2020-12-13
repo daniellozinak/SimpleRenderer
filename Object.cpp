@@ -49,7 +49,7 @@ void Object::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosito
 		break;
 	}
 
-	this->move(this->m_position - newPosition);
+	this->m_move(this->m_position - newPosition);
 }
 
 
@@ -69,7 +69,7 @@ void Object::setPosition(glm::vec3 newPosition) {
 	this->operation();
 }
 
-void Object::move(glm::vec3 vector)
+void Object::m_move(glm::vec3 vector)
 {
 	this->m_position += vector;
 	this->m_modelMatrix = glm::translate(this->m_modelMatrix, vector);

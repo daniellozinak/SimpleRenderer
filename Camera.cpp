@@ -13,10 +13,10 @@ void Camera::lookAround(float delta, float xDiff, float yDiff)
 }
 
 
-Camera::Camera(glm::vec3 center, glm::vec3 eye, glm::vec3 up)
+Camera::Camera(glm::vec3 direction, glm::vec3 center, glm::vec3 up)
 {
-	this->m_direction = center;
-	this->m_eye = eye;
+	this->m_direction = direction;
+	this->m_eye = center;
 	this->m_up = up;
 	this->m_projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 800.0f);
 }
@@ -48,7 +48,6 @@ void Camera::notify() {
 		cos(verticalRadian) * cos(horizontalRadian),
 		sin(verticalRadian),
 		cos(verticalRadian) * sin(horizontalRadian));
-
 
 	std::list<IObserver*>::iterator it = m_observers.begin();
 	while (it != m_observers.end())
@@ -84,7 +83,8 @@ void Camera::move(float delta, MoveDirection moveDirection, glm::vec3 lookPosito
 		case MoveDirection::DOWN:
 			this->m_eye -= this->m_up * (i_speed * camera_speed * delta);
 			break;
-
 	}
+
+
 	this->notify();
 }
