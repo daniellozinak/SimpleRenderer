@@ -1,7 +1,7 @@
 #include "Object.h"
 #include <glm/vec3.hpp>
 #include "ComponentManager.h"
-
+#include <glm/gtc/matrix_access.hpp>
 ComponentManager &componentManager = ComponentManager::getInstance();
 
 
@@ -165,4 +165,15 @@ void Object::setScale(glm::vec3 scale)
 void Object::setRotate(float degrees,glm::vec3 rotate)
 {
 	m_modelMatrix = glm::rotate(m_modelMatrix, degrees,rotate);
+}
+
+glm::vec3 Object::getWorldPosition()
+{
+	glm::vec4 column = glm::column(m_modelMatrix, 3);
+	return glm::vec3(column.x, column.y, column.z);
+}
+
+void Object::setWorldPosition(glm::vec3 position)
+{
+	m_modelMatrix[3] = glm::vec4(position,1.0f);
 }

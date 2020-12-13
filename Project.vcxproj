@@ -131,11 +131,13 @@
     <ClCompile Include="CallbackData.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Cubemap.cpp" />
+    <ClCompile Include="CurveObject.cpp" />
     <ClCompile Include="data_loader.cpp" />
     <ClCompile Include="DemoScene.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="ISubject.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -160,6 +162,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Cubemap.h" />
+    <ClInclude Include="CurveObject.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="data_loader.hpp" />
     <ClInclude Include="DemoScene.h" />
@@ -168,6 +171,7 @@
     <ClInclude Include="IObserver.h" />
     <ClInclude Include="ISubject.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ComponentManager.h" />
@@ -194,7 +198,6 @@
     <None Include="FragmentShaderLambert.glsl" />
     <None Include="FragmentShaderPhong.glsl" />
     <None Include="FragmentShaderSkyBox.glsl" />
-    <None Include="FragmentUV.glsl" />
     <None Include="packages.config" />
     <None Include="VertexShader.glsl" />
     <None Include="VertexShaderCubemap.glsl" />

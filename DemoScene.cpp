@@ -4,6 +4,8 @@
 #include "DirectionalLight.h"
 #include "ObjectGenerator.h"
 #include "PointLight.h"
+#include "Line.h"
+#include "CurveObject.h"
 
 #include "data_loader.hpp"
 
@@ -26,6 +28,10 @@ void DemoScene::initScene()
 	m_spotCamera = new SpotCamera(glm::vec3(-4, 0, 0), glm::vec3(4, 3, 1), glm::vec3(0, 1, 0));
 	setCamera(m_spotCamera);
 
+
+	Line line(glm::vec3(0), glm::vec3(0.003f, 0.002f, 0.001f));
+
+
 	Shader* terrainShader = new Shader("./VertexShader.glsl", "./FragmentShaderTerrain.glsl");
 	Shader *blinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
 	addShader(m_default);
@@ -36,15 +42,15 @@ void DemoScene::initScene()
 	std::vector<util::Vertex> sphere = loadSphere();
 
 	Mesh* cube = new Mesh(sphere,sphere.size(), blinn);
-	Object* cubeObject = new Object();
+	CurveObject* cubeObject = new CurveObject(line);
 	cubeObject->add(cube);
 
-	Terrain* terrain_plane_mesh = new Terrain(100,100,10,10,0.5, terrainShader);
+	//Terrain* terrain_plane_mesh = new Terrain(100,100,10,10,0.5, terrainShader);
 
-	Object* terrain = new Object();
-	terrain->setPosition(glm::vec3(-200,-2,-200));
-	terrain->setScale(glm::vec3(100));
-	terrain->add(terrain_plane_mesh);
+	//Object* terrain = new Object();
+	//terrain->setPosition(glm::vec3(-200,-2,-200));
+	//terrain->setScale(glm::vec3(100));
+	//terrain->add(terrain_plane_mesh);
 
 	DirectionalLight* spotik = new DirectionalLight(glm::vec3(5));
 	PointLight* direct = new PointLight(glm::vec3(5),0.2f,0.5f,0.3f);

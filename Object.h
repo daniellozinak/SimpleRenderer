@@ -18,15 +18,18 @@
 class Object : public Component
 {
 	private:
-		glm::mat4 m_modelMatrix;
-		glm::vec3 m_position;
-		std::size_t m_count = 0;
 
+		std::size_t m_count = 0;
 		std::list<Component*> m_children;
 		void newScale() override;
-		void m_move(glm::vec3);
+		
 
 		glm::vec3 m_scale = glm::vec3(1);
+
+	protected:
+		void m_move(glm::vec3);
+		glm::mat4 m_modelMatrix;
+		glm::vec3 m_position;
 	public:
 		//constructors,destructors
 		Object();
@@ -49,7 +52,11 @@ class Object : public Component
 		inline glm::mat4 getModelMatrix() { return this->m_modelMatrix; }
 		inline void setModelMatatrix(glm::mat4 model) { this->m_modelMatrix = model; }
 		inline std::list<Component*> getChildren() { return m_children; }
+		inline glm::vec3 getPositon() { return m_position; }
+		glm::vec3 getWorldPosition();
+
 		void setPosition(glm::vec3);
 		void setScale(glm::vec3);
 		void setRotate(float degrees,glm::vec3);
+		void setWorldPosition(glm::vec3);
 };

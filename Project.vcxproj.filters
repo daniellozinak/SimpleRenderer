@@ -49,6 +49,9 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{8c3769da-48e0-424e-99e8-287b2f6a37b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Curve">
+      <UniqueIdentifier>{b1113779-331b-4b7a-9f20-f0ce26c1fcf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -128,6 +131,12 @@
     </ClCompile>
     <ClCompile Include="DemoScene.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Line.cpp">
+      <Filter>Source Files\Curve</Filter>
+    </ClCompile>
+    <ClCompile Include="CurveObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +230,12 @@
     <ClInclude Include="DemoScene.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Line.h">
+      <Filter>Source Files\Curve</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveObject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="VertexShader.glsl">
@@ -230,9 +245,6 @@
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="FragmentShaderBlinn.glsl">
-      <Filter>Source Files\Shader\Source</Filter>
-    </None>
-    <None Include="FragmentUV.glsl">
       <Filter>Source Files\Shader\Source</Filter>
     </None>
     <None Include="VertexShaderSkyBox.glsl">
