@@ -42,7 +42,7 @@ class Object : public Component
 		//Composite
 		void add(Component *component)override;
 		void remove(Component*component)override;
-		void operation() override;
+		void update() override;
 		inline std::size_t getCount() override { return 0; } //Object it self has getCount() = 0, only meshes have getCount()>0
 		inline bool isComposite()override { return true; }
 		inline GLint getID()override { return -1; }

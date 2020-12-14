@@ -66,14 +66,14 @@ void Object::setPosition(glm::vec3 newPosition) {
 	}
 
 	this->m_modelMatrix = glm::translate(this->m_modelMatrix, newPosition);
-	this->operation();
+	this->update();
 }
 
 void Object::m_move(glm::vec3 vector)
 {
 	this->m_position += vector;
 	this->m_modelMatrix = glm::translate(this->m_modelMatrix, vector);
-	this->operation();
+	this->update();
 }
 
 void Object::setSelected(bool selected)
@@ -144,7 +144,7 @@ void Object::remove(Component *component)
 }
 
 
-void Object::operation()
+void Object::update()
 {
 	for (Component *component : m_children)
 	{

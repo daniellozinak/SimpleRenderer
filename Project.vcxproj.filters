@@ -52,6 +52,9 @@
     <Filter Include="Source Files\Curve">
       <UniqueIdentifier>{b1113779-331b-4b7a-9f20-f0ce26c1fcf6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{e89b86e4-2509-4c12-b650-d2732557c39a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -60,22 +63,10 @@
     <ClCompile Include="Application.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Source Files\Shader</Filter>
-    </ClCompile>
     <ClCompile Include="ISubject.cpp">
       <Filter>Source Files\Observer</Filter>
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
@@ -135,21 +126,27 @@
     <ClCompile Include="Line.cpp">
       <Filter>Source Files\Curve</Filter>
     </ClCompile>
-    <ClCompile Include="CurveObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BezierCurve.cpp">
       <Filter>Source Files\Curve</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CurveObject.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="util.h">
@@ -164,13 +161,7 @@
     <ClInclude Include="data.h">
       <Filter>Source Files\Data</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderLoader.h">
-      <Filter>Source Files\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Component.h">
@@ -236,14 +227,26 @@
     <ClInclude Include="Line.h">
       <Filter>Source Files\Curve</Filter>
     </ClInclude>
-    <ClInclude Include="CurveObject.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Curve.h">
       <Filter>Source Files\Curve</Filter>
     </ClInclude>
     <ClInclude Include="BezierCurve.h">
       <Filter>Source Files\Curve</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Source Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Source Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveObject.h">
+      <Filter>Source Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.h">
+      <Filter>Source Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Source Files\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,6 +7,7 @@ out vec4 ex_worldPosition;
 out vec3 ex_worldNormal;
 out vec2 ex_texture;
 out float default_height;
+
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;

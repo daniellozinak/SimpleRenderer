@@ -37,7 +37,7 @@ struct Light{
 
 //min: 60, max: 150
 
-
+//97, 89, 65
 vec3 calculateColor()
 {
 	float height = default_height;
@@ -66,6 +66,9 @@ uniform Light lights[MAX_LIGHTS];
 
 
 void main () {
+
+		vec3 finalColor = calculateColor();
+		
 		vec3 viewDirection = normalize(viewPosition- ex_worldPosition.xyz);
 
 		vec3 ambient = vec3(0);
@@ -127,7 +130,7 @@ void main () {
 				specular += lights[i].specular * specularStrength * lightColor;
 			}
 		}
-		vec3 DAS = (diffuse + ambient) * calculateColor();
+		vec3 DAS = (diffuse + ambient) * finalColor;
 
 		frag_colour =  vec4(DAS,1.0);
 };

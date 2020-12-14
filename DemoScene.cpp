@@ -34,13 +34,15 @@ void DemoScene::initScene()
 
 	std::vector<glm::vec3> points;
 	points.push_back(glm::vec3(0,0,0));
-	points.push_back(glm::vec3(2,3,0));
-	points.push_back(glm::vec3(4,3,0));
-	points.push_back(glm::vec3(6,0,0));
+	points.push_back(glm::vec3(20,50,0));
+	points.push_back(glm::vec3(40,50,0));
+	points.push_back(glm::vec3(60,0,0));
 	BezierCurve* curve = new BezierCurve(points);
 
 	Shader* terrainShader = new Shader("./VertexShader.glsl", "./FragmentShaderTerrain.glsl");
 	Shader *blinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");
+
+
 	addShader(m_default);
 	addShader(m_texture);
 	addShader(blinn);
@@ -48,23 +50,30 @@ void DemoScene::initScene()
 
 	std::vector<util::Vertex> sphere = loadSphere();
 
-	Mesh* cube = new Mesh(sphere,sphere.size(), blinn);
-	CurveObject* cubeObject = new CurveObject(line);
-	cubeObject->add(cube);
+	Mesh* sphereMesh = new Mesh(sphere,sphere.size(), blinn);
+	CurveObject* cubeObject = new CurveObject(curve);
+	cubeObject->add(sphereMesh);
 
-	//Terrain* terrain_plane_mesh = new Terrain(100,100,10,10,0.5, terrainShader);
+	Mesh* anotherSphere = sphereMesh->clone();
+	CurveObject* sphereObj = new CurveObject(line);
+	sphereObj->add(anotherSphere);
+	sphereObj->setPosition(glm::vec3(2));
 
-	//Object* terrain = new Object();
-	//terrain->setPosition(glm::vec3(-200,-2,-200));
-	//terrain->setScale(glm::vec3(100));
-	//terrain->add(terrain_plane_mesh);
+	Terrain* terrain_plane_mesh = new Terrain(200,200,10,10,0.5, terrainShader);
 
-	DirectionalLight* spotik = new DirectionalLight(glm::vec3(5));
-	PointLight* direct = new PointLight(glm::vec3(5),0.2f,0.5f,0.3f);
+	Object* terrain = new Object();
+	terrain->setPosition(glm::vec3(-500,-6,-500));
+	terrain->setScale(glm::vec3(200));
+	terrain->add(terrain_plane_mesh);
+
+	DirectionalLight* direct = new DirectionalLight(glm::vec3(5));
+	direct->setAmbient(glm::vec3(0.01f));
+	direct->setDiffuse(glm::vec3(0.4f));
+	direct->setSpecular(glm::vec3(0.4f));
 	addLight(m_spotCamera->getLight());
-	addLight(spotik);
-
+	addLight(direct);
 	
+
 }
 
 Object* DemoScene::createNewObject(std::vector<util::Vertex> vertex, glm::vec3 position)

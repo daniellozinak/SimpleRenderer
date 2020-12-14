@@ -82,7 +82,6 @@ void Terrain::generateTerrain()
 {
 	generatePlain();
 	float max = m_pos.at(0).y;
-	float min = m_pos.at(0).y;
 	for (int i = 0; i < m_numberOfVert; i++)
 	{
 		glm::vec2 vertex_xz = glm::vec2(m_pos.at(i).x, m_pos.at(i).z);
@@ -94,16 +93,7 @@ void Terrain::generateTerrain()
 		{
 			max = m_pos.at(i).y;
 		}
-
-		if (m_pos.at(i).y < min)
-		{
-			min = m_pos.at(i).y;
-		}
-
 	}
-
-	std::cout << "MAX HEIGHT: " << m_amplitude * max << std::endl;
-	std::cout << "MIN HEIGHT: " << m_amplitude * min << std::endl;
 
 	this->m_shader->sendUniform("max_height", m_amplitude * max);
 
@@ -119,58 +109,76 @@ void Terrain::generateTerrain()
 		m_nor.emplace_back(-1.0f * new_normal);
 	}
 
-
-	int count = 0;
 	for (int i = 0; i < m_nor.size(); i++)
 	{
 		glm::vec3 original = m_nor.at(i);
 		glm::vec3 changed = calculateNormal(m_nor.at(i), i);
-		count += (changed != original) ? 1 : 0;
-		//m_nor[i] = changed;
+		m_nor[i] = changed;
 	}
-
-	std::cout << "COUNT: " << count << " / " << m_nor.size() << std::endl;
 }
 
 glm::vec3 Terrain::calculateNormal(glm::vec3 currentNormal, int position)
 {
+	glm::vec3 normal0 = currentNormal;
+	glm::vec3 normal1 = currentNormal;
+	glm::vec3 normal2 = currentNormal;
+	glm::vec3 normal3 = currentNormal;
+	glm::vec3 normal4 = currentNormal;
+	glm::vec3 normal5 = currentNormal;
 
-	glm::vec3 neighbourNormal0 = currentNormal;
-	glm::vec3 neighbourNormal1 = currentNormal;
-	glm::vec3 neighbourNormal2 = currentNormal;
-	glm::vec3 neighbourNormal3 = currentNormal;
-
-	glm::vec3 cornerNormal0 = currentNormal;
-	glm::vec3 cornerNormal1 = currentNormal;
-	glm::vec3 cornerNormal2 = currentNormal;
-	glm::vec3 cornerNormal3 = currentNormal;
+	std::size_t count = m_nor.size();
 
 
-	float neighbourWeight = 0.05f;
-	float cornerWeight = 0.01f;
-	float currentWeight = 1.0f;
-	int normalCount = m_nor.size();
+	int pos1 = position - 1;
+	normal1 = (pos1 >= 0) ? m_nor[pos1] : currentNormal;
+
+	int pos2 = position - 1 - 3;
+	normal2 = (pos2 >= 0) ? m_nor[pos2] : currentNormal;
+
+	int pos3 = position - (1 - (-1*(3 * m_zVertices)));
+	normal3 = (pos3 >=0) ? m_nor[pos3] : currentNormal;
+
+	int pos4 = position - (1 - (- 1 * (3 * (m_zVertices + 1))));
+	normal4 = (pos4 >= 0) ? m_nor[pos4] : currentNormal;
+
+	int pos5 = position - (1 - (- 1 * (3 * (m_zVertices + 2))));
+	normal5 = (pos5 >= 0) ? m_nor[pos5] : currentNormal;
 
 
-	int pos0 = position - m_zVertices;
-	int pos1 = position + 1;
-	int pos2 = position + m_zVertices;
-	int pos3 = position - 1;
+	
+	//int pos1 = position + 2;
+	//normal1 = (pos1 < count) ? m_nor[pos1] : currentNormal;
 
-	int corner0 = position + m_zVertices - 1;
-	int corner1 = position - m_zVertices - 1;
-	int corner2 = position + m_zVertices + 1;
-	int corner3 = position - m_zVertices + 1;
+	//int pos2 = position + 2 + 3;
+	//normal2 = (pos2 < count) ? m_nor[pos2] : currentNormal;
 
-	if (pos0 >= 0) { neighbourNormal0 = m_nor.at(pos0) * neighbourWeight; }
-	if(pos1 < normalCount) { neighbourNormal1 = m_nor.at(pos1) * neighbourWeight; }
-	if(pos2 < normalCount) {  neighbourNormal2 = m_nor.at(pos2) * neighbourWeight; }
-	if(pos3 >=0) {  neighbourNormal3 = m_nor.at(pos3) * neighbourWeight; }
+	//int pos3 = position - ((3 * (m_zVertices - 1)));
+	//normal3 = (pos3 >= 0) ? m_nor[pos3] : currentNormal;
 
-	if (corner0 < normalCount) { cornerNormal0 = m_nor.at(corner0) * cornerWeight; }
-	if (corner1 >= 0) { cornerNormal1 = m_nor.at(corner1) * cornerWeight; }
-	if (corner2 < normalCount) { cornerNormal2 = m_nor.at(corner2) * cornerWeight; }
-	if (corner3 >= 0) { cornerNormal3 = m_nor.at(corner3) * cornerWeight; }
+	//int pos4 = position - ((3 * (m_zVertices)));
+	//normal4 = (pos4 >= 0) ? m_nor[pos4] : currentNormal;
 
-	return (neighbourNormal0 + neighbourNormal1 + neighbourNormal2 + neighbourNormal3 + cornerNormal0 + cornerNormal1 + cornerNormal2 + cornerNormal3 + (currentNormal * currentWeight)) / 9.0f;
+	//int pos5 = position - ((3 * (m_zVertices + 1)));
+	//normal5 = (pos5 >= 0) ? m_nor[pos5] : currentNormal;
+	
+
+	
+	
+	/*int pos1 = position + 1;
+	normal1 = (pos1 < count) ? m_nor[pos1] : currentNormal;
+
+	int pos2 = position - 3;
+	normal2 = (pos2 >= 0) ? m_nor[pos2] : currentNormal;
+
+	int pos3 = position + 1 + ((3 * (m_zVertices - 1)));
+	normal3 = (pos3 < count) ? m_nor[pos3] : currentNormal;
+
+	int pos4 = position + 1 + ((3 * (m_zVertices)));
+	normal4 = (pos4 < count) ? m_nor[pos4] : currentNormal;
+
+	int pos5 = position + 1 + ((3 * (m_zVertices + 1)));
+	normal5 = (pos5 < count) ? m_nor[pos5] : currentNormal;*/
+	
+
+	return (normal0 + normal1 + normal2  + normal3  + normal4 + normal5 ) / 6.0f;
 }

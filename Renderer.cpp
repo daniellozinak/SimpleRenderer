@@ -21,7 +21,7 @@ void Renderer::render()
 		//bind shader
 		//bind VAO
 		//draw
-		component->operation();
+		component->update();
 		if (!component->isComposite()) {
 			glStencilFunc(GL_ALWAYS, component->getID(), 0xFF);
 			glDrawArrays(GL_TRIANGLES, 0, component->getCount());

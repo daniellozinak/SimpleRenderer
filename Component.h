@@ -34,7 +34,7 @@ public:
 	inline void setScale(float scale) { this->scale = scale; }//move
 
 	
-	virtual void operation()	   = 0;
+	virtual void update()	   = 0;
 	virtual std::size_t getCount() = 0;//move
 	virtual GLint getID()		   = 0;//move
 	virtual void newScale()		   = 0;//move

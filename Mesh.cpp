@@ -61,7 +61,7 @@ void Mesh::unbind()
 	if (m_texture != nullptr){ m_texture->unbind(); }
 }
 
-void Mesh::operation()
+void Mesh::update()
 {
 	this->bind();
 }

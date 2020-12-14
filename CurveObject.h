@@ -25,7 +25,7 @@ class CurveObject : public Object
 
 	public:
 		CurveObject(Curve *curve);
-		void operation()override;	
+		void update()override;
 		inline bool isComposite()override { return true; }
 };
 

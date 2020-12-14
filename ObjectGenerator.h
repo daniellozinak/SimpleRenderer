@@ -16,8 +16,8 @@ class ObjectGenerator
 
 		const char* m_meshPath = "./Objects/lowpoly_tree.obj";
 		const glm::vec3 m_rotationAxis = glm::vec3(0, 1, 0);
-		const float m_maxScale = 1.5f;
-		const float m_minScale = 0.4f;
+		const float m_maxScale = 3.0f;
+		const float m_minScale = 1.0f;
 	public:
 		ObjectGenerator(const ObjectGenerator&) = delete;
 		static ObjectGenerator& getInstance();

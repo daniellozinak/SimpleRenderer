@@ -8,11 +8,11 @@ CurveObject::CurveObject(Curve* curve) : Object()
 	m_curve = curve;
 }
 
-void CurveObject::operation()
+void CurveObject::update()
 {
 	glm::vec3 nextPosition = m_curve->getCurrentPoint(nextStep());
 	setWorldPosition(nextPosition);
-	Object::operation();
+	Object::update();
 }
 
 float CurveObject::nextStep()
