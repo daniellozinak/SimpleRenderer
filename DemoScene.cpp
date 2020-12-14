@@ -6,6 +6,7 @@
 #include "PointLight.h"
 #include "Line.h"
 #include "CurveObject.h"
+#include "BezierCurve.h"
 
 #include "data_loader.hpp"
 
@@ -29,8 +30,14 @@ void DemoScene::initScene()
 	setCamera(m_spotCamera);
 
 
-	Line line(glm::vec3(0), glm::vec3(0.003f, 0.002f, 0.001f));
+	Line *line = new Line(glm::vec3(0), glm::vec3(30.0f, 20.0f, 0.0f));
 
+	std::vector<glm::vec3> points;
+	points.push_back(glm::vec3(0,0,0));
+	points.push_back(glm::vec3(2,3,0));
+	points.push_back(glm::vec3(4,3,0));
+	points.push_back(glm::vec3(6,0,0));
+	BezierCurve* curve = new BezierCurve(points);
 
 	Shader* terrainShader = new Shader("./VertexShader.glsl", "./FragmentShaderTerrain.glsl");
 	Shader *blinn = new Shader("./VertexShader.glsl", "./FragmentShaderBlinn.glsl");

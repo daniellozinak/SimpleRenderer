@@ -138,6 +138,9 @@
     <ClCompile Include="CurveObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BezierCurve.cpp">
+      <Filter>Source Files\Curve</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -235,6 +238,12 @@
     </ClInclude>
     <ClInclude Include="CurveObject.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Curve.h">
+      <Filter>Source Files\Curve</Filter>
+    </ClInclude>
+    <ClInclude Include="BezierCurve.h">
+      <Filter>Source Files\Curve</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

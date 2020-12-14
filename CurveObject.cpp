@@ -3,14 +3,15 @@
 #include <glm/gtc/matrix_access.hpp>
 
 
-CurveObject::CurveObject(Line line) : Object()
+CurveObject::CurveObject(Curve* curve) : Object()
 {
-	m_line = line;
+	m_curve = curve;
 }
 
 void CurveObject::operation()
 {
-	setWorldPosition(m_line.getCurrentPoint(nextStep()));
+	glm::vec3 nextPosition = m_curve->getCurrentPoint(nextStep());
+	setWorldPosition(nextPosition);
 	Object::operation();
 }
 
